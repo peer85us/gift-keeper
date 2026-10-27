@@ -741,7 +741,7 @@
   .goal .goal-top b { color: var(--ink); font-weight: 650; }
   .goal .track { height: 8px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
   .goal .track span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #ffe08a, #ffb84d, #ff8a5c); box-shadow: 0 0 12px rgba(255,180,80,.5); }
-  .goal.done .goal-top b::after { content: " · Reached"; color: #ffd27a; }
+  .goal.done .goal-top b::after { content: " · Reached! 🎉"; color: #ffd27a; }
   .hero .goal { margin-top: 14px; max-width: 420px; }
   .goal-lock { width: 100%; margin-top: 6px; border: 1px dashed rgba(255,200,90,.45); background: rgba(255,200,90,.06); color: #ffd27a;
     border-radius: 12px; padding: 12px; cursor: pointer; font-weight: 650; }
@@ -851,214 +851,55 @@
   .pm-fine { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
 
 
+
   /* =====================================================================
-     REFINED THEME — calm, professional finish over everything above
+     LINE ICONS on the neon theme — sizes, colors and small layout fixes
      ===================================================================== */
-  :root {
-    --bg: #0b0b10;
-    --surface: rgba(255,255,255,.04);
-    --surface-2: rgba(255,255,255,.07);
-    --ink: #f3f3f6;
-    --muted: #9898a6;
-    --line: rgba(255,255,255,.08);
-    --accent: #8576ff;
-    --accent-soft: rgba(133,118,255,.14);
-    --warn: #f0b252;
-    --danger: #ff6b81;
-    --grad: linear-gradient(135deg, #7f6dff, #9a6bff);
-    --gold: #e6c27a;
-    --round: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Segoe UI", Roboto, sans-serif;
-  }
-  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
-  body::before { opacity: .28; animation: none; filter: blur(70px); }
-  body::after { opacity: .025; }
-  .i { width: 1.15em; height: 1.15em; flex: none; vertical-align: -.2em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .setting .i { color: var(--muted); margin-right: 10px; }
-  .section-title .i { color: var(--muted); margin-right: 4px; }
+  .i { width: 1.15em; height: 1.15em; flex: none; vertical-align: -.2em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .i-wallet, .i-gem, .i-scan     { --ic: #b9a6ff; }
+  .i-users, .i-shield, .i-table, .i-lock { --ic: #4ef0b0; }
+  .i-chart, .i-download, .i-upload, .i-user, .i-card, .i-store { --ic: #6cb6ff; }
+  .i-camera, .i-keyboard, .i-eye, .i-eye-off { --ic: #5fd8ff; }
+  .i-crown, .i-coins, .i-hourglass, .i-trophy { --ic: #ffd27a; }
+  .i-gift, .i-sparkles, .i-heart, .i-cake, .i-mail { --ic: #ff7ad1; }
+  .i-clock, .i-bell, .i-calendar, .i-bag { --ic: #ffa45c; }
+  .i-target, .i-trash, .i-ban, .i-alert { --ic: #ff6b81; }
+  .i-pencil, .i-settings, .i-snow, .i-book, .i-cap, .i-palette, .i-trend { --ic: #c9b8ff; }
 
-  /* Header */
-  .logo { font-size: 18px; font-weight: 650; letter-spacing: -.02em; }
-  .logo .mark { animation: none; box-shadow: none; border-radius: 8px; }
-  .logo-text { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
-  .avatar { box-shadow: none; }
-  .me-btn, .pro-btn { font-family: inherit; font-weight: 600; }
-  .pro-btn, .pro-btn.on { display: inline-flex; align-items: center; gap: 6px; background: rgba(230,194,122,.1); color: var(--gold);
-    border: 1px solid rgba(230,194,122,.3); box-shadow: none; }
-  .pro-btn.ultra { background: rgba(160,145,255,.12); color: #c9c0ff; border: 1px solid rgba(160,145,255,.35); animation: none; }
+  /* Tab bar icons: gray when off, glowing purple when on */
+  .tab .ic { display: grid; place-items: center; }
+  .tab .ic .i { width: 23px; height: 23px; }
+  .tab.on .ic { filter: drop-shadow(0 0 10px rgba(180,120,255,.95)); color: #d9ccff; }
 
-  /* Wallet summary */
-  .hero { border-radius: 20px; box-shadow: none; background: linear-gradient(165deg, rgba(255,255,255,.065), rgba(255,255,255,.02)); }
-  .hero::after { opacity: .14; animation: none; }
-  .hero .label { letter-spacing: .08em; font-size: 11.5px; font-weight: 600; color: var(--muted); opacity: 1; }
-  .hero .amount { font-weight: 650; letter-spacing: -.035em; background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
-  .hero-stack .gc { animation: none; box-shadow: 0 10px 24px rgba(0,0,0,.45); }
-  .breakdown span { box-shadow: none; }
-  .eye-btn { display: inline-flex; align-items: center; gap: 6px; font-family: inherit; color: var(--muted); }
+  /* Colored icon tiles in Settings */
+  .setting .i { width: 30px; height: 30px; padding: 6px; border-radius: 9px; margin-right: 12px; vertical-align: middle;
+    color: var(--ic, var(--muted)); background: color-mix(in srgb, var(--ic, #888) 20%, transparent); box-shadow: 0 0 14px color-mix(in srgb, var(--ic, #888) 25%, transparent); }
+  .insight .k .i { width: 26px; height: 26px; padding: 5px; border-radius: 8px; color: var(--ic); background: color-mix(in srgb, var(--ic) 20%, transparent); }
+  .section-title .i, .alert-head .i, .goal-top .i, .gift-row .dot .i, .wrap-btn .i { color: var(--ic, currentColor); }
+  .gift-row .dot .i { width: 19px; height: 19px; }
+  .alert-head b, .goal .goal-top b, .insight .k { display: inline-flex; align-items: center; gap: 7px; }
+  .btn, .eye-btn, .pro-btn, .seg button, .theme-btn, .wrap-btn, .goal-lock { display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+  .wrap-btn, .goal-lock { display: flex; }
+  .x, .member .edit, .gift-row .del { display: grid; place-items: center; }
 
-  /* Controls */
-  .chip-btn.on { background: var(--ink); color: #0b0b10; box-shadow: none; }
-  .chip-btn.on .count { color: #55556a; }
-  .chip-btn:hover, .btn:hover, .me-btn:hover { transform: none; }
-  .btn { font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
-  .btn.primary { background: var(--accent); box-shadow: none; }
-  .btn.primary:hover { filter: brightness(1.08); }
-  .btn.gold { background: var(--gold); color: #1c1608; box-shadow: none; font-weight: 650; }
-  .btn.ultra { background: #8576ff; animation: none; box-shadow: none; font-weight: 650; }
-  .add-row { color: var(--ink); border: 1px dashed rgba(255,255,255,.16); background: none; font-weight: 550; }
-  .lock, .ultra-tag { background: none; border: 1px solid rgba(230,194,122,.45); color: var(--gold); font-weight: 600; font-size: 9.5px; letter-spacing: .06em; padding: 1px 6px; }
-  .ultra-tag { border-color: rgba(160,145,255,.5); color: #c9c0ff; }
-  .goal-lock { border-style: solid; border-color: var(--line); background: var(--surface); color: var(--ink); font-weight: 550; display: flex; gap: 8px; align-items: center; justify-content: center; }
-  .x { display: grid; place-items: center; }
-  .member .edit { display: grid; place-items: center; color: var(--muted); }
-  .theme-btn { display: inline-flex; align-items: center; gap: 7px; font-family: inherit; }
-  .theme-btn.on { background: var(--ink); color: #0b0b10; }
-  .tdot.gc { width: 14px; height: 14px; aspect-ratio: auto; padding: 0; border-radius: 4px; display: inline-block; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+  /* Big icons where emoji used to be */
+  .pm-crown .i { width: 54px; height: 54px; color: #ffd27a; stroke-width: 1.6; }
+  .premium.is-ultra .pm-crown .i { color: #c9b8ff; }
+  .lock-box .pm-crown .i { color: #c9b8ff; }
+  .wrap-emoji .i { width: 70px; height: 70px; color: #fff; stroke-width: 1.6; }
+  .empty-state .big-emoji .i { width: 48px; height: 48px; color: #ff7ad1; }
+
+  /* Theme picker swatches */
+  .tdot.gc { width: 14px; height: 14px; aspect-ratio: auto; padding: 0; border-radius: 4px; display: inline-block; box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); }
   .tdot.gc::before, .tdot.gc::after { display: none; }
 
-  /* Gift cards: keep the tilt, drop the rainbow foil and glow */
-  .gc .holo { display: none; }
-  .tile:hover .gc { transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-3px);
-    box-shadow: 0 16px 34px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08); }
-  .gc.big { box-shadow: 0 24px 50px rgba(0,0,0,.5); }
-  .gc.urgent { outline: 2px solid rgba(255,107,129,.75); animation: none; }
-
-  /* Pages */
-  .page-title { font-size: 30px; font-weight: 700; letter-spacing: -.03em; background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
-  .member { box-shadow: none; }
-  .member:hover { transform: none; box-shadow: none; border-color: rgba(255,255,255,.14); }
-  .member .amt, .stat .v { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; font-weight: 650; letter-spacing: -.02em; }
-  .stat::after { display: none; }
-  .note-box { background: var(--surface); color: var(--muted); }
-  .note-box b { color: var(--ink); }
-  .empty-state .big-emoji .i { width: 44px; height: 44px; color: var(--muted); stroke-width: 1.4; }
-  .gift-row .dot { color: var(--muted); }
-  .gift-row .dot .i { width: 18px; height: 18px; }
-  .gift-row .del { display: grid; place-items: center; }
-
-  /* Alerts */
-  .alert { background: rgba(255,107,129,.07); color: var(--ink); border: 1px solid rgba(255,107,129,.25); box-shadow: none; }
-  .alert-head b { display: inline-flex; align-items: center; gap: 8px; color: #ff9aaa; font-weight: 650; }
-  .use-it { background: rgba(255,107,129,.1); color: #ffb0bc; border: 1px solid rgba(255,107,129,.28); box-shadow: none; }
-  .kid-alert { background: var(--surface); border-color: var(--line); }
-  .kid-alert .alert-head b { color: var(--ink); }
-  .kid-alert .over { color: var(--warn); }
-
-  /* Premium surfaces */
-  .premium::before { opacity: .35; }
-  .pm-crown { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; margin: 6px auto 12px; font-size: 0;
-    background: rgba(230,194,122,.1); color: var(--gold); border: 1px solid rgba(230,194,122,.25); animation: none; filter: none; }
-  .premium.is-ultra .pm-crown { background: rgba(160,145,255,.12); color: #c9c0ff; border-color: rgba(160,145,255,.3); }
-  .pm-crown .i { width: 26px; height: 26px; }
-  .premium h2, .premium.is-ultra h2 { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; font-weight: 700; letter-spacing: -.02em; }
-  .pm-table th { font-weight: 600; }
-  .pm-table td .i { width: 16px; height: 16px; }
-  .pm-table.three td:nth-child(3) { color: var(--gold); }
-  .pm-table.three td:last-child { color: #c9c0ff; }
-  .insight { border-color: var(--line); background: var(--surface); }
-  .insight .k { display: flex; align-items: center; gap: 6px; }
-  .insight .v { color: var(--ink); font-family: inherit; font-weight: 650; }
-  .report { background: var(--surface); }
-  .report h3, .report-grid .v { font-family: inherit; font-weight: 650; letter-spacing: -.02em; }
-  .goal .track span { background: var(--accent); box-shadow: none; }
-  .goal .goal-top b { display: inline-flex; align-items: center; gap: 5px; }
-  .wrap-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); font-family: inherit; font-weight: 600; font-size: 15px; }
-  .wrap-emoji { width: 88px; height: 88px; margin: 0 auto 18px; border-radius: 26px; display: grid; place-items: center; background: rgba(255,255,255,.18); }
-  .wrap-emoji .i { width: 42px; height: 42px; stroke-width: 1.6; }
-  .wrap-big, .wrap-kicker, .wrap-text { font-family: var(--round); }
-  .wrap-big { font-weight: 750; letter-spacing: -.04em; }
-  .lock-dots i.on { background: var(--ink); }
-  .lock-box h2 { font-family: inherit; font-weight: 650; }
-
-  /* Tab bar */
-  .tabbar { border-radius: 22px; background: rgba(16,16,22,.82); box-shadow: 0 12px 40px rgba(0,0,0,.5); }
-  .tab .ic { filter: none; opacity: .55; display: grid; place-items: center; }
-  .tab .ic .i { width: 22px; height: 22px; }
-  .tab.on .ic { filter: none; opacity: 1; }
-  .tab.on::after { background: var(--ink); box-shadow: none; width: 4px; height: 4px; }
-  .tab-add { background: var(--accent); animation: none; box-shadow: 0 8px 22px rgba(0,0,0,.45); border-color: #0b0b10; }
-  .tab-add:hover { transform: none; }
-
-  /* Sheets */
-  .sheet { background: rgba(20,20,27,.97); }
-  .overlay.open .sheet { animation: rise .32s cubic-bezier(.2,.8,.2,1); }
-  .sheet h2 { font-family: inherit; font-weight: 650; letter-spacing: -.02em; }
-  .who h2 { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
-  .seg button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
-  .toast { background: #f3f3f6; color: #0b0b10; border: 0; font-weight: 550; }
-  .pm-buttons .btn.gold { background: var(--gold); color: #1c1608; border: 0; }
-  .pm-buttons .btn.ultra { background: var(--accent); color: #fff; border: 0; }
-  .pm-buttons .btn:disabled { opacity: 1; background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  /* Fixes kept from the redesign */
+  .mini { white-space: nowrap; }
+  .pm-buttons .btn:disabled { opacity: .55; }
   @media (max-width: 460px) {
     .hero-stack { display: none; }
     .hero.has-stack .label, .hero.has-stack .amount, .hero.has-stack .stats { padding-right: 0; }
   }
-
-  /* =====================================================================
-     COLOR ACCENTS — a little color on top of the refined theme
-     ===================================================================== */
-  .i-wallet, .i-gem, .i-scan     { --ic: #9d8cff; }
-  .i-users, .i-shield, .i-table, .i-lock { --ic: #34d399; }
-  .i-chart, .i-download, .i-upload, .i-user, .i-card, .i-store { --ic: #60a5fa; }
-  .i-camera, .i-keyboard, .i-eye, .i-eye-off { --ic: #38bdf8; }
-  .i-crown, .i-coins, .i-hourglass, .i-trophy { --ic: #f5c451; }
-  .i-gift, .i-sparkles, .i-heart, .i-cake, .i-mail { --ic: #f472b6; }
-  .i-clock, .i-bell, .i-calendar, .i-bag { --ic: #fb923c; }
-  .i-target, .i-trash, .i-ban, .i-alert { --ic: #f87171; }
-  .i-pencil, .i-settings, .i-snow, .i-book, .i-cap, .i-palette, .i-trend { --ic: #a5b4fc; }
-
-  body::before { opacity: .5; }
-
-  /* Settings rows: iOS-style colored icon tiles */
-  .setting .i { width: 30px; height: 30px; padding: 6px; border-radius: 9px; margin-right: 12px; vertical-align: middle;
-    color: var(--ic, var(--muted)); background: color-mix(in srgb, var(--ic, #888) 18%, transparent); }
-  .setting.danger .i { --ic: #f87171; }
-
-  /* Wallet summary with a soft brand tint */
-  .hero { background:
-      radial-gradient(120% 90% at 0% 0%, rgba(133,118,255,.28), transparent 55%),
-      radial-gradient(90% 80% at 100% 100%, rgba(244,114,182,.16), transparent 60%),
-      linear-gradient(165deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
-  .hero::after { opacity: .3; }
-  .hero .label { color: #c9c0ff; }
-
-  /* Brand gradient on the main actions */
-  .tab-add { background: linear-gradient(135deg, #7c5cff, #d14dff 55%, #ff7a59); }
-  .btn.primary { background: linear-gradient(135deg, #7c6cff, #a35cff); }
-  .chip-btn.on { background: linear-gradient(135deg, #7c6cff, #a35cff); color: #fff; }
-  .chip-btn.on .count { color: rgba(255,255,255,.75); }
-  .tab.on { color: #fff; }
-  .tab.on .ic { color: #b3a6ff; }
-  .tab.on::after { background: linear-gradient(90deg, #7c5cff, #ff7a59); width: 16px; height: 3px; }
-
-  /* Activity stats: a colored edge on each */
-  .stat { border-left: 3px solid var(--sc, #8576ff); }
-  .stat:nth-child(1) { --sc: #f472b6; }
-  .stat:nth-child(2) { --sc: #34d399; }
-  .stat:nth-child(3) { --sc: #60a5fa; }
-  .stat:nth-child(4) { --sc: #f5c451; }
-
-  /* Insights and report */
-  .insight .k .i { width: 26px; height: 26px; padding: 5px; border-radius: 8px; color: var(--ic); background: color-mix(in srgb, var(--ic) 18%, transparent); }
-  .insight:has(.i-hourglass) { border-color: rgba(245,196,81,.25); }
-  .insight:has(.i-coins)     { border-color: rgba(245,196,81,.25); }
-  .insight:has(.i-shield)    { border-color: rgba(52,211,153,.25); }
-  .insight:has(.i-chart)     { border-color: rgba(96,165,250,.25); }
-  .report { background: radial-gradient(120% 100% at 100% 0%, rgba(96,165,250,.18), transparent 60%),
-      radial-gradient(100% 100% at 0% 100%, rgba(133,118,255,.18), transparent 60%), var(--surface); }
-  .goal .track span { background: linear-gradient(90deg, #7c6cff, #f472b6); }
-  .kid-alert { background: linear-gradient(135deg, rgba(56,189,248,.1), rgba(133,118,255,.08)); border-color: rgba(56,189,248,.25); }
-  .wrap-btn { background: linear-gradient(135deg, rgba(124,108,255,.18), rgba(244,114,182,.14)); border-color: rgba(157,140,255,.3); }
-  .wrap-btn .i { color: #f472b6; }
-
-  /* Gifts we gave: occasion icons in colored tiles */
-  .gift-row .dot { background: rgba(255,255,255,.06); }
-  .mini { white-space: nowrap; }
-  .gift-row .dot .i, .goal-top .i { color: var(--ic); }
-
-  /* Section and alert icons pick up their color too */
-  .section-title .i, .alert-head .i, .eye-btn .i, .btn .i, .pro-btn .i { color: var(--ic, currentColor); }
-  .btn.primary .i, .btn.gold .i, .btn.ultra .i, .pro-btn .i { color: inherit; }
-  .empty-state .big-emoji .i { color: #f472b6; }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -1194,7 +1035,7 @@
       <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i i-trash" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.9 · Everything is saved only on this device.
+      Gift Keeper v0.11 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1850,6 +1691,7 @@ function cardVisual(c, big = false) {
   const exp = expShort(c);
   return `
     <div class="gc ${big ? 'big' : ''} ${isUrgent(c) ? 'urgent' : ''} ${themeOf(c) ? 'theme-' + themeOf(c) : ''}" style="--c:${colorFor(c)}">
+      ${themeOf(c) ? `<div class="gc-sticker">${THEMES[themeOf(c)].sticker}</div>` : ''}
       <div class="gc-top">
         <div class="gc-title">
           <div class="gc-name">${esc(displayName(c))}</div>
