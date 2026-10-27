@@ -893,6 +893,41 @@
   .tdot.gc { width: 14px; height: 14px; aspect-ratio: auto; padding: 0; border-radius: 4px; display: inline-block; box-shadow: inset 0 0 0 1px rgba(255,255,255,.25); }
   .tdot.gc::before, .tdot.gc::after { display: none; }
 
+  /* Invest page */
+  .gear-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+    display: grid; place-items: center; cursor: pointer; -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); flex: none; }
+  .gear-btn .i { width: 19px; height: 19px; }
+  .gear-btn.on { background: var(--grad); border-color: transparent; }
+  .invest-hero::after { background: linear-gradient(135deg, #22d3a0, #7c5cff); }
+  .invest-hero .label { text-transform: none; letter-spacing: 0; font-size: 15px; opacity: .85; }
+  .iv-split { display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+  .iv-split b { color: var(--ink); }
+  .iv-split i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+  .dot-put { background: #7c5cff; }
+  .dot-grow { background: #34e3a6; box-shadow: 0 0 10px #34e3a6; }
+  #ivChart svg { display: block; width: 100%; height: auto; margin-top: 14px; overflow: visible; }
+  #ivChart text { fill: var(--muted); font-size: 11px; font-family: inherit; }
+  .iv-form { padding: 6px 16px 14px; }
+  .iv-form input[type=range] { width: 100%; accent-color: #b07cff; margin: 6px 0 2px; }
+  .iv-form .seg button { font-size: 13px; padding: 9px 4px; }
+  .tree-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .tree-row:last-child { border-bottom: 0; }
+  .tree-row .info { flex: 1; min-width: 0; }
+  .tree-row .t { font-weight: 650; }
+  .tree-row .s { font-size: 13px; color: var(--muted); }
+  .tree-row .grow { text-align: right; font-weight: 800; font-family: var(--round); color: #4ef0b0; }
+  .tree-row .grow small { display: block; font-size: 11.5px; font-weight: 600; color: var(--muted); font-family: inherit; }
+  .faq-list { display: grid; gap: 8px; }
+  details.learn { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 14px 16px; }
+  details.learn summary { cursor: pointer; font-weight: 650; list-style: none; display: flex; justify-content: space-between; gap: 10px; }
+  details.learn summary::after { content: "+"; color: var(--muted); font-size: 20px; line-height: 1; transition: rotate .2s; }
+  details.learn[open] summary::after { rotate: 45deg; }
+  details.learn p { color: var(--muted); margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; }
+  .iv-note { font-size: 12.5px; color: var(--muted); text-align: center; margin: 18px 6px 0; line-height: 1.5; }
+  .pro-btn .pl { margin-left: 0; }
+  @media (max-width: 420px) { .pro-btn .pl { display: none; } .pro-btn { padding: 8px 10px; } }
+  body.privacy #ivTotal, body.privacy .iv-split b, body.privacy .tree-row .grow { filter: blur(9px); }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -906,7 +941,7 @@
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V8"/><path d="M18 17v-9"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol><symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.3l4.27-3.67a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.67a1 1 0 0 0 1.52-.3z"/><path d="M5 21h14"/></symbol><symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol><symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13.2 13.2 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M14 8v8M17 8v8"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol><symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol><symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol><symbol id="i-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3"/></symbol><symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></symbol><symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol><symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.56-2.5 5.56-5.56C22 6.02 17.5 2 12 2z"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V8"/><path d="M18 17v-9"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol><symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.3l4.27-3.67a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.67a1 1 0 0 0 1.52-.3z"/><path d="M5 21h14"/></symbol><symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol><symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13.2 13.2 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M14 8v8M17 8v8"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol><symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol><symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol><symbol id="i-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3"/></symbol><symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></symbol><symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol><symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.56-2.5 5.56-5.56C22 6.02 17.5 2 12 2z"/></symbol></svg>
 <div class="app">
   <header>
     <div class="logo"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true">
@@ -945,6 +980,7 @@
     </svg><span class="logo-text">Gift Keeper</span></div>
     <div class="header-right">
       <button class="pro-btn" id="proBtn"></button>
+      <button class="gear-btn" id="gearBtn" aria-label="Settings"><svg class="i i-gear" aria-hidden="true"><use href="#i-gear"/></svg></button>
       <button class="me-btn" id="meBtn" aria-label="Switch person"></button>
     </div>
   </header>
@@ -1014,6 +1050,55 @@
     <div class="list-panel" id="eventList"></div>
   </section>
 
+  <section class="page" id="page-invest" hidden>
+    <h1 class="page-title">Invest</h1>
+    <p class="page-sub">See how money can grow when you save and invest it over time.</p>
+
+    <section class="hero invest-hero">
+      <div class="label">In <span id="ivYearsLabel">10 years</span> you could have</div>
+      <div class="amount" id="ivTotal">$0.00</div>
+      <div class="iv-split">
+        <span><i class="dot-put"></i>You put in <b id="ivPut">$0</b></span>
+        <span><i class="dot-grow"></i>Growth <b id="ivGrow">$0</b></span>
+      </div>
+      <div id="ivChart"></div>
+    </section>
+
+    <div class="section-title">Try it</div>
+    <div class="list-panel iv-form">
+      <div class="row">
+        <div><label for="ivStart">Start with</label><input id="ivStart" type="number" min="0" step="1" inputmode="decimal"></div>
+        <div><label for="ivMonthly">Add every month</label><input id="ivMonthly" type="number" min="0" step="1" inputmode="decimal"></div>
+      </div>
+      <label for="ivYears">How long: <b id="ivYearsOut"></b></label>
+      <input id="ivYears" type="range" min="1" max="40" step="1">
+      <label>Example growth rate</label>
+      <div class="seg" id="ivRate">
+        <button type="button" data-rate="4">Savings · 4%</button>
+        <button type="button" data-rate="5">Balanced · 5%</button>
+        <button type="button" data-rate="7">Stock fund · 7%</button>
+      </div>
+      <button type="button" class="mini" id="ivUseWallet" style="margin:12px 0 4px"></button>
+    </div>
+
+    <div class="section-title"><svg class="i i-sprout" aria-hidden="true"><use href="#i-sprout"/></svg> Family money tree</div>
+    <div class="list-panel" id="ivFamily"></div>
+
+    <div class="section-title"><svg class="i i-hourglass" aria-hidden="true"><use href="#i-hourglass"/></svg> Money sitting still</div>
+    <div class="list-panel" id="ivIdle"></div>
+
+    <div class="section-title"><svg class="i i-book" aria-hidden="true"><use href="#i-book"/></svg> Learn the basics</div>
+    <div class="faq-list">
+      <details class="learn"><summary>What is investing?</summary><p>Investing means putting money into something that can grow — like a piece of a company (a stock) — instead of keeping it as cash. It can earn more than a savings account over many years, but its value goes up and down, and you can lose money.</p></details>
+      <details class="learn"><summary>What is compound growth?</summary><p>When your money earns money, and then <i>that</i> money earns money too. The longer you leave it, the faster it grows — that’s why the chart above curves upward. Starting early matters more than starting big.</p></details>
+      <details class="learn"><summary>Savings account vs. investing</summary><p>A savings account is safe and you can take money out any time, but it grows slowly. Investing can grow faster over many years, but it’s riskier. Many families keep emergency money in savings and invest money they won’t need for 5+ years.</p></details>
+      <details class="learn"><summary>What is an index fund?</summary><p>One fund that owns small pieces of many companies at once (for example, the 500 biggest U.S. companies). Because it’s spread out, one company doing badly hurts less. Many beginners start here because fees are often low.</p></details>
+      <details class="learn"><summary>Can kids invest?</summary><p>Kids can’t open their own brokerage account, but a parent can open a custodial account for them, and kids with earned income may be able to have a custodial Roth IRA. Rules differ, so check with the provider or a financial professional.</p></details>
+      <details class="learn"><summary>Can I invest gift card money?</summary><p>Not directly — gift cards only work at their store. But if you use a gift card for something you were going to buy anyway, you can move the cash you saved into savings or investments. Gift Keeper helps you spot that money.</p></details>
+    </div>
+    <p class="iv-note">For learning only — this isn’t financial advice. The growth rates are examples; real returns change every year and can be negative.</p>
+  </section>
+
   <section class="page" id="page-settings" hidden>
     <h1 class="page-title">Settings</h1>
     <div class="section-title">Profile</div>
@@ -1035,7 +1120,7 @@
       <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i i-trash" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.11 · Everything is saved only on this device.
+      Gift Keeper v0.12 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1045,8 +1130,8 @@
     <button class="tab on" data-page="wallet"><span class="ic"><svg class="i i-wallet" aria-hidden="true"><use href="#i-wallet"/></svg></span>Wallet</button>
     <button class="tab" data-page="family"><span class="ic"><svg class="i i-users" aria-hidden="true"><use href="#i-users"/></svg></span>Family</button>
     <button class="tab-add" id="addBtn" aria-label="Add card">+</button>
+    <button class="tab" data-page="invest"><span class="ic"><svg class="i i-sprout" aria-hidden="true"><use href="#i-sprout"/></svg></span>Invest</button>
     <button class="tab" data-page="activity"><span class="ic"><svg class="i i-chart" aria-hidden="true"><use href="#i-chart"/></svg></span>Activity</button>
-    <button class="tab" data-page="settings"><span class="ic"><svg class="i i-settings" aria-hidden="true"><use href="#i-settings"/></svg></span>Settings</button>
   </div>
 </nav>
 <div class="toast" id="toast"></div>
@@ -1771,12 +1856,13 @@ function render() {
   renderList();
   renderFamily();
   renderActivity();
+  renderInvest();
   renderSettings();
 }
 
 function renderHeader() {
   $('meBtn').innerHTML = `${avatar(me())}${esc(me().name)}`;
-  $('proBtn').innerHTML = isUltra() ? `${ic('gem')} Ultra` : isPremium() ? `${ic('crown')} Premium` : `${ic('crown')} Upgrade`;
+  $('proBtn').innerHTML = isUltra() ? `${ic('gem')}<span class="pl">Ultra</span>` : isPremium() ? `${ic('crown')}<span class="pl">Premium</span>` : `${ic('crown')}<span class="pl">Upgrade</span>`;
   $('proBtn').classList.toggle('on', isPremium() && !isUltra());
   $('proBtn').classList.toggle('ultra', isUltra());
   $('scanTop').innerHTML = ic('camera') + ' Scan card to fill everything' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
@@ -1815,6 +1901,7 @@ function showPage(p) {
   void el.offsetWidth;                    // restart the page entrance animation
   el.classList.add('enter');
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.page === p));
+  $('gearBtn').classList.toggle('on', p === 'settings');
   renderScope();
   window.scrollTo(0, 0);
 }
@@ -3120,6 +3207,94 @@ function exportCsv() {
   URL.revokeObjectURL(a.href);
   toast('Spreadsheet downloaded');
 }
+
+// ---------- Invest page ----------
+// A learning tool: shows how money grows with monthly saving and compound growth.
+// Month-by-month: balance grows by rate/12, then the monthly amount is added.
+function growth(start, monthly, years, rate) {
+  const points = [{ year: 0, total: start, put: start }];
+  let total = start, put = start;
+  for (let m = 1; m <= years * 12; m++) {
+    total = total * (1 + rate / 100 / 12) + monthly;
+    put += monthly;
+    if (m % 12 === 0) points.push({ year: m / 12, total, put });
+  }
+  return points;
+}
+const ivSettings = () => ({ start: 100, monthly: 20, years: 10, rate: 7, ...(settings.invest || {}) });
+
+function growthChart(points) {
+  const W = 320, H = 150, max = Math.max(...points.map(p => p.total)) || 1, n = points.length - 1 || 1;
+  const x = i => (i / n) * W, y = v => H - (v / max) * (H - 10);
+  const line = key => points.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(p[key]).toFixed(1)}`).join(' ');
+  const area = key => `${line(key)} L${W} ${H} L0 ${H} Z`;
+  const last = points.at(-1), mid = points.at(Math.floor(n / 2));
+  return `<svg viewBox="0 0 ${W} ${H + 20}" role="img" aria-label="Growth chart">
+    <defs>
+      <linearGradient id="ivGradGrow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#34e3a6" stop-opacity=".55"/><stop offset="1" stop-color="#34e3a6" stop-opacity=".05"/></linearGradient>
+      <linearGradient id="ivGradPut" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7c5cff" stop-opacity=".8"/><stop offset="1" stop-color="#7c5cff" stop-opacity=".25"/></linearGradient>
+    </defs>
+    <path d="${area('total')}" fill="url(#ivGradGrow)"/>
+    <path d="${area('put')}" fill="url(#ivGradPut)"/>
+    <path d="${line('total')}" fill="none" stroke="#34e3a6" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="${x(n)}" cy="${y(last.total)}" r="4.5" fill="#34e3a6"/>
+    <text x="0" y="${H + 16}">Now</text>
+    <text x="${x(Math.floor(n / 2))}" y="${H + 16}" text-anchor="middle">Year ${mid.year}</text>
+    <text x="${W}" y="${H + 16}" text-anchor="end">Year ${last.year}</text>
+  </svg>`;
+}
+
+function renderInvest() {
+  const v = ivSettings();
+  const points = growth(v.start, v.monthly, v.years, v.rate), last = points.at(-1);
+  if (document.activeElement !== $('ivStart')) $('ivStart').value = v.start;
+  if (document.activeElement !== $('ivMonthly')) $('ivMonthly').value = v.monthly;
+  $('ivYears').value = v.years;
+  $('ivYearsOut').textContent = `${v.years} year${v.years === 1 ? '' : 's'}`;
+  $('ivYearsLabel').textContent = `${v.years} year${v.years === 1 ? '' : 's'}`;
+  document.querySelectorAll('#ivRate button').forEach(b => b.classList.toggle('on', +b.dataset.rate === v.rate));
+  countUp($('ivTotal'), last.total);
+  $('ivPut').textContent = money(last.put);
+  $('ivGrow').textContent = money(last.total - last.put);
+  $('ivChart').innerHTML = growthChart(points);
+  const wallet = balanceOf(scopedCards());
+  $('ivUseWallet').innerHTML = `${ic('wallet')} Start with my gift card total (${money(wallet)})`;
+
+  // Family money tree: what each person's gift card money would become if the same amount were saved and invested
+  const people = isParent() ? family.members : [me()];
+  $('ivFamily').innerHTML = !isPremium()
+    ? `<div class="empty-state" style="padding:18px 6px">See what each kid’s gift card money could grow into by the time they’re grown up. <span class="lock">PREMIUM</span></div>`
+    : people.map(m => {
+        const have = balanceOf(cards.filter(c => c.owner === m.id));
+        const later = growth(have, 0, 10, v.rate).at(-1).total;
+        return `<div class="tree-row">${avatar(m, 'lg')}
+          <span class="info"><div class="t">${esc(m.name)}</div><div class="s">${money(have)} on gift cards today</div></span>
+          <span class="grow">${money(later)}<small>in 10 years at ${v.rate}%</small></span></div>`;
+      }).join('');
+
+  // Cards nobody has touched in 2+ months: use them, then save the cash you didn't spend
+  const lastUsed = c => (c.history || []).reduce((d, h) => h.date > d ? h.date : d, c.added || '');
+  const idle = scopedCards().filter(c => c.balance > 0 && daysLeft(lastUsed(c)) <= -60).sort((a, b) => b.balance - a.balance);
+  $('ivIdle').innerHTML = idle.length
+    ? `<div class="tree-row"><span class="info"><div class="s">Use these on things you’d buy anyway, then move the cash you didn’t spend into savings. ${money(balanceOf(idle))} could be growing.</div></span></div>` +
+      idle.slice(0, 5).map(c => `<button class="event" data-id="${c.id}">
+        <span class="dot" style="background:${colorFor(c)}">${esc(displayName(c)[0] || '?')}</span>
+        <span class="info"><div class="t">${esc(displayName(c))}</div><div class="s">${ownerTag(c)}Last used ${fmtDate(lastUsed(c))}</div></span>
+        <span class="amt">${money(c.balance)}</span></button>`).join('')
+    : '<div class="empty-state" style="padding:18px 6px">No sleepy cards — every card was used in the last 2 months.</div>';
+}
+function saveInvest(change) {
+  settings.invest = { ...ivSettings(), ...change };
+  saveSettings();
+  renderInvest();
+}
+$('ivStart').oninput = () => saveInvest({ start: Math.max(0, Number($('ivStart').value) || 0) });
+$('ivMonthly').oninput = () => saveInvest({ monthly: Math.max(0, Number($('ivMonthly').value) || 0) });
+$('ivYears').oninput = () => saveInvest({ years: Number($('ivYears').value) });
+$('ivRate').onclick = e => { const b = e.target.closest('[data-rate]'); if (b) saveInvest({ rate: Number(b.dataset.rate) }); };
+$('ivUseWallet').onclick = () => saveInvest({ start: Math.round(balanceOf(scopedCards())) });
+$('ivIdle').onclick = e => { const b = e.target.closest('.event'); if (b) showDetail(b.dataset.id); };
+$('gearBtn').onclick = () => { showPage('settings'); render(); };
 
 // ---------- Settings page ----------
 function renderSettings() {
