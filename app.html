@@ -963,6 +963,52 @@
   .calc-total { font: 800 34px var(--round); letter-spacing: -1px; margin: 2px 0 6px; }
   body.privacy #pfTotal, body.privacy .stock-row .px b, body.privacy #pfCash, body.privacy #pfGain b, body.privacy .calc-total { filter: blur(9px); }
 
+  /* Kids' money */
+  .kcards { display: flex; gap: 12px; overflow-x: auto; padding: 4px 2px 10px; scrollbar-width: none; }
+  .kcard-btn { flex: none; width: 230px; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; text-align: left; }
+  .kc-under { display: block; font-size: 12.5px; color: var(--muted); margin: 6px 4px 0; }
+  .kcard { position: relative; aspect-ratio: 1.586; border-radius: 16px; padding: 14px 16px; overflow: hidden; color: #fff;
+    display: flex; flex-direction: column; justify-content: space-between;
+    background: radial-gradient(120% 90% at 100% 0%, rgba(255,255,255,.28), transparent 50%),
+      linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 35%, #120c2a));
+    box-shadow: 0 14px 30px rgba(0,0,0,.45), 0 0 34px color-mix(in srgb, var(--c) 35%, transparent), inset 0 1px 0 rgba(255,255,255,.3); }
+  .kcard::after { content: ""; position: absolute; width: 70%; aspect-ratio: 1; right: -25%; bottom: -55%; border-radius: 50%;
+    border: 22px solid rgba(255,255,255,.08); pointer-events: none; }
+  .kc-top { display: flex; justify-content: space-between; align-items: center; }
+  .kc-brand { font-size: 12px; letter-spacing: .06em; text-transform: uppercase; opacity: .9; }
+  .kc-brand b { font-weight: 800; }
+  .kc-chip { width: 30px; height: 22px; border-radius: 5px; background: linear-gradient(135deg, #f3dc8f, #b8954a); }
+  .kc-bal { font: 800 24px var(--round); letter-spacing: -.5px; }
+  .kc-bal small { display: block; font: 600 10px var(--round); letter-spacing: .1em; text-transform: uppercase; opacity: .75; }
+  .kc-bottom { display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; opacity: .95; }
+  .kcard.big { max-width: 360px; margin: 14px auto 4px; padding: 20px; border-radius: 20px; }
+  .kcard.big .kc-bal { font-size: 32px; }
+  .kcard.frozen { filter: saturate(.35); background-image: repeating-linear-gradient(135deg, rgba(200,232,255,.12) 0 10px, transparent 10px 20px), linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 35%, #120c2a)); }
+  .kc-frozen { position: absolute; top: 12px; right: 12px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px;
+    font: 800 13px var(--round); background: rgba(200,232,255,.9); color: #0b3a5c; z-index: 2; box-shadow: 0 4px 14px rgba(0,0,0,.3); }
+  .kcard.frozen .kc-chip { visibility: hidden; }
+  .kc-frozen .i { width: 15px; height: 15px; }
+  #kidTabs { margin: 4px 0 6px; }
+  .kb-bals { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .kb-bals div { border: 1px solid var(--line); background: var(--surface); border-radius: 16px; padding: 12px 14px; }
+  .kb-bals small { display: block; font-size: 12px; color: var(--muted); }
+  .kb-bals b { font: 800 22px var(--round); }
+  .kb-row { display: flex; gap: 8px; margin-top: 10px; align-items: center; }
+  .kb-row input, .kb-row select { flex: 1; min-width: 0; margin: 0; }
+  .kb-row .btn { flex: none; white-space: nowrap; }
+  .kb-small { width: 90px; flex: none; margin: 0; }
+  .kb-rules .setting select { width: auto; margin: 0; }
+  .kb-tx, .chore { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .kb-tx:last-child, .chore:last-child { border-bottom: 0; }
+  .kb-tx .info, .chore .info { flex: 1; min-width: 0; }
+  .kb-tx .t, .chore .t { font-weight: 650; }
+  .kb-tx .s, .chore .s { font-size: 12.5px; color: var(--muted); }
+  .kb-tx.declined .t { text-decoration: line-through; opacity: .7; }
+  .kb-tx.declined .s { color: #ff8a9a; }
+  .chore.paid .t { opacity: .6; }
+  .chore .del { border: 0; background: none; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
+  body.privacy .kc-bal, body.privacy .kb-bals b, body.privacy .kc-under { filter: blur(9px); }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -1058,6 +1104,8 @@
       <div class="amount" id="famTotal">$0.00</div>
       <div class="stats" id="famStats"></div>
     </section>
+    <div id="kidMoney"></div>
+    <div class="section-title">Family members</div>
     <div id="memberList"></div>
     <button class="add-row" id="addMemberBtn">+ Add family member</button>
     <div id="givenSection">
@@ -1173,7 +1221,7 @@
       <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i i-trash" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.13 · Everything is saved only on this device.
+      Gift Keeper v0.14 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1382,6 +1430,7 @@
       <tr><td>Hide amounts</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
       <tr><td>Monthly report</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
       <tr><td>Kids’ savings goals</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Kids’ card, allowance &amp; chores</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
       <tr><td>Gift tracker</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
       <tr class="ultra-start"><td>App lock</td><td class="no">—</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
       <tr><td>Year in review</td><td class="no">—</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
@@ -1421,6 +1470,22 @@
     <button class="wrap-close" id="wrapClose" aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     <div id="wrapSlide"></div>
     <div class="wrap-hint">Tap to continue</div>
+  </div>
+</div>
+
+<!-- Kids' money: card, chores, rules -->
+<div class="overlay" id="kidOverlay">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="kidName">Money</h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="seg" id="kidTabs">
+      <button type="button" data-tab="card">Card</button>
+      <button type="button" data-tab="chores">Chores</button>
+      <button type="button" data-tab="rules">Rules</button>
+    </div>
+    <div id="kidBody"></div>
   </div>
 </div>
 
@@ -2797,6 +2862,7 @@ function renderFamily() {
     ${soon ? `<span class="warn"><b>${soon}</b> need using this week</span>` : ''}`;
 
   renderGiven();
+  renderKidMoney();
   $('memberList').innerHTML = ordered.map(m => {
     const own = cards.filter(c => c.owner === m.id);
     const urgent = own.filter(isUrgent).length;
@@ -3313,6 +3379,218 @@ function exportCsv() {
   toast('Spreadsheet downloaded');
 }
 
+// ---------- Kids' money: a family bank with a kids' card ----------
+// Parents hold the real money; Gift Keeper keeps the books. Each kid has spending and savings,
+// a card parents can freeze and set rules on, a weekly allowance, chores that pay, and
+// interest parents pay on savings every month.
+const KIDBANK_KEY = 'giftKeeper.kidbank.v1';
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const SPEND_CATS = ['Shopping', 'Food & Drink', 'Gaming', 'Entertainment', 'Online'];
+
+let kidbank = {};
+try { kidbank = JSON.parse(localStorage.getItem(KIDBANK_KEY)) || {}; } catch {}
+const saveKidbank = () => localStorage.setItem(KIDBANK_KEY, JSON.stringify(kidbank));
+const kb = id => (kidbank[id] ??= {
+  spending: 0, savings: 0, frozen: false, limit: 0, blocked: [],
+  allowance: { amount: 0, day: 5, since: today() }, interest: 0, interestMonth: today().slice(0, 7),
+  chores: [], tx: [], last4: String(1000 + Math.floor(seeded(id) * 9000)),
+});
+const round2 = n => Math.round(n * 100) / 100;
+function kbTx(a, desc, amount, type, extra = {}) {
+  a.tx.push({ id: crypto.randomUUID(), date: today(), desc, amount: round2(amount), type, by: family.current, ...extra });
+}
+const addDays = (date, n) => { const d = new Date(date + 'T00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+
+// Pay any allowance and savings interest that came due since the app was last opened
+function processKidbank() {
+  let changed = false;
+  Object.entries(kidbank).forEach(([id, a]) => {
+    if (!member(id)) return;
+    const al = a.allowance;
+    if (al.amount > 0) {
+      // first payday strictly after the day it was set up
+      let next = addDays(al.since, 1);
+      while (new Date(next + 'T00:00').getDay() !== al.day) next = addDays(next, 1);
+      while (next <= today()) {
+        a.spending = round2(a.spending + al.amount);
+        a.tx.push({ id: crypto.randomUUID(), date: next, desc: 'Weekly allowance', amount: al.amount, type: 'allowance' });
+        al.since = next; next = addDays(next, 7); changed = true;
+      }
+    }
+    while (a.interestMonth < today().slice(0, 7)) {
+      const [y, m] = a.interestMonth.split('-').map(Number);
+      a.interestMonth = m === 12 ? `${y + 1}-01` : `${y}-${String(m + 1).padStart(2, '0')}`;
+      const earned = round2(a.savings * a.interest / 100);
+      if (earned > 0) {
+        a.savings = round2(a.savings + earned);
+        a.tx.push({ id: crypto.randomUUID(), date: a.interestMonth + '-01', desc: `Interest from parents (${a.interest}%)`, amount: earned, type: 'interest' });
+      }
+      changed = true;
+    }
+  });
+  if (changed) saveKidbank();
+}
+
+function kidCard(m, a, big = false) {
+  return `<div class="kcard ${big ? 'big' : ''} ${a.frozen ? 'frozen' : ''}" style="--c:${m.color || '#7c5cff'}">
+    <div class="kc-top"><span class="kc-brand">Gift Keeper <b>Kids</b></span><span class="kc-chip"></span></div>
+    <div class="kc-bal"><small>Spending</small>${money(a.spending)}</div>
+    <div class="kc-bottom"><span>${esc(m.name)}</span><span class="mono">•••• ${a.last4}</span></div>
+    ${a.frozen ? `<div class="kc-frozen">${ic('snow')} Frozen</div>` : ''}
+  </div>`;
+}
+
+function renderKidMoney() {
+  processKidbank();
+  const kids = isParent() ? family.members.filter(m => m.role === 'kid') : [me()];
+  if (!kids.length) {
+    $('kidMoney').innerHTML = isParent() ? `<div class="section-title">${ic('card')} Kids’ money</div>
+      <div class="list-panel"><div class="empty-state" style="padding:18px 6px">Add a kid to the family to give them a Gift Keeper Kids card, allowance and chores.</div></div>` : '';
+    return;
+  }
+  const todo = kids.reduce((n, m) => n + kb(m.id).chores.filter(c => c.status === 'done').length, 0);
+  $('kidMoney').innerHTML = `
+    <div class="section-title">${ic('card')} ${isParent() ? 'Kids’ money' : 'My money'}${isParent() && todo ? ` <span class="pill">${todo} chore${todo === 1 ? '' : 's'} to approve</span>` : ''}</div>
+    <div class="kcards">${kids.map(m => `<button class="kcard-btn" data-kid="${m.id}">${kidCard(m, kb(m.id))}
+      <span class="kc-under">Savings ${money(kb(m.id).savings)}</span></button>`).join('')}</div>`;
+}
+$('kidMoney').onclick = e => {
+  const b = e.target.closest('[data-kid]');
+  if (!b) return;
+  if (!isPremium()) return openPremium('kidcard');
+  openKid(b.dataset.kid);
+};
+
+// ----- the kid's money sheet -----
+let kidId = null, kidTab = 'card';
+function openKid(id) { kidId = id; kidTab = 'card'; renderKid(); open('kidOverlay'); }
+function renderKid() {
+  const m = member(kidId), a = kb(kidId), parent = isParent();
+  if (!m) return;
+  document.querySelectorAll('#kidTabs button').forEach(b => b.classList.toggle('on', b.dataset.tab === kidTab));
+  $('kidName').textContent = m.id === family.current ? 'My money' : `${possessive(m.name)} money`;
+  let html = '';
+  if (kidTab === 'card') {
+    html = `${kidCard(m, a, true)}
+      <div class="kb-bals">
+        <div><small>Spending</small><b>${money(a.spending)}</b></div>
+        <div><small>Savings${a.interest ? ` · earns ${a.interest}%/mo` : ''}</small><b>${money(a.savings)}</b></div>
+      </div>
+      ${parent ? `<div class="kb-row">
+          <input id="kbSend" type="number" min="0" step="1" inputmode="decimal" placeholder="$ amount">
+          <button class="btn primary" data-act="send">${ic('gift')} Send money</button>
+        </div>` : ''}
+      <div class="kb-row">
+        <input id="kbMove" type="number" min="0" step="1" inputmode="decimal" placeholder="$ amount">
+        <button class="btn" data-act="save">To savings</button>
+        <button class="btn" data-act="unsave">To spending</button>
+      </div>
+      <div class="section-title">Pay with the card</div>
+      <div class="kb-row">
+        <input id="kbWhere" placeholder="Where? e.g. Target" style="flex:2">
+        <input id="kbAmt" type="number" min="0" step="0.01" inputmode="decimal" placeholder="$">
+      </div>
+      <div class="kb-row">
+        <select id="kbCat">${SPEND_CATS.map(c => `<option>${c}</option>`).join('')}</select>
+        <button class="btn primary" data-act="pay">${ic('card')} Pay</button>
+      </div>
+      <div class="section-title">Activity</div>
+      <div class="list-panel">${a.tx.length ? [...a.tx].reverse().slice(0, 25).map(t => `
+        <div class="kb-tx ${t.type}"><span class="info"><div class="t">${esc(t.desc)}</div>
+          <div class="s">${dayLabel(t.date)}${t.type === 'declined' ? ` · declined: ${esc(t.reason)}` : ''}</div></span>
+          <span class="amt ${t.type === 'declined' || t.type === 'transfer' ? '' : t.amount >= 0 ? 'pos' : 'neg'}">${t.type === 'transfer' ? money(t.moved) : t.type === 'declined' ? money(Math.abs(t.amount)) : (t.amount >= 0 ? '+' : '−') + money(Math.abs(t.amount))}</span></div>`).join('')
+        : '<div class="empty-state" style="padding:18px 6px">No activity yet.</div>'}</div>`;
+  } else if (kidTab === 'chores') {
+    html = `${parent ? `<div class="kb-row"><input id="choreName" placeholder="New chore, e.g. Empty the dishwasher" style="flex:2">
+        <input id="choreReward" type="number" min="0" step="0.5" inputmode="decimal" placeholder="$"></div>
+      <button class="btn primary" data-act="addChore" style="width:100%">${ic('plus')} Add chore</button>` : ''}
+      <div class="list-panel" style="margin-top:12px">${a.chores.length ? a.chores.map(c => `
+        <div class="chore ${c.status}">
+          <span class="info"><div class="t">${esc(c.name)}</div><div class="s">${money(c.reward)} · ${
+            c.status === 'todo' ? 'To do' : c.status === 'done' ? 'Done — waiting for a parent' : 'Paid'}</div></span>
+          ${c.status === 'todo' ? `<button class="mini" data-act="choreDone" data-id="${c.id}">${ic('check')} Done</button>` : ''}
+          ${c.status === 'done' && parent ? `<button class="mini ok" data-act="chorePay" data-id="${c.id}">Approve &amp; pay</button>` : ''}
+          ${c.status === 'paid' ? `<button class="mini" data-act="choreAgain" data-id="${c.id}">Repeat</button>` : ''}
+          ${parent ? `<button class="del" data-act="choreDel" data-id="${c.id}" aria-label="Delete">${ic('x')}</button>` : ''}
+        </div>`).join('') : `<div class="empty-state" style="padding:18px 6px">${parent ? 'Add chores your kid can do to earn money.' : 'No chores yet — ask a parent!'}</div>`}</div>`;
+  } else {
+    const al = a.allowance;
+    html = !parent ? `<div class="list-panel kb-rules">
+        <div class="setting static"><span>${ic('calendar')}Allowance<span class="sub">${al.amount ? `${money(al.amount)} every ${WEEKDAYS[al.day]}` : 'No allowance set'}</span></span></div>
+        <div class="setting static"><span>${ic('trend')}Savings interest<span class="sub">${a.interest ? `${a.interest}% a month, paid by your parents` : 'Not set'}</span></span></div>
+        <div class="setting static"><span>${ic('shield')}Spending limit<span class="sub">${a.limit ? `Up to ${money(a.limit)} per purchase` : 'No limit'}</span></span></div>
+      </div>` : `
+      <div class="list-panel kb-rules">
+        <div class="setting static"><span>${ic('snow')}Freeze card<span class="sub">${a.frozen ? 'Frozen — every purchase is declined' : 'Stop all purchases right away'}</span></span>
+          <button class="mini ${a.frozen ? 'ok' : ''}" data-act="freeze">${a.frozen ? 'Unfreeze' : 'Freeze'}</button></div>
+        <div class="setting static"><span>${ic('shield')}Limit per purchase<span class="sub">0 = no limit</span></span>
+          <input id="kbLimit" class="kb-small" type="number" min="0" step="1" value="${a.limit || ''}" placeholder="$"></div>
+        <div class="setting static"><span>${ic('ban')}Blocked stores<span class="sub">Purchases here are declined</span></span></div>
+        <div class="quick-amts" style="margin:0 0 12px">${SPEND_CATS.map(c =>
+          `<button type="button" class="chip-btn ${a.blocked.includes(c) ? 'on' : ''}" data-act="block" data-cat="${esc(c)}">${esc(c)}</button>`).join('')}</div>
+      </div>
+      <div class="section-title">Allowance</div>
+      <div class="list-panel kb-rules">
+        <div class="setting static"><span>${ic('calendar')}Weekly amount<span class="sub">Paid automatically into spending</span></span>
+          <input id="kbAllow" class="kb-small" type="number" min="0" step="1" value="${al.amount || ''}" placeholder="$"></div>
+        <div class="setting static"><span>${ic('clock')}Payday</span>
+          <select id="kbDay">${WEEKDAYS.map((d, i) => `<option value="${i}" ${i === al.day ? 'selected' : ''}>${d}</option>`).join('')}</select></div>
+      </div>
+      <div class="section-title">Savings interest</div>
+      <div class="list-panel kb-rules">
+        <div class="setting static"><span>${ic('trend')}Parent-paid interest<span class="sub">Paid on the 1st of each month — teaches saving pays off</span></span>
+          <select id="kbInterest">${[0, 1, 2, 3, 5, 10].map(r => `<option value="${r}" ${r === a.interest ? 'selected' : ''}>${r ? r + '% a month' : 'Off'}</option>`).join('')}</select></div>
+      </div>
+      <button class="btn primary" data-act="saveRules" style="width:100%;margin-top:14px">Save rules</button>`;
+  }
+  $('kidBody').innerHTML = html;
+}
+$('kidTabs').onclick = e => { const b = e.target.closest('[data-tab]'); if (b) { kidTab = b.dataset.tab; renderKid(); } };
+$('kidBody').onclick = e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  const a = kb(kidId), m = member(kidId), act = b.dataset.act, num = id => round2(Number($(id)?.value) || 0);
+  const done = msg => { saveKidbank(); renderKid(); render(); if (msg) toast(msg); };
+  if (act === 'send') {
+    const v = num('kbSend'); if (!(v > 0)) return toast('Enter an amount');
+    a.spending = round2(a.spending + v); kbTx(a, `Money from ${me().name}`, v, 'deposit'); done(`Sent ${money(v)} to ${m.name}`); confetti();
+  } else if (act === 'save' || act === 'unsave') {
+    const v = num('kbMove'), from = act === 'save' ? 'spending' : 'savings', to = act === 'save' ? 'savings' : 'spending';
+    if (!(v > 0)) return toast('Enter an amount');
+    if (v > a[from]) return toast(`Only ${money(a[from])} in ${from}`);
+    a[from] = round2(a[from] - v); a[to] = round2(a[to] + v);
+    kbTx(a, act === 'save' ? 'Moved to savings' : 'Moved to spending', 0, 'transfer', { moved: v });
+    done(act === 'save' ? `Saved ${money(v)}` : `Moved ${money(v)} to spending`);
+  } else if (act === 'pay') {
+    const where = $('kbWhere').value.trim() || 'Purchase', v = num('kbAmt'), cat = $('kbCat').value;
+    if (!(v > 0)) return toast('Enter an amount');
+    const reason = a.frozen ? 'card is frozen' : a.limit && v > a.limit ? `over the ${money(a.limit)} limit`
+      : a.blocked.includes(cat) ? `${cat} is blocked` : v > a.spending ? 'not enough money' : '';
+    if (reason) { kbTx(a, `${where} (${cat})`, -v, 'declined', { reason }); return done(`Declined — ${reason}`); }
+    a.spending = round2(a.spending - v); kbTx(a, `${where} (${cat})`, -v, 'purchase'); done(`Paid ${money(v)} at ${where}`);
+  } else if (act === 'freeze') {
+    a.frozen = !a.frozen; done(a.frozen ? `${m.name}’s card is frozen` : 'Card unfrozen');
+  } else if (act === 'block') {
+    const c = b.dataset.cat; a.blocked = a.blocked.includes(c) ? a.blocked.filter(x => x !== c) : [...a.blocked, c]; saveKidbank(); b.classList.toggle('on');   // no re-render, so typed rules aren't lost
+  } else if (act === 'saveRules') {
+    a.limit = num('kbLimit');
+    const amount = num('kbAllow'), day = Number($('kbDay').value);
+    if (amount !== a.allowance.amount || day !== a.allowance.day) a.allowance = { amount, day, since: today() };
+    a.interest = Number($('kbInterest').value);
+    done('Rules saved');
+  } else if (act === 'addChore') {
+    const name = $('choreName').value.trim(), reward = num('choreReward');
+    if (!name || !(reward > 0)) return toast('Add a chore and a reward');
+    a.chores.push({ id: crypto.randomUUID(), name, reward, status: 'todo' }); done('Chore added');
+  } else if (act.startsWith('chore')) {
+    const c = a.chores.find(x => x.id === b.dataset.id); if (!c) return;
+    if (act === 'choreDone') { c.status = 'done'; done(isParent() ? 'Marked done' : 'Nice work! A parent will check it'); }
+    if (act === 'chorePay') { c.status = 'paid'; a.spending = round2(a.spending + c.reward); kbTx(a, `Chore: ${c.name}`, c.reward, 'chore'); done(`Paid ${money(c.reward)} for ${c.name}`); confetti(); }
+    if (act === 'choreAgain') { c.status = 'todo'; done(); }
+    if (act === 'choreDel') { a.chores = a.chores.filter(x => x !== c); done(); }
+  }
+};
+
 // ---------- Invest page: practice investing for the family ----------
 // Pretend money and practice prices (a seeded random walk that moves once a day), so kids can
 // learn how investing works. Kids' trades wait for a parent to approve them.
@@ -3681,6 +3959,7 @@ const PREMIUM_WHY = {
   privacy: 'Blur your balances with one tap when someone’s looking over your shoulder.',
   report: 'A report every month: what you spent, new cards, your top store, and what expires next.',
   goals: 'Give each kid a savings goal — their gift card money fills the bar as it grows.',
+  kidcard: 'Give each kid a Gift Keeper Kids card with allowance, chores, savings interest and spending rules you control.',
   given: 'Remember every gift card you give — who, what and when — so you never repeat a gift.',
   ultra: 'The very best of Gift Keeper — locked tight and made for the whole family.',
   lock: 'Lock Gift Keeper with a passcode so only you can open your card numbers and PINs.',
@@ -3783,7 +4062,7 @@ $('settingsReminders').onclick = e => {
 
 $('exportBtn').onclick = () => {
   if (!isPremium()) return openPremium('backup');
-  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family, given, invest };
+  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family, given, invest, kidbank };
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
   a.download = `gift-keeper-backup-${today()}.json`;
@@ -3803,6 +4082,7 @@ $('importFile').onchange = async () => {
     cards = data.cards;
     given = Array.isArray(data.given) ? data.given : [];
     saveGiven();
+    if (data.kidbank) { kidbank = data.kidbank; saveKidbank(); }
     if (data.invest) { invest = { accounts: {}, requests: [], ...data.invest }; saveInvestData(); }
     family = data.family;
     save(); saveFamily();
@@ -3815,7 +4095,7 @@ $('importFile').onchange = async () => {
 };
 $('wipeBtn').onclick = () => {
   if (!confirm('Delete ALL gift cards and family members from this device? This can’t be undone.')) return;
-  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, INVEST_KEY].forEach(k => localStorage.removeItem(k));
+  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, INVEST_KEY, KIDBANK_KEY].forEach(k => localStorage.removeItem(k));
   location.reload();
 };
 
