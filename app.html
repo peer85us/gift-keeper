@@ -928,6 +928,41 @@
   @media (max-width: 420px) { .pro-btn .pl { display: none; } .pro-btn { padding: 8px 10px; } }
   body.privacy #ivTotal, body.privacy .iv-split b, body.privacy .tree-row .grow { filter: blur(9px); }
 
+  /* Practice investing */
+  .pf-actions { display: flex; gap: 10px; margin-top: 16px; }
+  #ivWho .chip-btn { display: inline-flex; align-items: center; gap: 7px; padding-left: 6px; }
+  .pf-actions .btn { flex: 1; }
+  #pfChart .spark.big, .tr-chart .spark.big { width: 100%; height: auto; display: block; margin-top: 12px; }
+  .practice-note { margin: 10px 2px 0; font-size: 11.5px; letter-spacing: .04em; color: var(--muted); text-align: center; }
+  .up { color: #34e3a6 !important; }
+  .down { color: #ff6b81 !important; }
+  .stock-row, .req-row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 0; background: none; border: 0;
+    border-bottom: 1px solid var(--line); color: inherit; text-align: left; cursor: pointer; font: inherit; }
+  .stock-row:last-child, .req-row:last-child { border-bottom: 0; }
+  .stock-row .info, .req-row .info { flex: 1; min-width: 0; }
+  .stock-row .t, .req-row .t { font-weight: 650; }
+  .stock-row .s, .req-row .s { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stock-row .px { text-align: right; flex: none; min-width: 74px; }
+  .stock-row .px b { display: block; font-weight: 700; }
+  .stock-row .px small { font-size: 12px; font-weight: 650; }
+  .spark { width: 64px; height: 24px; flex: none; }
+  .tick-logo { width: 38px; height: 38px; border-radius: 12px; flex: none; display: inline-grid; place-items: center; font-weight: 800;
+    color: #fff; background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 50%, #000)); box-shadow: 0 6px 16px rgba(0,0,0,.35);
+    text-shadow: 0 1px 2px rgba(0,0,0,.4); }
+  .tr-name { display: flex; align-items: center; gap: 10px; }
+  .tr-name .tick-logo { width: 32px; height: 32px; border-radius: 10px; font-size: 15px; }
+  .tr-price { font: 800 30px var(--round); }
+  .tr-price small { font-size: 14px; font-weight: 650; margin-left: 6px; }
+  #trTop .s { color: var(--muted); font-size: 13px; }
+  #trSide { margin-top: 14px; }
+  #trSide button:disabled { opacity: .4; cursor: not-allowed; }
+  .quick-amts { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .req-btns { display: flex; gap: 6px; flex: none; }
+  .mini.ok { background: linear-gradient(135deg, #22c38e, #34e3a6); color: #04261a; border: 0; font-weight: 700; }
+  .calc-head { font-size: 15px; color: var(--muted); margin-top: 12px; }
+  .calc-total { font: 800 34px var(--round); letter-spacing: -1px; margin: 2px 0 6px; }
+  body.privacy #pfTotal, body.privacy .stock-row .px b, body.privacy #pfCash, body.privacy #pfGain b, body.privacy .calc-total { filter: blur(9px); }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -1052,20 +1087,41 @@
 
   <section class="page" id="page-invest" hidden>
     <h1 class="page-title">Invest</h1>
-    <p class="page-sub">See how money can grow when you save and invest it over time.</p>
+    <p class="page-sub" id="ivSub">Practice investing in companies you know. Parents approve every kid’s trade.</p>
+    <div class="chips" id="ivWho"></div>
 
     <section class="hero invest-hero">
-      <div class="label">In <span id="ivYearsLabel">10 years</span> you could have</div>
-      <div class="amount" id="ivTotal">$0.00</div>
+      <div class="label" id="pfLabel">Portfolio</div>
+      <div class="amount" id="pfTotal">$0.00</div>
+      <div class="iv-split">
+        <span id="pfGain"></span>
+        <span>Cash to invest <b id="pfCash">$0.00</b></span>
+      </div>
+      <div id="pfChart"></div>
+      <div class="pf-actions">
+        <button type="button" class="btn primary" id="pfInvest">Invest</button>
+        <button type="button" class="btn" id="pfFund">Add money</button>
+      </div>
+    </section>
+    <div class="practice-note">PRACTICE MODE · pretend money and practice prices that change every day — not real market prices.</div>
+
+    <div id="pfRequests"></div>
+
+    <div class="section-title">Holdings</div>
+    <div class="list-panel" id="pfHoldings"></div>
+
+    <div class="section-title">Explore companies</div>
+    <div class="list-panel" id="pfExplore"></div>
+
+    <div class="section-title">What if you keep investing?</div>
+    <div class="list-panel iv-form">
+      <div class="calc-head">In <span id="ivYearsLabel">10 years</span> you could have</div>
+      <div class="calc-total" id="ivTotal">$0.00</div>
       <div class="iv-split">
         <span><i class="dot-put"></i>You put in <b id="ivPut">$0</b></span>
         <span><i class="dot-grow"></i>Growth <b id="ivGrow">$0</b></span>
       </div>
       <div id="ivChart"></div>
-    </section>
-
-    <div class="section-title">Try it</div>
-    <div class="list-panel iv-form">
       <div class="row">
         <div><label for="ivStart">Start with</label><input id="ivStart" type="number" min="0" step="1" inputmode="decimal"></div>
         <div><label for="ivMonthly">Add every month</label><input id="ivMonthly" type="number" min="0" step="1" inputmode="decimal"></div>
@@ -1081,22 +1137,19 @@
       <button type="button" class="mini" id="ivUseWallet" style="margin:12px 0 4px"></button>
     </div>
 
-    <div class="section-title"><svg class="i i-sprout" aria-hidden="true"><use href="#i-sprout"/></svg> Family money tree</div>
-    <div class="list-panel" id="ivFamily"></div>
-
     <div class="section-title"><svg class="i i-hourglass" aria-hidden="true"><use href="#i-hourglass"/></svg> Money sitting still</div>
     <div class="list-panel" id="ivIdle"></div>
 
     <div class="section-title"><svg class="i i-book" aria-hidden="true"><use href="#i-book"/></svg> Learn the basics</div>
     <div class="faq-list">
-      <details class="learn"><summary>What is investing?</summary><p>Investing means putting money into something that can grow — like a piece of a company (a stock) — instead of keeping it as cash. It can earn more than a savings account over many years, but its value goes up and down, and you can lose money.</p></details>
-      <details class="learn"><summary>What is compound growth?</summary><p>When your money earns money, and then <i>that</i> money earns money too. The longer you leave it, the faster it grows — that’s why the chart above curves upward. Starting early matters more than starting big.</p></details>
-      <details class="learn"><summary>Savings account vs. investing</summary><p>A savings account is safe and you can take money out any time, but it grows slowly. Investing can grow faster over many years, but it’s riskier. Many families keep emergency money in savings and invest money they won’t need for 5+ years.</p></details>
-      <details class="learn"><summary>What is an index fund?</summary><p>One fund that owns small pieces of many companies at once (for example, the 500 biggest U.S. companies). Because it’s spread out, one company doing badly hurts less. Many beginners start here because fees are often low.</p></details>
-      <details class="learn"><summary>Can kids invest?</summary><p>Kids can’t open their own brokerage account, but a parent can open a custodial account for them, and kids with earned income may be able to have a custodial Roth IRA. Rules differ, so check with the provider or a financial professional.</p></details>
-      <details class="learn"><summary>Can I invest gift card money?</summary><p>Not directly — gift cards only work at their store. But if you use a gift card for something you were going to buy anyway, you can move the cash you saved into savings or investments. Gift Keeper helps you spot that money.</p></details>
+      <details class="learn"><summary>What is a stock?</summary><p>A stock is a tiny piece of a company. If you own Disney stock, you own a very small part of Disney. When the company does well, the stock price often goes up — and when it struggles, the price can go down.</p></details>
+      <details class="learn"><summary>What is a fraction of a share?</summary><p>Some stocks cost hundreds of dollars for one share. Many investing apps let you buy just a slice — like $5 of Apple — so you can start small. That’s how practice mode works too.</p></details>
+      <details class="learn"><summary>Why do prices go up and down?</summary><p>Prices change every day as people buy and sell. News, how much the company earns, and how people feel about the future all move the price. Short-term ups and downs are normal; investors usually think in years, not days.</p></details>
+      <details class="learn"><summary>What is diversifying?</summary><p>Not putting all your eggs in one basket. Owning several companies — or a fund that holds hundreds of them — means one company having a bad year hurts less.</p></details>
+      <details class="learn"><summary>What is compound growth?</summary><p>When your money earns money, and then <i>that</i> money earns money too. The longer you leave it, the faster it grows — that’s why the calculator’s chart curves upward. Starting early matters more than starting big.</p></details>
+      <details class="learn"><summary>Can kids invest for real?</summary><p>Kids can’t open their own brokerage account, but a parent can open a custodial account for them, and some kids’ money apps offer investing with parent approval. Rules and fees differ, so compare providers or ask a financial professional.</p></details>
     </div>
-    <p class="iv-note">For learning only — this isn’t financial advice. The growth rates are examples; real returns change every year and can be negative.</p>
+    <p class="iv-note">For learning only — this isn’t financial advice. Practice prices are made up and move on their own; real investments can lose money.</p>
   </section>
 
   <section class="page" id="page-settings" hidden>
@@ -1120,7 +1173,7 @@
       <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i i-trash" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.12 · Everything is saved only on this device.
+      Gift Keeper v0.13 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1369,6 +1422,58 @@
     <div id="wrapSlide"></div>
     <div class="wrap-hint">Tap to continue</div>
   </div>
+</div>
+
+<!-- Practice investing: buy / sell -->
+<div class="overlay" id="tradeOverlay">
+  <form class="sheet" id="tradeForm" autocomplete="off" novalidate>
+    <div class="sheet-head">
+      <h2 id="trName" class="tr-name"></h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="trTop"></div>
+    <div id="trChart" class="tr-chart"></div>
+    <div class="seg" id="trSide">
+      <button type="button" data-side="buy">Buy</button>
+      <button type="button" data-side="sell">Sell</button>
+    </div>
+    <label for="trAmount">Amount in dollars</label>
+    <input id="trAmount" type="number" min="0" step="0.01" inputmode="decimal" placeholder="$10">
+    <div class="quick-amts" id="trQuick">
+      <button type="button" class="chip-btn" data-amt="5">$5</button>
+      <button type="button" class="chip-btn" data-amt="10">$10</button>
+      <button type="button" class="chip-btn" data-amt="25">$25</button>
+      <button type="button" class="chip-btn" data-amt="all">All</button>
+    </div>
+    <div class="hint" id="trHint"></div>
+    <div class="actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn primary" id="trGo">Buy now</button>
+    </div>
+  </form>
+</div>
+
+<!-- Practice investing: parents add money -->
+<div class="overlay" id="fundOverlay">
+  <form class="sheet" id="fundForm" autocomplete="off" novalidate>
+    <div class="sheet-head">
+      <h2>Add practice money for <span id="fundWho"></span></h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <label for="fundAmount">Amount</label>
+    <input id="fundAmount" type="number" min="0" step="1" inputmode="decimal" placeholder="$20">
+    <div class="quick-amts" id="fundQuick">
+      <button type="button" class="chip-btn" data-amt="10">$10</button>
+      <button type="button" class="chip-btn" data-amt="25">$25</button>
+      <button type="button" class="chip-btn" data-amt="50">$50</button>
+      <button type="button" class="chip-btn" data-amt="100">$100</button>
+    </div>
+    <div class="hint">Pretend money for practice — no real money moves.</div>
+    <div class="actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn primary">Add money</button>
+    </div>
+  </form>
 </div>
 
 <!-- Log a gift card we gave -->
@@ -3208,8 +3313,247 @@ function exportCsv() {
   toast('Spreadsheet downloaded');
 }
 
-// ---------- Invest page ----------
-// A learning tool: shows how money grows with monthly saving and compound growth.
+// ---------- Invest page: practice investing for the family ----------
+// Pretend money and practice prices (a seeded random walk that moves once a day), so kids can
+// learn how investing works. Kids' trades wait for a parent to approve them.
+const INVEST_KEY = 'giftKeeper.invest.v1';
+const STOCKS = [
+  { t: 'FUND', name: 'U.S. Stock Market Fund', color: '#7c5cff', base: 120, vol: .008, about: 'One fund that holds hundreds of companies at once' },
+  { t: 'AAPL', name: 'Apple',       color: '#8e8e93', base: 210, vol: .017, about: 'iPhone, iPad, Mac and AirPods' },
+  { t: 'DIS',  name: 'Disney',      color: '#113ccf', base: 105, vol: .016, about: 'Movies, Disney+ and theme parks' },
+  { t: 'NKE',  name: 'Nike',        color: '#f5f5f5', base: 80,  vol: .018, about: 'Sneakers and sports clothes' },
+  { t: 'RBLX', name: 'Roblox',      color: '#e2231a', base: 55,  vol: .03,  about: 'The Roblox game platform' },
+  { t: 'NTDOY', name: 'Nintendo',   color: '#e60012', base: 16,  vol: .02,  about: 'Switch, Mario and Zelda' },
+  { t: 'MCD',  name: 'McDonald’s',  color: '#ffbc0d', base: 290, vol: .011, about: 'Burgers, fries and Happy Meals' },
+  { t: 'AMZN', name: 'Amazon',      color: '#ff9900', base: 185, vol: .019, about: 'Online shopping, Prime and Alexa' },
+  { t: 'MSFT', name: 'Microsoft',   color: '#00a4ef', base: 410, vol: .015, about: 'Windows, Xbox and Minecraft' },
+  { t: 'SBUX', name: 'Starbucks',   color: '#00704a', base: 95,  vol: .017, about: 'Coffee shops around the world' },
+  { t: 'TGT',  name: 'Target',      color: '#cc0000', base: 140, vol: .018, about: 'Target stores and Target.com' },
+  { t: 'MAT',  name: 'Mattel',      color: '#e4002b', base: 19,  vol: .021, about: 'Barbie, Hot Wheels and UNO' },
+  { t: 'KO',   name: 'Coca-Cola',   color: '#f40009', base: 66,  vol: .009, about: 'Coke, Sprite and Minute Maid' },
+  { t: 'NFLX', name: 'Netflix',     color: '#e50914', base: 650, vol: .022, about: 'Streaming shows and movies' },
+  { t: 'GOOGL', name: 'Alphabet (Google)', color: '#4285f4', base: 170, vol: .018, about: 'Google Search, YouTube and Android' },
+];
+const stockOf = t => STOCKS.find(s => s.t === t);
+const IV_START = Date.UTC(2026, 0, 1) / 864e5;
+const dayNumber = () => Math.floor(Date.parse(today() + 'T00:00Z') / 864e5 - IV_START);
+
+// Repeatable pseudo-random number in [0, 1) for a ticker on a given day
+function seeded(str) {
+  let h = 2166136261;
+  for (const ch of str) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); }
+  h ^= h >>> 13; h = Math.imul(h, 0x5bd1e995); h ^= h >>> 15;
+  return (h >>> 0) / 4294967296;
+}
+const priceCache = {};
+function priceSeries(t) {
+  const key = t + ':' + dayNumber();
+  if (priceCache[key]) return priceCache[key];
+  const s = stockOf(t), out = [s.base];
+  for (let d = 1; d <= Math.max(1, dayNumber()); d++) {
+    const shock = (seeded(`${t}:${d}:a`) + seeded(`${t}:${d}:b`) + seeded(`${t}:${d}:c`) - 1.5) * 2;   // roughly bell-shaped
+    out.push(out.at(-1) * Math.exp(.0003 + s.vol * shock));
+  }
+  return (priceCache[key] = out);
+}
+const priceNow = t => priceSeries(t).at(-1);
+const dayChange = t => { const p = priceSeries(t); return p.at(-1) / p.at(-2) - 1; };
+
+function loadInvest() {
+  let v = null;
+  try { v = JSON.parse(localStorage.getItem(INVEST_KEY)); } catch {}
+  return { accounts: {}, requests: [], ...(v || {}) };
+}
+let invest = loadInvest();
+const saveInvestData = () => localStorage.setItem(INVEST_KEY, JSON.stringify(invest));
+const account = id => (invest.accounts[id] ??= { cash: 0, holdings: {}, log: [] });
+const holdingsValue = a => Object.entries(a.holdings).reduce((s, [t, h]) => s + h.shares * priceNow(t), 0);
+const holdingsCost = a => Object.values(a.holdings).reduce((s, h) => s + h.cost, 0);
+
+let ivMember = null;   // whose portfolio is on screen
+const ivWho = () => !isParent() ? me() : member(ivMember) || family.members.find(m => m.role === 'kid') || me();
+
+function trade(memberId, t, side, amount) {
+  const a = account(memberId), price = priceNow(t);
+  amount = Math.round(amount * 100) / 100;
+  if (!(amount > 0)) return 'Enter an amount';
+  if (side === 'buy') {
+    if (amount > a.cash + 0.001) return `Only ${money(a.cash)} cash to invest`;
+    const h = (a.holdings[t] ??= { shares: 0, cost: 0 });
+    h.shares += amount / price; h.cost += amount; a.cash -= amount;
+  } else {
+    const h = a.holdings[t];
+    if (!h) return 'Nothing to sell';
+    const shares = Math.min(h.shares, amount / price), proceeds = shares * price;
+    h.cost -= h.cost * (shares / h.shares); h.shares -= shares; a.cash += proceeds;
+    if (h.shares * price < 0.01) delete a.holdings[t];
+    amount = proceeds;
+  }
+  a.cash = Math.round(a.cash * 100) / 100;
+  a.log.push({ date: today(), t, side, amount, price, by: family.current });
+  saveInvestData();
+  return '';
+}
+
+function sparkline(series, w = 64, h = 24) {
+  const pts = series.slice(-30), lo = Math.min(...pts), hi = Math.max(...pts), span = hi - lo || 1;
+  const up = pts.at(-1) >= pts[0];
+  const d = pts.map((p, i) => `${i ? 'L' : 'M'}${(i / (pts.length - 1) * w).toFixed(1)} ${(h - (p - lo) / span * (h - 2) - 1).toFixed(1)}`).join(' ');
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" aria-hidden="true"><path d="${d}" fill="none" stroke="${up ? '#34e3a6' : '#ff6b81'}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+const pct = x => `${x >= 0 ? '+' : '−'}${Math.abs(x * 100).toFixed(2)}%`;
+const logo = s => `<span class="tick-logo" style="--c:${s.color}">${esc(s.name[0])}</span>`;
+
+function renderInvest() {
+  const who = ivWho(), a = account(who.id), parent = isParent();
+  $('ivWho').hidden = !parent || !hasFamily();
+  $('ivWho').innerHTML = family.members.map(m =>
+    `<button class="chip-btn ${m.id === who.id ? 'on' : ''}" data-who="${m.id}">${avatar(m, 'sm')}${esc(m.name)}</button>`).join('');
+  $('ivSub').textContent = parent ? 'Practice investing in companies your family knows. You approve every kid’s trade.'
+    : 'Pick companies you know and practice investing. A parent approves each trade.';
+
+  const value = holdingsValue(a), cost = holdingsCost(a), gain = value - cost;
+  $('pfLabel').textContent = who.id === family.current ? 'My portfolio' : `${possessive(who.name)} portfolio`;
+  countUp($('pfTotal'), value + a.cash);
+  $('pfCash').textContent = money(a.cash);
+  $('pfGain').innerHTML = cost > 0
+    ? `<b class="${gain >= 0 ? 'up' : 'down'}">${gain >= 0 ? '+' : '−'}${money(Math.abs(gain))} (${pct(gain / cost)})</b> all time`
+    : 'Nothing invested yet';
+  $('pfFund').hidden = !parent;
+
+  // Portfolio value over the last 30 days, using today's holdings
+  const days = 30, held = Object.entries(a.holdings);
+  const series = Array.from({ length: days }, (_, i) =>
+    a.cash + held.reduce((s, [t, h]) => s + h.shares * priceSeries(t).at(i - days), 0));
+  $('pfChart').innerHTML = held.length ? sparkline(series, 320, 70).replace('class="spark"', 'class="spark big"') : '';
+
+  // Trades waiting for a parent
+  const pending = invest.requests.filter(r => r.status === 'pending' && (parent || r.member === who.id));
+  $('pfRequests').innerHTML = pending.length ? `
+    <div class="section-title">${ic('clock')} Waiting for approval</div>
+    <div class="list-panel">${pending.map(r => {
+      const s = stockOf(r.t), m = member(r.member);
+      return `<div class="req-row">${logo(s)}
+        <span class="info"><div class="t">${esc(m?.name || '')} wants to ${r.side} ${money(r.amount)} of ${esc(s.name)}</div>
+          <div class="s">${dayLabel(r.date)} · ${esc(s.t)} at ${money(priceNow(r.t))}</div></span>
+        ${parent ? `<span class="req-btns"><button class="mini" data-deny="${r.id}">Decline</button><button class="mini ok" data-approve="${r.id}">Approve</button></span>`
+                 : '<span class="pill">Waiting</span>'}</div>`;
+    }).join('')}</div>` : '';
+
+  $('pfHoldings').innerHTML = held.length ? held.sort((x, y) => y[1].shares * priceNow(y[0]) - x[1].shares * priceNow(x[0])).map(([t, h]) => {
+    const s = stockOf(t), v = h.shares * priceNow(t), g = v - h.cost;
+    return `<button class="stock-row" data-stock="${t}">${logo(s)}
+      <span class="info"><div class="t">${esc(s.name)}</div><div class="s">${h.shares < 1 ? h.shares.toFixed(4) : h.shares.toFixed(2)} shares</div></span>
+      ${sparkline(priceSeries(t))}
+      <span class="px"><b>${money(v)}</b><small class="${g >= 0 ? 'up' : 'down'}">${g >= 0 ? '+' : '−'}${money(Math.abs(g))}</small></span></button>`;
+  }).join('') : `<div class="empty-state" style="padding:18px 6px">No investments yet. ${a.cash > 0 ? 'Pick a company below to start.' : parent ? 'Tap <b>Add money</b> to give this account practice money.' : 'Ask a parent to add practice money.'}</div>`;
+
+  $('pfExplore').innerHTML = STOCKS.map(s => {
+    const ch = dayChange(s.t);
+    return `<button class="stock-row" data-stock="${s.t}">${logo(s)}
+      <span class="info"><div class="t">${esc(s.name)}</div><div class="s">${esc(s.t)} · ${esc(s.about)}</div></span>
+      ${sparkline(priceSeries(s.t))}
+      <span class="px"><b>${money(priceNow(s.t))}</b><small class="${ch >= 0 ? 'up' : 'down'}">${pct(ch)}</small></span></button>`;
+  }).join('');
+
+  renderCalculator();
+  renderIdle();
+}
+$('ivWho').onclick = e => { const b = e.target.closest('[data-who]'); if (b) { ivMember = b.dataset.who; renderInvest(); } };
+$('pfHoldings').onclick = $('pfExplore').onclick = e => { const b = e.target.closest('[data-stock]'); if (b) openTrade(b.dataset.stock); };
+$('pfInvest').onclick = () => openTrade('FUND');
+$('pfFund').onclick = () => openFund();
+$('pfRequests').onclick = e => {
+  const ok = e.target.closest('[data-approve]'), no = e.target.closest('[data-deny]');
+  const r = invest.requests.find(x => x.id === (ok || no)?.dataset[ok ? 'approve' : 'deny']);
+  if (!r) return;
+  if (no) { r.status = 'declined'; saveInvestData(); renderInvest(); return toast('Declined'); }
+  const err = trade(r.member, r.t, r.side, r.amount);
+  if (err) return toast(err);
+  r.status = 'approved';
+  saveInvestData();
+  renderInvest();
+  toast(`Approved — ${member(r.member)?.name} ${r.side === 'buy' ? 'bought' : 'sold'} ${stockOf(r.t).name}`);
+};
+
+// ----- buy / sell sheet -----
+let trStock = null, trSide = 'buy';
+function openTrade(t) {
+  trStock = t; trSide = 'buy';
+  const s = stockOf(t), ch = dayChange(t), series = priceSeries(t);
+  const month = series.at(-1) / series[Math.max(0, series.length - 31)] - 1;
+  $('trName').innerHTML = `${logo(s)} ${esc(s.name)}`;
+  $('trTop').innerHTML = `<div class="tr-price">${money(priceNow(t))} <small class="${ch >= 0 ? 'up' : 'down'}">${pct(ch)} today</small></div>
+    <div class="s">${esc(s.t)} · ${esc(s.about)} · ${pct(month)} this month</div>`;
+  $('trChart').innerHTML = sparkline(series, 320, 90).replace('class="spark"', 'class="spark big"');
+  $('trAmount').value = '';
+  setTradeSide('buy');
+  open('tradeOverlay');
+}
+function setTradeSide(side) {
+  trSide = side;
+  const who = ivWho(), a = account(who.id), h = a.holdings[trStock];
+  document.querySelectorAll('#trSide button').forEach(b => b.classList.toggle('on', b.dataset.side === side));
+  $('trSide').querySelector('[data-side="sell"]').disabled = !h;
+  updateTradeHint();
+}
+function updateTradeHint() {
+  const who = ivWho(), a = account(who.id), h = a.holdings[trStock], amt = Number($('trAmount').value) || 0;
+  const max = trSide === 'buy' ? a.cash : (h ? h.shares * priceNow(trStock) : 0);
+  $('trHint').textContent = `${trSide === 'buy' ? 'Cash to invest' : 'You own'}: ${money(max)}` +
+    (amt > 0 ? ` · about ${(amt / priceNow(trStock)).toFixed(4)} shares` : '');
+  $('trGo').textContent = isParent() ? (trSide === 'buy' ? 'Buy now' : 'Sell now') : 'Ask a parent';
+}
+$('trSide').onclick = e => { const b = e.target.closest('[data-side]'); if (b && !b.disabled) setTradeSide(b.dataset.side); };
+$('trAmount').oninput = updateTradeHint;
+$('trQuick').onclick = e => {
+  const b = e.target.closest('[data-amt]');
+  if (!b) return;
+  const a = account(ivWho().id), h = a.holdings[trStock];
+  const max = trSide === 'buy' ? a.cash : (h ? h.shares * priceNow(trStock) : 0);
+  $('trAmount').value = b.dataset.amt === 'all' ? Math.floor(max * 100) / 100 : b.dataset.amt;
+  updateTradeHint();
+};
+$('tradeForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const who = ivWho(), amount = Number($('trAmount').value) || 0;
+  if (!(amount > 0)) return toast('Enter an amount');
+  if (!isParent()) {
+    invest.requests.push({ id: crypto.randomUUID(), member: who.id, t: trStock, side: trSide, amount, date: today(), status: 'pending' });
+    saveInvestData();
+    close('tradeOverlay');
+    renderInvest();
+    return toast('Sent to a parent for approval');
+  }
+  const err = trade(who.id, trStock, trSide, amount);
+  if (err) return toast(err);
+  close('tradeOverlay');
+  renderInvest();
+  if (trSide === 'buy') confetti();
+  toast(`${trSide === 'buy' ? 'Bought' : 'Sold'} ${money(amount)} of ${stockOf(trStock).name}`);
+});
+
+// ----- parents add practice money -----
+function openFund() {
+  $('fundWho').textContent = ivWho().name;
+  $('fundAmount').value = '';
+  open('fundOverlay');
+}
+$('fundQuick').onclick = e => { const b = e.target.closest('[data-amt]'); if (b) $('fundAmount').value = b.dataset.amt; };
+$('fundForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const amt = Math.round((Number($('fundAmount').value) || 0) * 100) / 100;
+  if (!(amt > 0)) return toast('Enter an amount');
+  const who = ivWho(), a = account(who.id);
+  a.cash = Math.round((a.cash + amt) * 100) / 100;
+  a.log.push({ date: today(), side: 'deposit', amount: amt, by: family.current });
+  saveInvestData();
+  close('fundOverlay');
+  renderInvest();
+  toast(`Added ${money(amt)} to ${possessive(who.name)} account`);
+});
+
+// ----- "What if you keep investing?" calculator -----
 // Month-by-month: balance grows by rate/12, then the monthly amount is added.
 function growth(start, monthly, years, rate) {
   const points = [{ year: 0, total: start, put: start }];
@@ -3224,7 +3568,7 @@ function growth(start, monthly, years, rate) {
 const ivSettings = () => ({ start: 100, monthly: 20, years: 10, rate: 7, ...(settings.invest || {}) });
 
 function growthChart(points) {
-  const W = 320, H = 150, max = Math.max(...points.map(p => p.total)) || 1, n = points.length - 1 || 1;
+  const W = 320, H = 130, max = Math.max(...points.map(p => p.total)) || 1, n = points.length - 1 || 1;
   const x = i => (i / n) * W, y = v => H - (v / max) * (H - 10);
   const line = key => points.map((p, i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(p[key]).toFixed(1)}`).join(' ');
   const area = key => `${line(key)} L${W} ${H} L0 ${H} Z`;
@@ -3243,40 +3587,26 @@ function growthChart(points) {
     <text x="${W}" y="${H + 16}" text-anchor="end">Year ${last.year}</text>
   </svg>`;
 }
-
-function renderInvest() {
+function renderCalculator() {
   const v = ivSettings();
   const points = growth(v.start, v.monthly, v.years, v.rate), last = points.at(-1);
   if (document.activeElement !== $('ivStart')) $('ivStart').value = v.start;
   if (document.activeElement !== $('ivMonthly')) $('ivMonthly').value = v.monthly;
   $('ivYears').value = v.years;
-  $('ivYearsOut').textContent = `${v.years} year${v.years === 1 ? '' : 's'}`;
-  $('ivYearsLabel').textContent = `${v.years} year${v.years === 1 ? '' : 's'}`;
+  $('ivYearsOut').textContent = $('ivYearsLabel').textContent = `${v.years} year${v.years === 1 ? '' : 's'}`;
   document.querySelectorAll('#ivRate button').forEach(b => b.classList.toggle('on', +b.dataset.rate === v.rate));
   countUp($('ivTotal'), last.total);
   $('ivPut').textContent = money(last.put);
   $('ivGrow').textContent = money(last.total - last.put);
   $('ivChart').innerHTML = growthChart(points);
-  const wallet = balanceOf(scopedCards());
-  $('ivUseWallet').innerHTML = `${ic('wallet')} Start with my gift card total (${money(wallet)})`;
-
-  // Family money tree: what each person's gift card money would become if the same amount were saved and invested
-  const people = isParent() ? family.members : [me()];
-  $('ivFamily').innerHTML = !isPremium()
-    ? `<div class="empty-state" style="padding:18px 6px">See what each kid’s gift card money could grow into by the time they’re grown up. <span class="lock">PREMIUM</span></div>`
-    : people.map(m => {
-        const have = balanceOf(cards.filter(c => c.owner === m.id));
-        const later = growth(have, 0, 10, v.rate).at(-1).total;
-        return `<div class="tree-row">${avatar(m, 'lg')}
-          <span class="info"><div class="t">${esc(m.name)}</div><div class="s">${money(have)} on gift cards today</div></span>
-          <span class="grow">${money(later)}<small>in 10 years at ${v.rate}%</small></span></div>`;
-      }).join('');
-
-  // Cards nobody has touched in 2+ months: use them, then save the cash you didn't spend
+  $('ivUseWallet').innerHTML = `${ic('wallet')} Start with my gift card total (${money(balanceOf(scopedCards()))})`;
+}
+// Cards nobody has touched in 2+ months: use them, then save the cash you didn't spend
+function renderIdle() {
   const lastUsed = c => (c.history || []).reduce((d, h) => h.date > d ? h.date : d, c.added || '');
   const idle = scopedCards().filter(c => c.balance > 0 && daysLeft(lastUsed(c)) <= -60).sort((a, b) => b.balance - a.balance);
   $('ivIdle').innerHTML = idle.length
-    ? `<div class="tree-row"><span class="info"><div class="s">Use these on things you’d buy anyway, then move the cash you didn’t spend into savings. ${money(balanceOf(idle))} could be growing.</div></span></div>` +
+    ? `<div class="tree-row"><span class="info"><div class="s">Use these on things you’d buy anyway, then move the cash you didn’t spend into savings or investing. ${money(balanceOf(idle))} could be growing.</div></span></div>` +
       idle.slice(0, 5).map(c => `<button class="event" data-id="${c.id}">
         <span class="dot" style="background:${colorFor(c)}">${esc(displayName(c)[0] || '?')}</span>
         <span class="info"><div class="t">${esc(displayName(c))}</div><div class="s">${ownerTag(c)}Last used ${fmtDate(lastUsed(c))}</div></span>
@@ -3286,7 +3616,7 @@ function renderInvest() {
 function saveInvest(change) {
   settings.invest = { ...ivSettings(), ...change };
   saveSettings();
-  renderInvest();
+  renderCalculator();
 }
 $('ivStart').oninput = () => saveInvest({ start: Math.max(0, Number($('ivStart').value) || 0) });
 $('ivMonthly').oninput = () => saveInvest({ monthly: Math.max(0, Number($('ivMonthly').value) || 0) });
@@ -3453,7 +3783,7 @@ $('settingsReminders').onclick = e => {
 
 $('exportBtn').onclick = () => {
   if (!isPremium()) return openPremium('backup');
-  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family, given };
+  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family, given, invest };
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
   a.download = `gift-keeper-backup-${today()}.json`;
@@ -3473,6 +3803,7 @@ $('importFile').onchange = async () => {
     cards = data.cards;
     given = Array.isArray(data.given) ? data.given : [];
     saveGiven();
+    if (data.invest) { invest = { accounts: {}, requests: [], ...data.invest }; saveInvestData(); }
     family = data.family;
     save(); saveFamily();
     walletScope = 'all';
@@ -3484,7 +3815,7 @@ $('importFile').onchange = async () => {
 };
 $('wipeBtn').onclick = () => {
   if (!confirm('Delete ALL gift cards and family members from this device? This can’t be undone.')) return;
-  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY].forEach(k => localStorage.removeItem(k));
+  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, INVEST_KEY].forEach(k => localStorage.removeItem(k));
   location.reload();
 };
 
