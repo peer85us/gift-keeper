@@ -992,6 +992,73 @@
     .hero-stack { display: none; }
     .hero.has-stack .label, .hero.has-stack .amount, .hero.has-stack .stats { padding-right: 0; }
   }
+
+  /* =====================================================================
+     COLOR ACCENTS — a little color on top of the refined theme
+     ===================================================================== */
+  .i-wallet, .i-gem, .i-scan     { --ic: #9d8cff; }
+  .i-users, .i-shield, .i-table, .i-lock { --ic: #34d399; }
+  .i-chart, .i-download, .i-upload, .i-user, .i-card, .i-store { --ic: #60a5fa; }
+  .i-camera, .i-keyboard, .i-eye, .i-eye-off { --ic: #38bdf8; }
+  .i-crown, .i-coins, .i-hourglass, .i-trophy { --ic: #f5c451; }
+  .i-gift, .i-sparkles, .i-heart, .i-cake, .i-mail { --ic: #f472b6; }
+  .i-clock, .i-bell, .i-calendar, .i-bag { --ic: #fb923c; }
+  .i-target, .i-trash, .i-ban, .i-alert { --ic: #f87171; }
+  .i-pencil, .i-settings, .i-snow, .i-book, .i-cap, .i-palette, .i-trend { --ic: #a5b4fc; }
+
+  body::before { opacity: .5; }
+
+  /* Settings rows: iOS-style colored icon tiles */
+  .setting .i { width: 30px; height: 30px; padding: 6px; border-radius: 9px; margin-right: 12px; vertical-align: middle;
+    color: var(--ic, var(--muted)); background: color-mix(in srgb, var(--ic, #888) 18%, transparent); }
+  .setting.danger .i { --ic: #f87171; }
+
+  /* Wallet summary with a soft brand tint */
+  .hero { background:
+      radial-gradient(120% 90% at 0% 0%, rgba(133,118,255,.28), transparent 55%),
+      radial-gradient(90% 80% at 100% 100%, rgba(244,114,182,.16), transparent 60%),
+      linear-gradient(165deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); }
+  .hero::after { opacity: .3; }
+  .hero .label { color: #c9c0ff; }
+
+  /* Brand gradient on the main actions */
+  .tab-add { background: linear-gradient(135deg, #7c5cff, #d14dff 55%, #ff7a59); }
+  .btn.primary { background: linear-gradient(135deg, #7c6cff, #a35cff); }
+  .chip-btn.on { background: linear-gradient(135deg, #7c6cff, #a35cff); color: #fff; }
+  .chip-btn.on .count { color: rgba(255,255,255,.75); }
+  .tab.on { color: #fff; }
+  .tab.on .ic { color: #b3a6ff; }
+  .tab.on::after { background: linear-gradient(90deg, #7c5cff, #ff7a59); width: 16px; height: 3px; }
+
+  /* Activity stats: a colored edge on each */
+  .stat { border-left: 3px solid var(--sc, #8576ff); }
+  .stat:nth-child(1) { --sc: #f472b6; }
+  .stat:nth-child(2) { --sc: #34d399; }
+  .stat:nth-child(3) { --sc: #60a5fa; }
+  .stat:nth-child(4) { --sc: #f5c451; }
+
+  /* Insights and report */
+  .insight .k .i { width: 26px; height: 26px; padding: 5px; border-radius: 8px; color: var(--ic); background: color-mix(in srgb, var(--ic) 18%, transparent); }
+  .insight:has(.i-hourglass) { border-color: rgba(245,196,81,.25); }
+  .insight:has(.i-coins)     { border-color: rgba(245,196,81,.25); }
+  .insight:has(.i-shield)    { border-color: rgba(52,211,153,.25); }
+  .insight:has(.i-chart)     { border-color: rgba(96,165,250,.25); }
+  .report { background: radial-gradient(120% 100% at 100% 0%, rgba(96,165,250,.18), transparent 60%),
+      radial-gradient(100% 100% at 0% 100%, rgba(133,118,255,.18), transparent 60%), var(--surface); }
+  .goal .track span { background: linear-gradient(90deg, #7c6cff, #f472b6); }
+  .kid-alert { background: linear-gradient(135deg, rgba(56,189,248,.1), rgba(133,118,255,.08)); border-color: rgba(56,189,248,.25); }
+  .wrap-btn { background: linear-gradient(135deg, rgba(124,108,255,.18), rgba(244,114,182,.14)); border-color: rgba(157,140,255,.3); }
+  .wrap-btn .i { color: #f472b6; }
+
+  /* Gifts we gave: occasion icons in colored tiles */
+  .gift-row .dot { background: rgba(255,255,255,.06); }
+  .mini { white-space: nowrap; }
+  .gift-row .dot .i, .goal-top .i { color: var(--ic); }
+
+  /* Section and alert icons pick up their color too */
+  .section-title .i, .alert-head .i, .eye-btn .i, .btn .i, .pro-btn .i { color: var(--ic, currentColor); }
+  .btn.primary .i, .btn.gold .i, .btn.ultra .i, .pro-btn .i { color: inherit; }
+  .empty-state .big-emoji .i { color: #f472b6; }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
@@ -1082,7 +1149,7 @@
     <div id="memberList"></div>
     <button class="add-row" id="addMemberBtn">+ Add family member</button>
     <div id="givenSection">
-      <div class="section-title given-head"><span><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg> Gifts we gave</span><span class="sub" id="givenSub"></span></div>
+      <div class="section-title given-head"><span><svg class="i i-gift" aria-hidden="true"><use href="#i-gift"/></svg> Gifts we gave</span><span class="sub" id="givenSub"></span></div>
       <div class="list-panel" id="givenList"></div>
       <button class="add-row" id="addGiftBtn" style="margin-top:10px">+ Log a gift card we gave</button>
     </div>
@@ -1119,12 +1186,12 @@
     <div id="parentSettings">
       <div class="section-title">Backup</div>
       <div class="list-panel">
-        <button class="setting" id="exportBtn"><span><svg class="i" aria-hidden="true"><use href="#i-download"/></svg>Download backup<span class="sub">Save all cards and family members to a file</span></span><span class="go">›</span></button>
-        <button class="setting" id="importBtn"><span><svg class="i" aria-hidden="true"><use href="#i-upload"/></svg>Restore from backup<span class="sub">Load a backup file you saved before</span></span><span class="go">›</span></button>
+        <button class="setting" id="exportBtn"><span><svg class="i i-download" aria-hidden="true"><use href="#i-download"/></svg>Download backup<span class="sub">Save all cards and family members to a file</span></span><span class="go">›</span></button>
+        <button class="setting" id="importBtn"><span><svg class="i i-upload" aria-hidden="true"><use href="#i-upload"/></svg>Restore from backup<span class="sub">Load a backup file you saved before</span></span><span class="go">›</span></button>
         <input type="file" id="importFile" accept="application/json,.json" hidden>
       </div>
       <div class="section-title">Danger zone</div>
-      <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
+      <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i i-trash" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
       Gift Keeper v0.9 · Everything is saved only on this device.
@@ -1134,11 +1201,11 @@
 
 <nav class="tabbar">
   <div class="inner">
-    <button class="tab on" data-page="wallet"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-wallet"/></svg></span>Wallet</button>
-    <button class="tab" data-page="family"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></span>Family</button>
+    <button class="tab on" data-page="wallet"><span class="ic"><svg class="i i-wallet" aria-hidden="true"><use href="#i-wallet"/></svg></span>Wallet</button>
+    <button class="tab" data-page="family"><span class="ic"><svg class="i i-users" aria-hidden="true"><use href="#i-users"/></svg></span>Family</button>
     <button class="tab-add" id="addBtn" aria-label="Add card">+</button>
-    <button class="tab" data-page="activity"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg></span>Activity</button>
-    <button class="tab" data-page="settings"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-settings"/></svg></span>Settings</button>
+    <button class="tab" data-page="activity"><span class="ic"><svg class="i i-chart" aria-hidden="true"><use href="#i-chart"/></svg></span>Activity</button>
+    <button class="tab" data-page="settings"><span class="ic"><svg class="i i-settings" aria-hidden="true"><use href="#i-settings"/></svg></span>Settings</button>
   </div>
 </nav>
 <div class="toast" id="toast"></div>
@@ -1148,12 +1215,12 @@
   <form class="sheet" id="cardForm" autocomplete="off" novalidate>
     <div class="sheet-head">
       <h2 id="formTitle">Add Card</h2>
-      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
 
     <div class="seg" id="typeSeg">
-      <button type="button" data-type="store" class="on"><svg class="i" aria-hidden="true"><use href="#i-store"/></svg> Store gift card</button>
-      <button type="button" data-type="prepaid"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg> Visa / Mastercard / Amex</button>
+      <button type="button" data-type="store" class="on"><svg class="i i-store" aria-hidden="true"><use href="#i-store"/></svg> Store gift card</button>
+      <button type="button" data-type="prepaid"><svg class="i i-card" aria-hidden="true"><use href="#i-card"/></svg> Visa / Mastercard / Amex</button>
     </div>
 
     <div id="ownerWrap">
@@ -1161,7 +1228,7 @@
       <div class="owner-row" id="ownerPicker"></div>
     </div>
 
-    <button type="button" class="btn scan-top" id="scanTop"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg> Scan card to fill everything</button>
+    <button type="button" class="btn scan-top" id="scanTop"><svg class="i i-camera" aria-hidden="true"><use href="#i-camera"/></svg> Scan card to fill everything</button>
 
     <div class="preview" id="formPreview"></div>
 
@@ -1174,7 +1241,7 @@
       <label for="fNumber">Card number</label>
       <div class="input-row">
         <input id="fNumber" class="mono" placeholder="6006 4912 3456 7890">
-        <button type="button" class="btn" id="scanBtn"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg> Scan</button>
+        <button type="button" class="btn" id="scanBtn"><svg class="i i-camera" aria-hidden="true"><use href="#i-camera"/></svg> Scan</button>
       </div>
       <div class="row">
         <div>
@@ -1246,7 +1313,7 @@
 <!-- Checkout mode: big bright barcode to show the cashier -->
 <div class="overlay" id="payOverlay">
   <form class="sheet pay" id="payForm" autocomplete="off">
-    <button type="button" class="x" data-close aria-label="Close" style="position:absolute;top:14px;right:14px"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <button type="button" class="x" data-close aria-label="Close" style="position:absolute;top:14px;right:14px"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     <div id="payBody"></div>
     <div class="pay-spent">
       <input id="paySpent" type="number" step="0.01" min="0" inputmode="decimal" placeholder="Amount spent">
@@ -1261,7 +1328,7 @@
   <form class="sheet" id="balanceForm">
     <div class="sheet-head">
       <h2>Update Balance</h2>
-      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="seg" id="balanceMode">
       <button type="button" data-mode="spent" class="on">I spent</button>
@@ -1282,7 +1349,7 @@
   <div class="sheet">
     <div class="sheet-head">
       <h2>Scan Gift Card</h2>
-      <button type="button" class="x" id="scanX" aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <button type="button" class="x" id="scanX" aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="scanner">
       <video id="scanVideo" playsinline muted></video>
@@ -1293,11 +1360,11 @@
     <p class="scan-status" id="scanStatus">Point the camera at the card and tap Take Photo.</p>
     <div class="found" id="scanFound" hidden></div>
     <div class="actions">
-      <button type="button" class="btn" id="scanCancel"><svg class="i" aria-hidden="true"><use href="#i-keyboard"/></svg> Type it in</button>
-      <button type="button" class="btn primary" id="scanShoot"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg> Take photo</button>
+      <button type="button" class="btn" id="scanCancel"><svg class="i i-keyboard" aria-hidden="true"><use href="#i-keyboard"/></svg> Type it in</button>
+      <button type="button" class="btn primary" id="scanShoot"><svg class="i i-camera" aria-hidden="true"><use href="#i-camera"/></svg> Take photo</button>
     </div>
     <div class="actions" id="scanUseRow" hidden>
-      <button type="button" class="btn primary" id="scanUse"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Use this info</button>
+      <button type="button" class="btn primary" id="scanUse"><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg> Use this info</button>
     </div>
   </div>
 </div>
@@ -1318,8 +1385,8 @@
 <!-- Premium upgrade -->
 <div class="overlay" id="premiumOverlay">
   <div class="sheet premium">
-    <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
-    <div class="pm-crown" id="pmCrown"><svg class="i" aria-hidden="true"><use href="#i-crown"/></svg></div>
+    <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <div class="pm-crown" id="pmCrown"><svg class="i i-crown" aria-hidden="true"><use href="#i-crown"/></svg></div>
     <h2 id="pmTitle">Choose your plan</h2>
     <p class="pm-why" id="pmWhy"></p>
     <table class="pm-table three">
@@ -1327,21 +1394,21 @@
       <tr class="price-row"><td></td><td>$0</td><td>$9.99<small>/month</small></td><td>$19.99<small>/month</small></td></tr>
       <tr><td>Gift cards</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
       <tr><td>Family members</td><td>Just you</td><td>Unlimited</td><td>Unlimited</td></tr>
-      <tr><td>Scan to fill</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Backup &amp; restore</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Checkout mode</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Money insights</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Card themes</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Scan to fill</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Backup &amp; restore</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Checkout mode</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Money insights</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Card themes</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
       <tr><td>Reminder timing</td><td>7 days</td><td>3–30 days</td><td>3–30 days</td></tr>
-      <tr><td>Hide amounts</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Monthly report</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Kids’ savings goals</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Gift tracker</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr class="ultra-start"><td>App lock</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Year in review</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Kids’ spending alerts</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Ultra card themes</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
-      <tr><td>Spreadsheet export</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Hide amounts</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Monthly report</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Kids’ savings goals</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Gift tracker</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr class="ultra-start"><td>App lock</td><td class="no">—</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Year in review</td><td class="no">—</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Kids’ spending alerts</td><td class="no">—</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Ultra card themes</td><td class="no">—</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Spreadsheet export</td><td class="no">—</td><td class="no">—</td><td><svg class="i i-check" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
     </table>
     <div class="pm-buttons">
       <button type="button" class="btn gold" id="pmBuy">Premium</button>
@@ -1354,7 +1421,7 @@
 <!-- App lock (Ultra) -->
 <div id="lockOverlay" aria-modal="true" role="dialog">
   <div class="lock-box">
-    <div class="pm-crown"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg></div>
+    <div class="pm-crown"><svg class="i i-lock" aria-hidden="true"><use href="#i-lock"/></svg></div>
     <h2>Gift Keeper is locked</h2>
     <p id="lockMsg">Enter your 4-digit passcode</p>
     <div class="lock-dots" id="lockDots"><i></i><i></i><i></i><i></i></div>
@@ -1372,7 +1439,7 @@
 <div class="overlay" id="wrapOverlay">
   <div class="wrap-sheet" id="wrapSheet">
     <div class="wrap-bars" id="wrapBars"></div>
-    <button class="wrap-close" id="wrapClose" aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <button class="wrap-close" id="wrapClose" aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     <div id="wrapSlide"></div>
     <div class="wrap-hint">Tap to continue</div>
   </div>
@@ -1383,7 +1450,7 @@
   <form class="sheet" id="giftForm" autocomplete="off" novalidate>
     <div class="sheet-head">
       <h2>Log a gift we gave</h2>
-      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <label for="gTo">Who got it</label>
     <input id="gTo" list="gToList" placeholder="e.g. Noah’s friend Liam, Ms. Rivera">
@@ -1426,7 +1493,7 @@
   <form class="sheet" id="memberForm" autocomplete="off" novalidate>
     <div class="sheet-head">
       <h2 id="memberTitle">Add family member</h2>
-      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="member-preview" id="memberPreview"></div>
     <label for="mName">Name</label>
@@ -1450,7 +1517,7 @@
       <div style="flex:2"><input id="mGoalName" maxlength="30" placeholder="e.g. Lego set, new bike"></div>
       <div style="flex:1"><input id="mGoalAmt" type="number" step="1" min="0" inputmode="decimal" placeholder="$ goal"></div>
     </div>
-    <button type="button" class="goal-lock" id="mGoalUpsell"><svg class="i" aria-hidden="true"><use href="#i-target"/></svg> Set a savings goal</button>
+    <button type="button" class="goal-lock" id="mGoalUpsell"><svg class="i i-target" aria-hidden="true"><use href="#i-target"/></svg> Set a savings goal</button>
     <div id="mLimitWrap">
       <label for="mLimit">Alert me when one purchase is over <span class="ultra-tag" id="limitTag">ULTRA</span></label>
       <input id="mLimit" type="number" step="1" min="0" inputmode="decimal" placeholder="e.g. $20 — leave empty for no limit">
@@ -1615,7 +1682,7 @@ function savePremium() {
 
 // ---------- helpers ----------
 const $ = id => document.getElementById(id);
-const ic = (name, cls = '') => `<svg class="i ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
+const ic = (name, cls = '') => `<svg class="i i-${name} ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 const money = n => '$' + (Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today = () => new Date().toISOString().slice(0, 10);
@@ -2241,7 +2308,7 @@ function showDetail(id) {
   $('detail').innerHTML = `
     <div class="sheet-head">
       <h2>${esc(displayName(c))}</h2>
-      <button class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+      <button class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     ${isUrgent(c) ? `<div class="use-it">${daysLeft(c.expires) < 0
         ? `${ic('ban')} This card expired with ${money(c.balance)} on it. Call the store — some still honor the balance.`
@@ -2745,7 +2812,7 @@ function renderGiven() {
         <span class="dot">${ic(OCCASION_ICONS[g.occasion] || 'gift')}</span>
         <span class="info"><div class="t">${esc(g.to)}</div><div class="s">${esc(g.store)} · ${esc(g.occasion)} · ${fmtDate(g.date)}</div></span>
         <span class="amt">${money(g.amount)}</span>
-        <button class="del" data-del="${g.id}" aria-label="Delete"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+        <button class="del" data-del="${g.id}" aria-label="Delete"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
       </div>`).join('')
     : '<div class="empty-state" style="padding:18px 6px">No gifts logged yet. Gave a gift card for a birthday or to a teacher? Log it here.</div>';
 }
