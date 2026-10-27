@@ -4,2755 +4,343 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#08070f">
-<title>Gift Keeper</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E %3Cdefs%3E %3ClinearGradient id=%22gk-bg%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E %3Cstop offset=%220%22 stop-color=%22%237c5cff%22/%3E %3Cstop offset=%22.5%22 stop-color=%22%23d14dff%22/%3E %3Cstop offset=%221%22 stop-color=%22%23ff7a59%22/%3E %3C/linearGradient%3E %3ClinearGradient id=%22gk-gold%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E %3Cstop offset=%220%22 stop-color=%22%23ffe08a%22/%3E %3Cstop offset=%221%22 stop-color=%22%23ff9f43%22/%3E %3C/linearGradient%3E %3CradialGradient id=%22gk-glow%22 cx=%22.25%22 cy=%22.15%22 r=%22.8%22%3E %3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.35%22/%3E %3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width=%22512%22 height=%22512%22 rx=%22116%22 fill=%22url(%23gk-bg)%22/%3E %3Crect width=%22512%22 height=%22512%22 rx=%22116%22 fill=%22url(%23gk-glow)%22/%3E %3Crect x=%22118%22 y=%22132%22 width=%22300%22 height=%22190%22 rx=%2230%22 fill=%22%23fff%22 opacity=%22.32%22 transform=%22rotate(-13 268 227)%22/%3E %3Cg transform=%22rotate(-5 256 300)%22%3E %3Crect x=%2292%22 y=%22200%22 width=%22328%22 height=%22206%22 rx=%2232%22 fill=%22%23fff%22/%3E %3Crect x=%22178%22 y=%22200%22 width=%2240%22 height=%22206%22 fill=%22url(%23gk-gold)%22/%3E %3Crect x=%22262%22 y=%22318%22 width=%22118%22 height=%2216%22 rx=%228%22 fill=%22%23e9e2ff%22/%3E %3Crect x=%22262%22 y=%22350%22 width=%2278%22 height=%2216%22 rx=%228%22 fill=%22%23e9e2ff%22/%3E %3Cg fill=%22none%22 stroke=%22url(%23gk-gold)%22 stroke-width=%2220%22 stroke-linecap=%22round%22%3E %3Cpath d=%22M198 200 C 150 196, 128 140, 160 128 C 184 120, 196 162, 198 200 Z%22/%3E %3Cpath d=%22M198 200 C 246 196, 268 140, 236 128 C 212 120, 200 162, 198 200 Z%22/%3E %3C/g%3E %3Ccircle cx=%22198%22 cy=%22200%22 r=%2220%22 fill=%22url(%23gk-gold)%22/%3E %3C/g%3E %3C/svg%3E">
+<title>Gift Keeper — Never lose a gift card again</title>
+<meta name="description" content="Gift Keeper keeps every gift card for the whole family in one place — balances, barcodes, expiration reminders and more.">
+<meta property="og:title" content="Gift Keeper — Never lose a gift card again">
+<meta property="og:description" content="Every gift card for the whole family, in one place.">
+<meta property="og:image" content="img/icon-512.png">
+<link rel="icon" href="brand/logo-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="img/icon-180.png">
+<link rel="manifest" href="manifest.webmanifest">
 <style>
-  :root {
-    --bg: #f4f2ee;
-    --surface: #ffffff;
-    --surface-2: #f8f6f3;
-    --ink: #1d1b19;
-    --muted: #77716a;
-    --line: #e6e1da;
-    --accent: #2f6b4f;
-    --accent-soft: #e3efe8;
-    --warn: #b85c00;
-    --warn-soft: #fdf0e1;
-    --danger: #b3261e;
-    --hero: #1d1b19;
-    --radius: 18px;
-    --shadow: 0 1px 2px rgba(0,0,0,.05), 0 6px 18px rgba(0,0,0,.06);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #111110;
-      --surface: #1c1b1a;
-      --surface-2: #242321;
-      --ink: #f2efea;
-      --muted: #9b958d;
-      --line: #2e2c2a;
-      --accent: #5fb38a;
-      --accent-soft: #1d3329;
-      --warn: #f0a050;
-      --warn-soft: #3a2a17;
-      --danger: #f2756c;
-      --hero: #232220;
-      --shadow: 0 1px 2px rgba(0,0,0,.4);
-    }
-  }
-  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-  [hidden] { display: none !important; }
-  body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font: 16px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
-  button { font: inherit; color: inherit; }
-  .app { max-width: 760px; margin: 0 auto; padding: 18px 16px 120px; }
-
-  /* Header */
-  header { display: flex; align-items: center; justify-content: space-between; }
-  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 20px; }
-  .logo .mark {
-    width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
-    background: var(--accent); color: #fff; font-size: 18px;
-  }
-
-  /* Hero / wallet total */
-  .hero {
-    margin: 18px 0 16px; padding: 22px; border-radius: 22px;
-    background: var(--hero); color: #fff; box-shadow: var(--shadow);
-  }
-  .hero .label { font-size: 14px; opacity: .7; }
-  .hero .amount { font-size: 40px; font-weight: 750; letter-spacing: -.5px; margin: 2px 0 4px; }
-  .hero .stats { display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; opacity: .85; }
-  .hero .stats b { font-weight: 650; }
-  .hero .stats .warn { color: #ffb769; }
-  .breakdown { display: flex; height: 8px; border-radius: 99px; overflow: hidden; margin: 16px 0 10px; background: rgba(255,255,255,.12); }
-  .breakdown span { height: 100%; }
-  .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; opacity: .85; }
-  .legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; }
-
-  /* Toolbar */
-  .toolbar { display: flex; gap: 10px; margin-bottom: 12px; }
-  .search {
-    flex: 1; padding: 12px 14px 12px 38px; border: 1px solid var(--line); border-radius: 12px;
-    font-size: 16px; background: var(--surface) no-repeat 12px center; color: var(--ink);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' fill='none' stroke='%2377716a' stroke-width='2'%3E%3Ccircle cx='8' cy='8' r='6'/%3E%3Cpath d='m13 13 4 4'/%3E%3C/svg%3E");
-  }
-  select {
-    padding: 0 12px; border: 1px solid var(--line); border-radius: 12px;
-    background: var(--surface); color: var(--ink); font: inherit; font-size: 14px;
-  }
-  .chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; }
-  .chips::-webkit-scrollbar { display: none; }
-  .chip-btn {
-    flex: none; padding: 7px 14px; border-radius: 99px; border: 1px solid var(--line);
-    background: var(--surface); font-size: 14px; cursor: pointer; white-space: nowrap;
-  }
-  .chip-btn.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-  .chip-btn .count { opacity: .6; margin-left: 4px; }
-
-  /* Card grid */
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px 14px; }
-  .tile { background: none; border: 0; padding: 0; text-align: left; cursor: pointer; }
-  .tile:hover .gc { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.18); }
-  .tile .caption { font-size: 12.5px; color: var(--muted); margin-top: 6px; padding-left: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .tile .caption.warn { color: var(--warn); font-weight: 600; }
-  .tile.used .gc { filter: grayscale(1); opacity: .5; }
-
-  /* Gift card visual */
-  .gc {
-    --c: #555;
-    position: relative; aspect-ratio: 1.586; border-radius: 14px; padding: 12px 13px;
-    color: #fff; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between;
-    background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 55%, #000));
-    box-shadow: 0 4px 14px rgba(0,0,0,.14); transition: transform .15s, box-shadow .15s;
-  }
-  .gc::after {
-    content: ""; position: absolute; inset: 0; pointer-events: none;
-    background: radial-gradient(120% 80% at 100% 0%, rgba(255,255,255,.22), transparent 60%);
-  }
-  .gc-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; position: relative; z-index: 1; }
-  .gc-name { font-weight: 700; font-size: 15px; line-height: 1.15; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-  .gc-bottom { display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 1; }
-  .gc-label { font-size: 10px; text-transform: uppercase; letter-spacing: .8px; opacity: .75; }
-  .gc-bal { font-size: 20px; font-weight: 750; letter-spacing: -.3px; }
-  .gc-num { font-family: ui-monospace, Menlo, monospace; font-size: 11px; opacity: .85; }
-  .gc .emv {
-    width: 30px; height: 22px; border-radius: 5px; position: relative; z-index: 1;
-    background: linear-gradient(135deg, #e9d18a, #b8954a);
-  }
-  .gc::before {
-    content: ""; position: absolute; width: 70%; aspect-ratio: 1; right: -22%; bottom: -45%; border-radius: 50%;
-    border: 18px solid rgba(255,255,255,.07); box-shadow: 0 0 0 26px rgba(255,255,255,.04); pointer-events: none;
-  }
-  .gc-title { min-width: 0; }
-  .gc-from { font-size: 11px; opacity: .8; font-style: italic; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .gc-right { text-align: right; }
-  .gc-exp { font-family: ui-monospace, Menlo, monospace; font-size: 10px; opacity: .85; margin-bottom: 2px; }
-  .gc-exp small { font-size: 7px; letter-spacing: .5px; opacity: .8; }
-  .gc.urgent { outline: 3px solid #e5484d; outline-offset: 2px; animation: pulse 1.6s ease-in-out infinite; }
-  @keyframes pulse { 50% { outline-color: rgba(229,72,77,.35); } }
-  .gc:not(.big) .emv { display: none; }
-  .gc.big .gc-from { font-size: 14px; }
-  .gc.big .gc-exp { font-size: 13px; }
-  .gc.big .gc-exp small { font-size: 9px; }
-
-  /* Flip card (detail view) */
-  .flip { perspective: 1200px; max-width: 400px; margin: 0 auto; cursor: pointer; }
-  .flip-inner { position: relative; transition: transform .6s cubic-bezier(.3,.7,.3,1); transform-style: preserve-3d; }
-  .flip.flipped .flip-inner { transform: rotateY(180deg); }
-  .flip .face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-  .flip .face.back { position: absolute; inset: 0; transform: rotateY(180deg); }
-  .flip .gc.big { max-width: none; }
-  .gc.back-side { padding: 0; justify-content: flex-start; gap: 0; }
-  .gc.back-side .stripe { height: 18%; background: #111; margin-top: 7%; }
-  .gc.back-side .panel-back {
-    position: relative; z-index: 1; margin: 6% 6% 0; background: #fff; color: #000; border-radius: 8px;
-    padding: 10px 12px; text-align: center;
-  }
-  .gc.back-side .panel-back svg { width: 100%; height: 54px; display: block; }
-  .gc.back-side .panel-back .mono { font-size: 13px; margin-top: 4px; letter-spacing: 1px; }
-  .gc.back-side .back-note { position: relative; z-index: 1; font-size: 11px; opacity: .7; margin: auto 6% 5%; }
-  .flip-hint { text-align: center; font-size: 12px; color: var(--muted); margin-top: 8px; }
-
-  /* Color picker */
-  .swatches { display: flex; flex-wrap: wrap; gap: 8px; }
-  .swatch {
-    width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer;
-    box-shadow: inset 0 0 0 2px var(--surface); padding: 0;
-  }
-  .swatch.on { border-color: var(--ink); }
-  .swatch.auto { background: conic-gradient(#e5484d, #e8833a, #d4b44a, #2bb3a3, #4f7cff, #9b5de5, #e5484d); }
-
-  /* Expiration alerts */
-  .alert {
-    margin: 16px 0 0; padding: 14px; border-radius: 16px;
-    background: #fdecec; color: #8c1d18; border: 1px solid #f5c2c0;
-  }
-  @media (prefers-color-scheme: dark) { .alert { background: #3a1716; color: #ffb4ae; border-color: #5c2523; } }
-  .alert-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 6px; }
-  .alert-head b { font-size: 16px; }
-  .alert-item {
-    display: flex; justify-content: space-between; gap: 10px; width: 100%; padding: 9px 0; border: 0;
-    border-top: 1px solid currentColor; border-top-color: rgba(140,29,24,.15); background: none; cursor: pointer; text-align: left; font-size: 14px;
-  }
-  .alert-item span:first-child { font-weight: 650; }
-  .tile .caption.urgent { color: #e5484d; font-weight: 700; }
-  .use-it {
-    background: #e5484d; color: #fff; border-radius: 12px; padding: 11px 14px; margin-bottom: 14px;
-    font-size: 14px; font-weight: 600;
-  }
-  .gc.big { border-radius: 20px; padding: 20px; max-width: 400px; margin: 0 auto; }
-  .gc.big .gc-name { font-size: 20px; }
-  .gc.big .gc-bal { font-size: 32px; }
-  .gc.big .gc-num { font-size: 15px; }
-  .gc.big .gc-label { font-size: 11px; }
-  .gc.big .emv { width: 44px; height: 32px; }
-
-  /* Card network marks */
-  .net { flex: none; font-weight: 800; line-height: 1; }
-  .net.visa { font-style: italic; font-size: 17px; letter-spacing: -.5px; }
-  .net.amex { font-size: 10px; padding: 3px 4px; border: 1.5px solid #fff; border-radius: 3px; letter-spacing: .5px; }
-  .net.discover { font-size: 11px; letter-spacing: .5px; }
-  .net.discover b { color: #ff8a2b; }
-  .net.mc { display: flex; }
-  .net.mc i { width: 18px; height: 18px; border-radius: 50%; display: block; }
-  .net.mc i:first-child { background: #eb001b; }
-  .net.mc i:last-child { background: #f79e1b; margin-left: -7px; mix-blend-mode: screen; opacity: .95; }
-  .gc.big .net.visa { font-size: 26px; }
-  .gc.big .net.mc i { width: 28px; height: 28px; }
-  .gc.big .net.mc i:last-child { margin-left: -11px; }
-  .gc.big .net.amex, .gc.big .net.discover { font-size: 14px; }
-
-  .empty-state { text-align: center; color: var(--muted); padding: 50px 10px; }
-  .empty-state .big-emoji { font-size: 48px; margin-bottom: 8px; }
-
-  .fab {
-    position: fixed; bottom: calc(22px + env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%);
-    padding: 15px 26px; border-radius: 999px; border: 0; background: var(--accent); color: #fff;
-    font-size: 16px; font-weight: 650; cursor: pointer; box-shadow: 0 8px 24px rgba(0,0,0,.25);
-    display: flex; align-items: center; gap: 8px; z-index: 5;
-  }
-  .fab span { font-size: 22px; line-height: 0; }
-
-  /* Sheets (modals) */
-  .overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,.45);
-    display: none; align-items: flex-end; justify-content: center; z-index: 10;
-  }
-  .overlay.open { display: flex; animation: fade .15s; }
-  .overlay.open .sheet { animation: rise .2s ease-out; }
-  @keyframes fade { from { opacity: 0; } }
-  @keyframes rise { from { transform: translateY(30px); opacity: 0; } }
-  .sheet {
-    background: var(--surface); width: 100%; max-width: 540px; max-height: 94vh; overflow: auto;
-    border-radius: 22px 22px 0 0; padding: 10px 18px calc(24px + env(safe-area-inset-bottom));
-  }
-  .sheet::before { content: ""; display: block; width: 38px; height: 5px; border-radius: 9px; background: var(--line); margin: 0 auto 12px; }
-  @media (min-width: 600px) {
-    .overlay { align-items: center; }
-    .sheet { border-radius: 22px; padding-top: 22px; }
-    .sheet::before { display: none; }
-  }
-  .sheet-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-  .sheet h2 { margin: 0; font-size: 20px; }
-  .x { width: 32px; height: 32px; border-radius: 50%; border: 0; background: var(--surface-2); cursor: pointer; font-size: 16px; }
-
-  label { display: block; font-size: 13px; font-weight: 550; color: var(--muted); margin: 14px 0 5px; }
-  input, textarea {
-    width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 11px;
-    font: inherit; background: var(--surface-2); color: var(--ink);
-  }
-  input:focus, textarea:focus, select:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
-  textarea { resize: vertical; min-height: 60px; }
-  .hint { font-size: 12.5px; color: var(--muted); margin-top: 5px; }
-  .hint.bad { color: var(--warn); }
-  .row { display: flex; gap: 10px; }
-  .row > div { flex: 1; min-width: 0; }
-  .input-row { display: flex; gap: 8px; }
-  .input-row input { flex: 1; min-width: 0; }
-  .input-row .btn { flex: none; padding: 0 14px; }
-  .mono { font-family: ui-monospace, Menlo, monospace; }
-
-  .actions { display: flex; gap: 10px; margin-top: 20px; }
-  .btn {
-    flex: 1; padding: 13px; border-radius: 12px; border: 1px solid var(--line);
-    background: var(--surface); font-weight: 600; cursor: pointer;
-  }
-  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .btn.danger { color: var(--danger); }
-
-  .seg { display: flex; padding: 3px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; }
-  .seg button { flex: 1; padding: 9px 6px; border: 0; border-radius: 9px; background: none; cursor: pointer; font-size: 14px; font-weight: 550; }
-  .seg button.on { background: var(--surface); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
-
-  .preview { margin: 16px auto 4px; max-width: 280px; }
-
-  /* Store picker */
-  .brands { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; max-height: 128px; overflow: auto; }
-  .brand {
-    display: flex; align-items: center; gap: 6px; padding: 6px 10px; border-radius: 99px;
-    border: 1px solid var(--line); background: var(--surface); font-size: 13px; cursor: pointer;
-  }
-  .brand i { width: 10px; height: 10px; border-radius: 50%; }
-  .brand.on { border-color: var(--ink); background: var(--ink); color: var(--bg); }
-
-  /* Detail */
-  .progress { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; margin: 18px 0 6px; }
-  .progress span { display: block; height: 100%; background: var(--accent); border-radius: 99px; }
-  .progress-text { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
-  .quick { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 8px; margin: 16px 0 8px; }
-  .quick .btn { padding: 12px 6px; }
-  .section-title { font-size: 12px; font-weight: 650; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin: 22px 0 8px; }
-  .panel { background: var(--surface-2); border-radius: 14px; padding: 2px 14px; }
-  .field { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--line); }
-  .field:last-child { border-bottom: 0; }
-  .field > span:first-child { color: var(--muted); font-size: 14px; flex: none; }
-  .field .val { display: flex; align-items: center; gap: 6px; text-align: right; min-width: 0; overflow-wrap: anywhere; }
-  .mini { border: 1px solid var(--line); background: var(--surface); border-radius: 8px; padding: 4px 9px; font-size: 12.5px; cursor: pointer; flex: none; }
-  .pill { display: inline-block; padding: 2px 8px; border-radius: 99px; font-size: 12.5px; font-weight: 600; background: var(--warn-soft); color: var(--warn); }
-  .barcode-box { background: #fff; color: #000; border-radius: 14px; padding: 16px 16px 12px; text-align: center; }
-  .barcode-box svg { width: 100%; height: 84px; display: block; }
-  .barcode-box .num { font-family: ui-monospace, Menlo, monospace; letter-spacing: 1.5px; margin-top: 8px; font-size: 15px; }
-  .timeline { padding: 4px 0; }
-  .timeline div { display: flex; justify-content: space-between; padding: 9px 0; font-size: 14px; border-bottom: 1px solid var(--line); }
-  .timeline div:last-child { border-bottom: 0; }
-  .timeline small { color: var(--muted); }
-
-  /* Scanner */
-  #scanOverlay { z-index: 20; }
-  .scanner { position: relative; background: #000; border-radius: 14px; overflow: hidden; aspect-ratio: 4 / 3; }
-  .scanner video { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .scanner canvas { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .scanner .flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
-  .scanner .flash.go { animation: flash .35s ease-out; }
-  @keyframes flash { from { opacity: .9; } }
-  .scan-top { width: 100%; margin-top: 12px; border-style: dashed; color: var(--accent); }
-  .scanner .guide {
-    position: absolute; left: 10%; right: 10%; top: 50%; transform: translateY(-50%); aspect-ratio: 1.586;
-    border: 3px solid rgba(255,255,255,.9); border-radius: 10px; box-shadow: 0 0 0 999px rgba(0,0,0,.35);
-  }
-  .scan-status { text-align: center; color: var(--muted); font-size: 14px; margin: 10px 0 0; min-height: 20px; }
-  .found { background: var(--surface-2); border-radius: 14px; padding: 4px 14px; margin-top: 12px; }
-  .found div { display: flex; justify-content: space-between; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
-  .found div:last-child { border-bottom: 0; }
-  .found .k { color: var(--muted); flex: none; }
-  .found .v { font-weight: 600; text-align: right; overflow-wrap: anywhere; }
-  .found .miss { color: var(--muted); font-weight: 400; font-style: italic; }
-  .check-link { display: block; text-align: center; margin-top: 10px; font-size: 14px; color: var(--accent); font-weight: 600; text-decoration: none; }
-
-  .toast {
-    position: fixed; left: 50%; bottom: 100px; transform: translate(-50%, 20px); opacity: 0;
-    background: var(--ink); color: var(--bg); padding: 10px 18px; border-radius: 99px; font-size: 14px;
-    transition: .2s; z-index: 30; pointer-events: none; white-space: nowrap;
-  }
-  .toast.show { opacity: 1; transform: translate(-50%, 0); }
-
-  /* Header profile button */
-  .me-btn {
-    display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); background: var(--surface);
-    border-radius: 99px; padding: 4px 12px 4px 4px; cursor: pointer; font-size: 14px; font-weight: 600;
-  }
-  .avatar {
-    --av: #888; width: 32px; height: 32px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
-    font-size: 18px; line-height: 1; background: color-mix(in srgb, var(--av) 25%, var(--surface)); border: 2px solid var(--av);
-  }
-  .avatar.sm { width: 22px; height: 22px; font-size: 12px; border-width: 1.5px; }
-  .avatar.lg { width: 52px; height: 52px; font-size: 28px; }
-  .avatar.xl { width: 84px; height: 84px; font-size: 46px; border-width: 3px; }
-
-  /* Pages & tab bar */
-  .page-title { font-size: 28px; font-weight: 750; letter-spacing: -.4px; margin: 20px 0 2px; }
-  .page-sub { color: var(--muted); margin: 0 0 14px; font-size: 15px; }
-  .scope { margin: 16px 0 0; }
-  .scope .chip-btn { display: flex; align-items: center; gap: 6px; padding-left: 6px; }
-  .scope .chip-btn.all { padding-left: 14px; }
-  .tabbar {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 6; display: flex; justify-content: center;
-    background: color-mix(in srgb, var(--surface) 90%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid var(--line); padding: 4px 8px calc(4px + env(safe-area-inset-bottom));
-  }
-  .tabbar .inner { display: flex; align-items: center; width: 100%; max-width: 560px; }
-  .tab {
-    flex: 1; border: 0; background: none; cursor: pointer; padding: 7px 0; font-size: 11px; color: var(--muted);
-    display: flex; flex-direction: column; align-items: center; gap: 2px;
-  }
-  .tab .ic { font-size: 22px; filter: grayscale(1); opacity: .65; transition: .15s; }
-  .tab.on { color: var(--accent); font-weight: 700; }
-  .tab.on .ic { filter: none; opacity: 1; transform: translateY(-1px); }
-  .tab-add {
-    flex: none; width: 58px; height: 58px; margin: -28px 8px 0; border-radius: 50%; border: 4px solid var(--bg);
-    background: var(--accent); color: #fff; font-size: 30px; line-height: 1; cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.25);
-  }
-  .owner-tag { color: var(--ink); font-weight: 600; }
-
-  /* Lists used on Family / Activity / Settings */
-  .list-panel { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 2px 14px; }
-  .member {
-    display: flex; align-items: center; gap: 14px; width: 100%; padding: 14px; margin-bottom: 10px; text-align: left; cursor: pointer;
-    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
-  }
-  .member .info { flex: 1; min-width: 0; }
-  .member .name { font-weight: 700; font-size: 17px; }
-  .member .meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
-  .member .meta .warn { color: var(--warn); font-weight: 600; }
-  .member .amt { font-weight: 750; font-size: 19px; text-align: right; }
-  .member .edit { border: 1px solid var(--line); background: var(--surface-2); border-radius: 10px; width: 34px; height: 34px; cursor: pointer; flex: none; }
-  .role-tag {
-    display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-left: 6px; vertical-align: 2px;
-    background: var(--accent-soft); color: var(--accent);
-  }
-  .role-tag.kid { background: color-mix(in srgb, #9b5de5 18%, var(--surface)); color: #8a4fd6; }
-  .add-row { width: 100%; padding: 14px; border: 2px dashed var(--line); border-radius: var(--radius); background: none; cursor: pointer; font-weight: 650; color: var(--accent); }
-  .note-box { background: var(--accent-soft); border-radius: 14px; padding: 12px 14px; font-size: 13.5px; margin-top: 16px; line-height: 1.5; }
-
-  .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0 4px; }
-  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px; }
-  .stat .k { font-size: 13px; color: var(--muted); }
-  .stat .v { font-size: 24px; font-weight: 750; letter-spacing: -.3px; margin-top: 2px; }
-  .bar-row { display: flex; align-items: center; gap: 10px; padding: 9px 0; font-size: 14px; }
-  .bar-row .lbl { width: 110px; flex: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 550; }
-  .bar-row .track { flex: 1; height: 10px; background: var(--surface-2); border-radius: 99px; overflow: hidden; }
-  .bar-row .fill { height: 100%; border-radius: 99px; }
-  .bar-row .num { width: 72px; text-align: right; font-weight: 650; flex: none; }
-  .day-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: var(--muted); margin: 18px 0 4px; }
-  .event {
-    display: flex; align-items: center; gap: 12px; width: 100%; padding: 11px 0; cursor: pointer; text-align: left;
-    background: none; border: 0; border-bottom: 1px solid var(--line);
-  }
-  .event:last-child { border-bottom: 0; }
-  .event .dot { width: 38px; height: 38px; border-radius: 11px; flex: none; display: grid; place-items: center; color: #fff; font-weight: 750; }
-  .event .info { flex: 1; min-width: 0; }
-  .event .t { font-weight: 650; }
-  .event .s { font-size: 13px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .event .amt { font-weight: 750; flex: none; }
-  .amt.neg { color: var(--danger); }
-  .amt.pos { color: var(--accent); }
-
-  .setting {
-    display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; padding: 14px 0; cursor: pointer;
-    background: none; border: 0; border-bottom: 1px solid var(--line); text-align: left; font-size: 15px;
-  }
-  .setting:last-child { border-bottom: 0; }
-  .setting .lead { display: flex; align-items: center; gap: 12px; min-width: 0; }
-  .setting .sub { display: block; font-size: 12.5px; color: var(--muted); margin-top: 2px; }
-  .setting .go { color: var(--muted); font-size: 20px; }
-  .setting.danger { color: var(--danger); font-weight: 600; }
-  .setting.static { cursor: default; }
-
-  /* Who's using / member form */
-  #whoOverlay { z-index: 15; }
-  .who { text-align: center; }
-  .who h2 { margin-bottom: 6px; }
-  .who-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 10px; margin: 16px 0 6px; }
-  .who-btn {
-    border: 0; background: none; cursor: pointer; padding: 10px 4px; border-radius: 16px;
-    display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 650;
-  }
-  .who-btn:hover { background: var(--surface-2); }
-  .who-btn small { font-weight: 500; color: var(--muted); font-size: 12px; margin-top: -6px; }
-  .who-btn.on .avatar { outline: 3px solid var(--accent); outline-offset: 3px; }
-  .pin-input { font-size: 30px; letter-spacing: 14px; text-align: center; max-width: 210px; margin: 8px auto 0; display: block; }
-  .member-preview { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 4px 0 6px; font-weight: 700; font-size: 17px; }
-  .emoji-grid { display: flex; flex-wrap: wrap; gap: 6px; }
-  .emoji-opt { width: 44px; height: 44px; border-radius: 12px; border: 2px solid transparent; background: var(--surface-2); font-size: 23px; cursor: pointer; }
-  .emoji-opt.on { border-color: var(--accent); background: var(--accent-soft); }
-  .owner-row { display: flex; gap: 8px; flex-wrap: wrap; }
-  .owner-opt {
-    display: flex; align-items: center; gap: 6px; padding: 4px 12px 4px 4px; border-radius: 99px; cursor: pointer; font-size: 14px;
-    border: 1px solid var(--line); background: var(--surface);
-  }
-  .owner-opt.on { border-color: var(--accent); background: var(--accent-soft); font-weight: 650; }
-
-  /* =====================================================================
-     NEON GLASS THEME — aurora background, frosted glass, holo cards
-     ===================================================================== */
   :root {
     color-scheme: dark;
     --bg: #08070f;
-    --surface: rgba(255,255,255,.055);
-    --surface-2: rgba(255,255,255,.085);
     --ink: #f6f4ff;
     --muted: #a39fbb;
     --line: rgba(255,255,255,.11);
-    --accent: #9b7bff;
-    --accent-soft: rgba(139,108,255,.18);
-    --warn: #ffbe5c;
-    --warn-soft: rgba(255,190,92,.15);
-    --danger: #ff5f7a;
-    --hero: transparent;
+    --surface: rgba(255,255,255,.055);
     --grad: linear-gradient(120deg, #7c5cff 0%, #d14dff 45%, #ff7a59 100%);
-    --glass: blur(20px) saturate(150%);
-    --shadow: 0 10px 30px rgba(0,0,0,.35);
-    --round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, sans-serif;
+    --gold: linear-gradient(120deg, #ffe08a, #ffb84d 50%, #ff8a5c);
+    --round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
-  body { background: var(--bg); }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; overflow-x: hidden; }
   body::before {
-    content: ""; position: fixed; inset: -20%; z-index: -2; pointer-events: none;
+    content: ""; position: fixed; inset: -20%; z-index: -1; pointer-events: none;
     background:
-      radial-gradient(32% 28% at 18% 18%, rgba(124,92,255,.55), transparent 70%),
-      radial-gradient(28% 28% at 88% 12%, rgba(255,77,216,.35), transparent 70%),
-      radial-gradient(38% 32% at 72% 88%, rgba(255,140,80,.28), transparent 70%),
-      radial-gradient(34% 34% at 8% 92%, rgba(40,200,255,.25), transparent 70%);
-    filter: blur(30px); animation: aurora 26s ease-in-out infinite alternate;
+      radial-gradient(40% 35% at 15% 10%, rgba(124,92,255,.35), transparent 70%),
+      radial-gradient(35% 30% at 90% 20%, rgba(209,77,255,.25), transparent 70%),
+      radial-gradient(40% 35% at 70% 90%, rgba(255,122,89,.18), transparent 70%);
   }
-  body::after {
-    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .07;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-  @keyframes aurora {
-    50%  { transform: translate(4%, -3%) rotate(8deg) scale(1.08); }
-    100% { transform: translate(-3%, 4%) rotate(-6deg) scale(1.02); }
-  }
-  .app { padding-bottom: 140px; }
+  a { color: inherit; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 22px; }
+  h1, h2, h3 { font-family: var(--round); letter-spacing: -.02em; margin: 0; }
+  .grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
 
-  /* Glass surfaces */
-  .hero, .list-panel, .member, .stat, .search, select, .chip-btn, .me-btn, .panel, .found, .brand,
-  .owner-opt, .btn:not(.primary):not(.danger), .seg, .mini, .x, .edit, input, textarea {
-    background-color: var(--surface);
-    -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass);
-    border-color: var(--line);
-  }
-  input, textarea { background-color: rgba(255,255,255,.06); }
-  .btn.danger { background: rgba(255,95,122,.1); border-color: rgba(255,95,122,.3); }
-
-  /* Header */
-  .logo { font-family: var(--round); font-size: 22px; font-weight: 800; }
-  .logo .mark { background: none; border-radius: 10px; box-shadow: 0 6px 22px rgba(209,77,255,.55); animation: bob 4s ease-in-out infinite; }
-  .logo-text { background: linear-gradient(90deg, #fff, #d9ccff 50%, #ffc6e9); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  @keyframes bob { 50% { transform: translateY(-3px) rotate(-6deg); } }
-  .me-btn { transition: transform .15s; }
-  .me-btn:hover { transform: translateY(-1px); }
-  .avatar { box-shadow: 0 0 18px color-mix(in srgb, var(--av) 45%, transparent); }
+  /* Nav */
+  nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%);
+    background: rgba(8,7,15,.6); border-bottom: 1px solid var(--line); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 66px; }
+  .brand { display: flex; align-items: center; gap: 10px; font: 800 20px var(--round); text-decoration: none; }
+  .brand img { width: 34px; height: 34px; border-radius: 10px; }
+  .nav-links { display: flex; align-items: center; gap: 26px; font-size: 15px; }
+  .nav-links a { text-decoration: none; color: var(--muted); }
+  .nav-links a:hover { color: var(--ink); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 22px; border-radius: 99px;
+    font: 750 16px var(--round); text-decoration: none; border: 0; cursor: pointer; transition: transform .15s, filter .2s; }
+  .btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
+  .btn.primary { background: var(--grad); color: #fff; box-shadow: 0 12px 30px rgba(209,77,255,.4); }
+  .btn.ghost { background: var(--surface); border: 1px solid var(--line); color: var(--ink); }
+  .btn.gold { background: var(--gold); color: #2a1a00; box-shadow: 0 12px 30px rgba(255,160,60,.4); }
+  .btn.sm { padding: 9px 16px; font-size: 14.5px; }
+  @media (max-width: 720px) { .nav-links a:not(.btn) { display: none; } }
 
   /* Hero */
-  .hero {
-    position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: 28px; padding: 24px;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.14), 0 24px 60px rgba(0,0,0,.4);
+  .hero { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding: 70px 0 40px; }
+  .eyebrow { display: inline-block; padding: 6px 14px; border-radius: 99px; background: rgba(155,123,255,.14); border: 1px solid rgba(155,123,255,.3);
+    color: #d9ccff; font-size: 13.5px; font-weight: 650; margin-bottom: 18px; }
+  .hero h1 { font-size: clamp(42px, 6.4vw, 74px); line-height: 1.02; font-weight: 850; }
+  .hero p { color: var(--muted); font-size: 19px; max-width: 520px; margin: 20px 0 30px; }
+  .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .trust { margin-top: 22px; color: var(--muted); font-size: 14px; }
+  .phones { position: relative; height: 600px; }
+  .phone { position: absolute; width: 270px; border-radius: 38px; padding: 9px; background: #15121f; border: 1px solid rgba(255,255,255,.14);
+    box-shadow: 0 40px 80px rgba(0,0,0,.6), 0 0 80px rgba(209,77,255,.18); }
+  .phone img { display: block; width: 100%; border-radius: 30px; }
+  .phone.one { left: 0; top: 30px; transform: rotate(-6deg); z-index: 2; animation: float 6s ease-in-out infinite; }
+  .phone.two { right: 0; top: 0; transform: rotate(5deg); animation: float 6s ease-in-out -3s infinite; }
+  @keyframes float { 50% { translate: 0 -12px; } }
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; text-align: center; padding-top: 44px; }
+    .hero p { margin-left: auto; margin-right: auto; }
+    .cta { justify-content: center; }
+    .phones { height: 470px; max-width: 420px; margin: 0 auto; width: 100%; }
+    .phone { width: 210px; }
   }
-  .hero::after {
-    content: ""; position: absolute; width: 280px; height: 280px; right: -90px; top: -120px; border-radius: 50%;
-    background: var(--grad); filter: blur(70px); opacity: .45; pointer-events: none; animation: drift 9s ease-in-out infinite alternate;
-  }
-  @keyframes drift { to { transform: translate(-40px, 30px) scale(1.15); } }
-  .hero > * { position: relative; z-index: 1; }
-  .hero .label { text-transform: uppercase; letter-spacing: 1.6px; font-size: 12px; font-weight: 700; opacity: .75; }
-  .hero .amount {
-    font-family: var(--round); font-weight: 800; font-size: clamp(34px, 9vw, 54px); letter-spacing: -1px; margin: 4px 0 6px;
-    background: linear-gradient(180deg, #ffffff 30%, #cbbcff); -webkit-background-clip: text; background-clip: text; color: transparent;
-    font-variant-numeric: tabular-nums;
-  }
-  .hero.has-stack .label, .hero.has-stack .amount, .hero.has-stack .stats { padding-right: 150px; }
-  .breakdown { height: 10px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.06); }
-  .breakdown span { box-shadow: 0 0 12px currentColor; }
-  .hero-stack { position: absolute; right: 16px; top: 18px; width: 120px; height: 120px; pointer-events: none; z-index: 1; }
-  .hero-stack .slot {
-    position: absolute; right: 0; top: 0; width: 200px; transform-origin: top right;
-    transform: scale(.56) translate(var(--x), var(--y)) rotate(var(--r));
-  }
-  .hero-stack .gc { animation: float 5s ease-in-out infinite; animation-delay: var(--d); box-shadow: 0 16px 30px rgba(0,0,0,.5); }
-  .hero-stack .gc-from, .hero-stack .gc-exp { display: none; }
-  @keyframes float { 50% { transform: translateY(-10px) rotate(1.5deg); } }
 
-  /* Chips, segmented controls, buttons */
-  .chip-btn { transition: transform .15s, box-shadow .2s; }
-  .chip-btn:hover { transform: translateY(-1px); }
-  .chip-btn.on { background: var(--grad); color: #fff; border-color: transparent; box-shadow: inset 0 1px 0 rgba(255,255,255,.35); }
-  .seg button.on { background: rgba(255,255,255,.16); box-shadow: 0 2px 10px rgba(0,0,0,.3); }
-  .btn { transition: transform .15s, box-shadow .2s, filter .2s; }
-  .btn:hover { transform: translateY(-1px); }
-  .btn:active, .tab-add:active, .tile:active { transform: scale(.97); }
-  .btn.primary { background: var(--grad); border: 0; color: #fff; box-shadow: 0 10px 26px rgba(209,77,255,.38); }
-  .btn.primary:hover { filter: brightness(1.1); }
-  .add-row { border-color: rgba(155,123,255,.4); color: #c9b8ff; background: rgba(155,123,255,.06); }
+  /* Sections */
+  section { padding: 70px 0; }
+  .section-head { text-align: center; max-width: 640px; margin: 0 auto 44px; }
+  .section-head h2 { font-size: clamp(32px, 4.4vw, 46px); font-weight: 850; }
+  .section-head p { color: var(--muted); font-size: 18px; margin: 12px 0 0; }
 
-  /* Gift cards: 3D tilt, glare that follows the pointer, holographic foil */
-  .gc { transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .3s; }
-  .gc::after { background: radial-gradient(circle at var(--mx, 100%) var(--my, 0%), rgba(255,255,255,.38), transparent 55%); }
-  .gc .holo {
-    position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: color-dodge; opacity: 0; transition: opacity .3s;
-    background: linear-gradient(115deg, transparent 20%, rgba(255,0,170,.55) 34%, rgba(0,255,255,.55) 44%, rgba(255,255,0,.5) 54%, transparent 68%);
-    background-size: 260% 260%; background-position: var(--hx, 50%) var(--hy, 50%);
-  }
-  .tile:hover .holo, .flip:hover .holo { opacity: .5; }
-  .gc.big .holo { opacity: .22; }
-  .tile .gc { box-shadow: 0 10px 26px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.18); }
-  .tile:hover .gc {
-    transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-5px) scale(1.03);
-    box-shadow: 0 22px 44px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.12), 0 0 40px color-mix(in srgb, var(--c) 45%, transparent);
-  }
-  .tilting .gc, .flip.tilting { transition-duration: .08s; }
-  .flip { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: transform .45s cubic-bezier(.2,.8,.2,1); }
-  .flip .gc { transform: none; }
-  .gc.big { box-shadow: 0 30px 60px rgba(0,0,0,.55), 0 0 60px color-mix(in srgb, var(--c) 40%, transparent); }
-  .tile.enter { animation: tileIn .6s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 45ms); }
-  @keyframes tileIn { from { opacity: 0; transform: translateY(22px) scale(.94); } }
-  .tile .caption { color: var(--muted); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .stat { text-align: center; padding: 26px 18px; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); }
+  .stat b { display: block; font: 850 40px var(--round); }
+  .stat span { color: var(--muted); font-size: 15px; }
+  @media (max-width: 720px) { .stats { grid-template-columns: 1fr; } }
 
-  /* Pages */
-  .page.enter { animation: pageIn .45s cubic-bezier(.2,.8,.2,1); }
-  @keyframes pageIn { from { opacity: 0; transform: translateY(14px); } }
-  .page-title {
-    font-family: var(--round); font-size: 36px; font-weight: 800;
-    background: linear-gradient(90deg, #fff, #d9ccff 60%, #ffc6e9); -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .member { transition: transform .2s, box-shadow .2s; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-  .member:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(0,0,0,.4), 0 0 0 1px rgba(155,123,255,.25); }
-  .member .amt, .stat .v {
-    font-family: var(--round);
-    background: linear-gradient(180deg, #fff, #cbbcff); -webkit-background-clip: text; background-clip: text; color: transparent;
-  }
-  .stat { position: relative; overflow: hidden; }
-  .stat::after { content: ""; position: absolute; width: 90px; height: 90px; right: -30px; top: -30px; border-radius: 50%; background: var(--grad); filter: blur(30px); opacity: .3; }
-  .role-tag.kid { background: rgba(155,93,229,.2); color: #c9a6ff; }
-  .event .dot { box-shadow: 0 6px 16px rgba(0,0,0,.35); }
-  .bar-row .fill { box-shadow: 0 0 14px rgba(255,255,255,.15); }
-  .note-box { background: linear-gradient(135deg, rgba(124,92,255,.16), rgba(255,122,89,.1)); border: 1px solid var(--line); }
+  .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .feature { padding: 26px; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); transition: transform .2s, border-color .2s; }
+  .feature:hover { transform: translateY(-4px); border-color: rgba(209,77,255,.4); }
+  .feature .ic { font-size: 30px; width: 56px; height: 56px; display: grid; place-items: center; border-radius: 16px; margin-bottom: 14px;
+    background: linear-gradient(135deg, rgba(124,92,255,.25), rgba(255,122,89,.15)); }
+  .feature h3 { font-size: 20px; margin-bottom: 6px; }
+  .feature p { color: var(--muted); margin: 0; font-size: 15px; }
+  @media (max-width: 900px) { .features { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .features { grid-template-columns: 1fr; } }
 
-  /* Alerts */
-  .alert {
-    background: linear-gradient(135deg, rgba(255,77,109,.2), rgba(255,140,80,.12)); color: #ffd3da;
-    border: 1px solid rgba(255,95,122,.4); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass);
-    box-shadow: 0 0 30px rgba(255,77,109,.18);
-  }
-  .alert-item { border-top-color: rgba(255,180,190,.15); }
-  .use-it { background: linear-gradient(120deg, #ff4d6d, #ff7a59); box-shadow: 0 10px 30px rgba(255,77,109,.35); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+  .split h2 { font-size: clamp(30px, 4vw, 42px); font-weight: 850; margin-bottom: 14px; }
+  .split p { color: var(--muted); font-size: 17px; }
+  .split ul { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; }
+  .split li { display: flex; gap: 12px; align-items: flex-start; }
+  .split li::before { content: "✓"; flex: none; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 800; background: var(--grad); color: #fff; }
+  .split .phone { position: relative; margin: 0 auto; width: 290px; transform: rotate(3deg); }
+  .split.flip .phone { transform: rotate(-3deg); }
+  @media (max-width: 900px) { .split { grid-template-columns: 1fr; } .split.flip > :first-child { order: 2; } }
 
-  /* Floating glass tab bar */
-  .tabbar {
-    left: 50%; right: auto; transform: translateX(-50%); bottom: calc(12px + env(safe-area-inset-bottom));
-    width: min(520px, calc(100% - 24px)); padding: 4px 6px; border-radius: 30px;
-    border: 1px solid var(--line); background: rgba(22,19,36,.62);
-    -webkit-backdrop-filter: blur(26px) saturate(170%); backdrop-filter: blur(26px) saturate(170%);
-    box-shadow: 0 20px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.1);
-  }
-  .tab { position: relative; }
-  .tab.on { color: #fff; }
-  .tab.on .ic { filter: drop-shadow(0 0 10px rgba(180,120,255,.95)); }
-  .tab.on::after { content: ""; position: absolute; bottom: 1px; width: 18px; height: 3px; border-radius: 9px; background: var(--grad); box-shadow: 0 0 10px #d14dff; }
-  .tab-add {
-    background: var(--grad); border: 4px solid #0d0b16; margin-top: -30px; transition: transform .25s cubic-bezier(.2,.8,.2,1.4);
-    box-shadow: 0 10px 30px rgba(209,77,255,.55); animation: glow 2.8s ease-out infinite;
-  }
-  .tab-add:hover { transform: rotate(90deg) scale(1.06); }
-  @keyframes glow {
-    0%   { box-shadow: 0 0 0 0 rgba(209,77,255,.55), 0 10px 30px rgba(209,77,255,.55); }
-    70%  { box-shadow: 0 0 0 16px rgba(209,77,255,0), 0 10px 30px rgba(209,77,255,.55); }
-    100% { box-shadow: 0 0 0 0 rgba(209,77,255,0), 0 10px 30px rgba(209,77,255,.55); }
-  }
-  .toast { bottom: 110px; background: rgba(30,26,48,.85); color: #fff; border: 1px solid var(--line); -webkit-backdrop-filter: var(--glass); backdrop-filter: var(--glass); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: step; }
+  .step { padding: 26px; border-radius: 24px; background: var(--surface); border: 1px solid var(--line); }
+  .step::before { counter-increment: step; content: counter(step); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+    background: var(--grad); font: 850 18px var(--round); margin-bottom: 14px; }
+  .step h3 { font-size: 19px; margin-bottom: 6px; }
+  .step p { margin: 0; color: var(--muted); font-size: 15px; }
+  @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } }
 
-  /* Sheets */
-  .overlay { background: rgba(5,4,12,.55); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
-  .sheet {
-    background: rgba(22,19,36,.86); -webkit-backdrop-filter: blur(30px) saturate(150%); backdrop-filter: blur(30px) saturate(150%);
-    border: 1px solid var(--line); border-bottom: 0; box-shadow: 0 -20px 60px rgba(0,0,0,.55);
-  }
-  .sheet::before { background: rgba(255,255,255,.25); }
-  .overlay.open .sheet { animation: rise .42s cubic-bezier(.2,.9,.25,1.12); }
-  .sheet h2 { font-family: var(--round); font-weight: 800; }
-  .who h2 { font-size: 26px; background: linear-gradient(90deg, #fff, #d9ccff); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .who-btn .avatar { transition: transform .25s cubic-bezier(.2,.8,.2,1.4); }
-  .who-btn:hover .avatar { transform: scale(1.08) translateY(-3px); }
+  /* Pricing */
+  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 820px; margin: 0 auto; }
+  .plan { padding: 30px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; }
+  .plan.pro { position: relative; border: 1px solid rgba(255,200,90,.45); background: linear-gradient(160deg, rgba(255,200,90,.12), rgba(255,255,255,.03));
+    box-shadow: 0 30px 70px rgba(255,160,60,.15); }
+  .plan.pro::before { content: "MOST POPULAR"; position: absolute; top: -13px; left: 50%; translate: -50% 0; padding: 5px 12px; border-radius: 99px;
+    background: var(--gold); color: #2a1a00; font: 800 11.5px var(--round); letter-spacing: .08em; }
+  .plan h3 { font-size: 22px; }
+  .plan .price { font: 850 50px var(--round); margin: 10px 0 2px; letter-spacing: -1.5px; }
+  .plan .price small { font-size: 17px; color: var(--muted); font-weight: 600; letter-spacing: 0; }
+  .plan .for { color: var(--muted); font-size: 15px; margin-bottom: 20px; }
+  .plan ul { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 11px; flex: 1; }
+  .plan li { display: flex; gap: 10px; font-size: 15.5px; }
+  .plan li::before { content: "✓"; color: #9b7bff; font-weight: 900; }
+  .plan.pro li::before { color: #ffd27a; }
+  .plan li.off { color: var(--muted); opacity: .6; }
+  .plan li.off::before { content: "—"; color: var(--muted); }
+  @media (max-width: 720px) { .plans { grid-template-columns: 1fr; } }
 
-  /* Confetti */
-  .confetti { position: fixed; left: 50%; top: 58%; width: 8px; height: 14px; border-radius: 2px; z-index: 40; pointer-events: none; }
+  /* FAQ */
+  .faq { max-width: 760px; margin: 0 auto; display: grid; gap: 10px; }
+  details { border-radius: 18px; background: var(--surface); border: 1px solid var(--line); padding: 18px 22px; }
+  summary { cursor: pointer; font: 700 17px var(--round); list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  summary::after { content: "+"; font-size: 22px; line-height: 1; color: var(--muted); transition: rotate .2s; }
+  details[open] summary::after { rotate: 45deg; }
+  details p { color: var(--muted); margin: 12px 0 0; }
 
-  /* Premium */
-  .header-right { display: flex; align-items: center; gap: 8px; }
-  .pro-btn {
-    border: 0; border-radius: 99px; padding: 7px 12px; cursor: pointer; font: 800 13px var(--round); color: #2a1a00;
-    background: linear-gradient(120deg, #ffe08a, #ffb84d 50%, #ff8a5c); box-shadow: 0 6px 20px rgba(255,170,70,.4);
-  }
-  .pro-btn.on { background: rgba(255,200,90,.14); color: #ffd27a; box-shadow: none; border: 1px solid rgba(255,200,90,.35); }
-  .lock { font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: 6px; vertical-align: 1px;
-    background: linear-gradient(120deg, #ffe08a, #ffb84d); color: #2a1a00; }
-  .premium { text-align: center; position: relative; overflow: hidden; }
-  .premium::before {
-    content: ""; position: absolute; inset: -40% -20% auto; height: 260px; pointer-events: none;
-    background: radial-gradient(closest-side, rgba(255,190,80,.35), transparent);
-  }
-  .premium > * { position: relative; }
-  .premium .x { position: absolute; top: 14px; right: 14px; }
-  .pm-crown { font-size: 54px; margin: 6px 0 4px; animation: bob 4s ease-in-out infinite; filter: drop-shadow(0 8px 20px rgba(255,180,60,.5)); }
-  .premium h2 { font-size: 26px; background: linear-gradient(90deg, #ffe7a3, #ffb84d, #ff8a5c); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .pm-why { color: var(--muted); margin: 6px 0 14px; font-size: 14.5px; }
-  .pm-why:empty { display: none; }
-  .pm-price { font-family: var(--round); margin: 4px 0 16px; color: var(--muted); }
-  .pm-price b { font-size: 44px; color: var(--ink); letter-spacing: -1px; }
-  .pm-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14.5px; margin-bottom: 18px; }
-  .pm-table th { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 700; padding: 0 6px 8px; }
-  .pm-table td { padding: 10px 6px; border-top: 1px solid var(--line); }
-  .pm-table th:not(:first-child), .pm-table td:not(:first-child) { text-align: center; width: 92px; }
-  .pm-table td:last-child { color: #ffd27a; font-weight: 700; }
-  .pm-table .no { color: var(--muted); opacity: .6; }
-  .btn.gold { width: 100%; padding: 15px; font-size: 16.5px; font-weight: 800; border: 0; color: #2a1a00;
-    background: linear-gradient(120deg, #ffe08a, #ffb84d 50%, #ff8a5c); box-shadow: 0 12px 30px rgba(255,160,60,.45); }
-  .btn.gold:disabled { opacity: .5; cursor: not-allowed; }
-  .pm-table td.new::after { content: "NEW"; font-size: 9px; font-weight: 800; margin-left: 6px; padding: 1px 5px; border-radius: 99px; background: var(--grad); color: #fff; vertical-align: 2px; }
+  .final { text-align: center; padding: 60px 30px; border-radius: 36px; position: relative; overflow: hidden;
+    background: linear-gradient(135deg, rgba(124,92,255,.35), rgba(209,77,255,.25) 50%, rgba(255,122,89,.25)); border: 1px solid var(--line); }
+  .final h2 { font-size: clamp(32px, 5vw, 52px); font-weight: 850; }
+  .final p { color: #e6defa; font-size: 18px; margin: 14px 0 28px; }
 
-  /* Card themes (Premium) */
-  .gc .gc-sticker { position: absolute; right: 10px; bottom: 34%; font-size: 30px; opacity: .9; z-index: 1; pointer-events: none;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,.35)); transform: rotate(-12deg); }
-  .gc.big .gc-sticker { font-size: 48px; }
-  .hero-stack .gc-sticker { display: none; }
-  .gc.theme-birthday { background-image: radial-gradient(circle, rgba(255,255,255,.35) 2px, transparent 2.5px), radial-gradient(circle, rgba(255,220,90,.45) 2px, transparent 2.5px), linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 55%, #000)); background-size: 22px 22px, 31px 31px, auto; background-position: 0 0, 11px 7px, 0 0; }
-  .gc.theme-holiday { background-image: repeating-linear-gradient(45deg, rgba(255,255,255,.09) 0 10px, transparent 10px 20px), linear-gradient(135deg, #b3122e, #0b6e4f); }
-  .gc.theme-love { background-image: radial-gradient(circle at 20% 30%, rgba(255,120,180,.55), transparent 45%), linear-gradient(135deg, #ff4f8b, #8a1c5c); }
-  .gc.theme-galaxy { background-image: radial-gradient(1px 1px at 20% 30%, #fff, transparent), radial-gradient(1.5px 1.5px at 70% 60%, #fff, transparent), radial-gradient(1px 1px at 40% 80%, #fff, transparent), radial-gradient(1px 1px at 85% 20%, #fff, transparent), radial-gradient(circle at 30% 20%, rgba(155,93,229,.8), transparent 55%), linear-gradient(135deg, #1b1446, #050314); }
-  .gc.theme-gold { color: #2a1a00; background-image: linear-gradient(120deg, #fff1b8, #e8b84a 35%, #fff3c4 55%, #c8902a); }
-  .gc.theme-sports { background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.1) 0 2px, transparent 2px 28px), linear-gradient(135deg, #1d8a3a, #0b4a20); }
-  .themes { display: flex; gap: 8px; flex-wrap: wrap; }
-  .theme-btn { border: 1px solid var(--line); background: var(--surface); color: var(--ink); border-radius: 12px; padding: 8px 11px; cursor: pointer; font-size: 13.5px; }
-  .theme-btn.on { background: var(--grad); border-color: transparent; color: #fff; }
+  footer { padding: 40px 0 60px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: center; }
 
-  /* Checkout mode (Premium) */
-  #payOverlay { z-index: 20; }
-  .pay { background: #fff !important; color: #111; text-align: center; }
-  .pay h2 { color: #111; font-size: 24px; }
-  .pay .x { background: #eee; color: #111; }
-  .pay .pay-bal { font: 800 40px var(--round); margin: 4px 0 14px; letter-spacing: -1px; }
-  .pay .pay-bal small { display: block; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #777; }
-  .pay .barcode-box { padding: 20px 10px 14px; box-shadow: none; }
-  .pay .barcode-box svg { height: 130px; }
-  .pay .barcode-box .num { font-size: 20px; letter-spacing: 2.5px; }
-  .pay-pin { font: 700 18px ui-monospace, Menlo, monospace; margin: 12px 0 4px; letter-spacing: 2px; }
-  .pay-pin span { font: 600 12px var(--round); letter-spacing: .08em; color: #777; text-transform: uppercase; margin-right: 8px; }
-  .pay-spent { display: flex; gap: 8px; margin-top: 18px; }
-  .pay-spent input { flex: 1; background: #f3f3f6 !important; color: #111 !important; border: 1px solid #ddd !important; font-size: 17px; }
-  .pay-tip { font-size: 12.5px; color: #777; margin-top: 10px; }
-
-  /* Hide amounts (Premium privacy) */
-  body.privacy .hero .amount, body.privacy .gc-bal, body.privacy .member .amt, body.privacy .stat .v,
-  body.privacy .event .amt, body.privacy .bar-row .num, body.privacy .legend, body.privacy #famTotal,
-  body.privacy .alert-item span:last-child, body.privacy .insight .v { filter: blur(9px); }
-  .eye-btn { margin-top: 14px; border: 1px solid var(--line); background: var(--surface-2);
-    color: var(--ink); border-radius: 99px; padding: 6px 12px; cursor: pointer; font-size: 13px; }
-
-  /* Money insights (Premium) */
-  .insights { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0 4px; }
-  .insight { border: 1px solid rgba(255,200,90,.25); background: linear-gradient(160deg, rgba(255,200,90,.1), rgba(255,255,255,.03)); border-radius: 18px; padding: 14px; }
-  .insight .k { font-size: 12px; color: var(--muted); font-weight: 600; }
-  .insight .v { font: 800 24px var(--round); margin: 4px 0 2px; color: #ffd27a; }
-  .insight .s { font-size: 12px; color: var(--muted); line-height: 1.4; }
-  .insights.locked { position: relative; }
-  .insights.locked .insight { filter: blur(5px); opacity: .6; }
-  .insights.locked .unlock { position: absolute; inset: 0; display: grid; place-items: center; }
-
-  .pm-fine { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
-
+  .reveal { opacity: 0; translate: 0 24px; transition: opacity .7s, translate .7s; }
+  .reveal.in { opacity: 1; translate: 0 0; }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; translate: none; }
   }
 </style>
 </head>
 <body>
-<div class="app">
-  <header>
-    <div class="logo"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true">
-  <defs>
-    <linearGradient id="gk-bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#7c5cff"/>
-      <stop offset=".5" stop-color="#d14dff"/>
-      <stop offset="1" stop-color="#ff7a59"/>
-    </linearGradient>
-    <linearGradient id="gk-gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffe08a"/>
-      <stop offset="1" stop-color="#ff9f43"/>
-    </linearGradient>
-    <radialGradient id="gk-glow" cx=".25" cy=".15" r=".8">
-      <stop offset="0" stop-color="#fff" stop-opacity=".35"/>
-      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-  <rect width="512" height="512" rx="116" fill="url(#gk-bg)"/>
-  <rect width="512" height="512" rx="116" fill="url(#gk-glow)"/>
-  <!-- card behind -->
-  <rect x="118" y="132" width="300" height="190" rx="30" fill="#fff" opacity=".32" transform="rotate(-13 268 227)"/>
-  <!-- front gift card -->
-  <g transform="rotate(-5 256 300)">
-    <rect x="92" y="200" width="328" height="206" rx="32" fill="#fff"/>
-    <rect x="178" y="200" width="40" height="206" fill="url(#gk-gold)"/>
-    <rect x="262" y="318" width="118" height="16" rx="8" fill="#e9e2ff"/>
-    <rect x="262" y="350" width="78" height="16" rx="8" fill="#e9e2ff"/>
-    <!-- bow -->
-    <g fill="none" stroke="url(#gk-gold)" stroke-width="20" stroke-linecap="round">
-      <path d="M198 200 C 150 196, 128 140, 160 128 C 184 120, 196 162, 198 200 Z"/>
-      <path d="M198 200 C 246 196, 268 140, 236 128 C 212 120, 200 162, 198 200 Z"/>
-    </g>
-    <circle cx="198" cy="200" r="20" fill="url(#gk-gold)"/>
-  </g>
-    </svg><span class="logo-text">Gift Keeper</span></div>
-    <div class="header-right">
-      <button class="pro-btn" id="proBtn"></button>
-      <button class="me-btn" id="meBtn" aria-label="Switch person"></button>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="brand/logo-icon.svg" alt="">Gift Keeper</a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#family">Family</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a class="btn primary sm" href="app.html">Open app</a>
     </div>
-  </header>
-
-  <!-- Parents can look at everyone, or one family member at a time -->
-  <div class="chips scope" id="scope"></div>
-
-  <section class="page" id="page-wallet">
-  <div id="alerts"></div>
-
-  <section class="hero">
-    <div class="hero-stack" id="heroStack"></div>
-    <div class="label" id="heroLabel">My Wallet</div>
-    <div class="amount" id="total">$0.00</div>
-    <div class="stats" id="stats"></div>
-    <div id="breakdown"></div>
-    <button class="eye-btn" id="eyeBtn" aria-label="Hide amounts"></button>
-  </section>
-
-  <div class="toolbar">
-    <input class="search" id="search" type="search" placeholder="Search cards…">
-    <select id="sort" aria-label="Sort cards">
-      <option value="balance">Most money</option>
-      <option value="name">A–Z</option>
-      <option value="expiring">Expiring</option>
-      <option value="recent">Newest</option>
-    </select>
-  </div>
-  <div class="chips" id="filters"></div>
-  <div id="list"></div>
-  </section>
-
-  <section class="page" id="page-family" hidden>
-    <h1 class="page-title">Family</h1>
-    <p class="page-sub" id="familySub"></p>
-    <section class="hero" id="famHero">
-      <div class="label">Family total</div>
-      <div class="amount" id="famTotal">$0.00</div>
-      <div class="stats" id="famStats"></div>
-    </section>
-    <div id="memberList"></div>
-    <button class="add-row" id="addMemberBtn">+ Add family member</button>
-    <div class="note-box">
-      👨‍👩‍👧 <b>How family works:</b> parents see everyone’s gift cards and can add cards for the kids.
-      Kids only see their own cards. Give parents a PIN so kids can’t open a parent’s profile.
-    </div>
-  </section>
-
-  <section class="page" id="page-activity" hidden>
-    <h1 class="page-title">Activity</h1>
-    <p class="page-sub" id="activitySub"></p>
-    <div class="stat-grid" id="activityStats"></div>
-    <div class="section-title">👑 Money insights</div>
-    <div id="insights"></div>
-    <div class="section-title">Where the money went</div>
-    <div class="list-panel" id="topStores"></div>
-    <div class="section-title">Recent activity</div>
-    <div class="list-panel" id="eventList"></div>
-  </section>
-
-  <section class="page" id="page-settings" hidden>
-    <h1 class="page-title">Settings</h1>
-    <div class="section-title">Profile</div>
-    <div class="list-panel" id="settingsProfile"></div>
-    <div class="section-title">Reminders</div>
-    <div class="list-panel" id="settingsReminders"></div>
-    <div class="section-title">Plan</div>
-    <div class="list-panel" id="settingsPlan"></div>
-    <div id="parentSettings">
-      <div class="section-title">Backup</div>
-      <div class="list-panel">
-        <button class="setting" id="exportBtn"><span>⬇️ Download backup<span class="sub">Save all cards and family members to a file</span></span><span class="go">›</span></button>
-        <button class="setting" id="importBtn"><span>⬆️ Restore from backup<span class="sub">Load a backup file you saved before</span></span><span class="go">›</span></button>
-        <input type="file" id="importFile" accept="application/json,.json" hidden>
-      </div>
-      <div class="section-title">Danger zone</div>
-      <div class="list-panel"><button class="setting danger" id="wipeBtn">🗑 Delete all data</button></div>
-    </div>
-    <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.6 · Everything is saved only on this device.
-    </p>
-  </section>
-</div>
-
-<nav class="tabbar">
-  <div class="inner">
-    <button class="tab on" data-page="wallet"><span class="ic">💳</span>Wallet</button>
-    <button class="tab" data-page="family"><span class="ic">👨‍👩‍👧</span>Family</button>
-    <button class="tab-add" id="addBtn" aria-label="Add card">+</button>
-    <button class="tab" data-page="activity"><span class="ic">📊</span>Activity</button>
-    <button class="tab" data-page="settings"><span class="ic">⚙️</span>Settings</button>
   </div>
 </nav>
-<div class="toast" id="toast"></div>
 
-<!-- Add / Edit sheet -->
-<div class="overlay" id="formOverlay">
-  <form class="sheet" id="cardForm" autocomplete="off" novalidate>
-    <div class="sheet-head">
-      <h2 id="formTitle">Add Card</h2>
-      <button type="button" class="x" data-close aria-label="Close">✕</button>
+<header class="wrap hero">
+  <div>
+    <span class="eyebrow">🎁 Made for families</span>
+    <h1>Never lose a<br><span class="grad-text">gift card</span> again.</h1>
+    <p>Amazon, Target, Starbucks, Roblox, Visa… Gift Keeper keeps every gift card for the whole family in one place — with balances, barcodes and a reminder before they expire.</p>
+    <div class="cta">
+      <a class="btn primary" href="app.html">Start free →</a>
+      <a class="btn ghost" href="#pricing">See pricing</a>
     </div>
+    <div class="trust">Free forever for up to 5 cards · No download needed · Works on any phone</div>
+  </div>
+  <div class="phones">
+    <div class="phone one"><img src="img/shot-wallet.png" alt="Gift Keeper wallet showing a family's gift cards"></div>
+    <div class="phone two"><img src="img/shot-checkout.png" alt="Checkout mode showing a big barcode"></div>
+  </div>
+</header>
 
-    <div class="seg" id="typeSeg">
-      <button type="button" data-type="store" class="on">🏬 Store gift card</button>
-      <button type="button" data-type="prepaid">💳 Visa / Mastercard / Amex</button>
-    </div>
-
-    <div id="ownerWrap">
-      <label>Belongs to</label>
-      <div class="owner-row" id="ownerPicker"></div>
-    </div>
-
-    <button type="button" class="btn scan-top" id="scanTop">📷 Scan card to fill everything</button>
-
-    <div class="preview" id="formPreview"></div>
-
-    <!-- Store gift card fields -->
-    <div id="storeFields">
-      <label for="fStore">Store</label>
-      <input id="fStore" placeholder="Search or type a store name">
-      <div class="brands" id="brandPicker"></div>
-
-      <label for="fNumber">Card number</label>
-      <div class="input-row">
-        <input id="fNumber" class="mono" placeholder="6006 4912 3456 7890">
-        <button type="button" class="btn" id="scanBtn">📷 Scan</button>
-      </div>
-      <div class="row">
-        <div>
-          <label for="fPin">PIN</label>
-          <input id="fPin" class="mono" placeholder="Optional">
-        </div>
-        <div>
-          <label for="fExpires">Expires</label>
-          <input id="fExpires" type="date">
-        </div>
-      </div>
-    </div>
-
-    <!-- Prepaid Visa / Mastercard / Amex / Discover fields -->
-    <div id="prepaidFields" hidden>
-      <label for="fCardNum">Card number</label>
-      <input id="fCardNum" class="mono" inputmode="numeric" placeholder="4111 1111 1111 1111" maxlength="23">
-      <div class="hint" id="netHint">Visa, Mastercard, Amex and Discover are detected automatically.</div>
-      <div class="row">
-        <div>
-          <label for="fExp">Expires (MM/YY)</label>
-          <input id="fExp" class="mono" inputmode="numeric" placeholder="08/29" maxlength="5">
-        </div>
-        <div>
-          <label for="fCvv">Security code</label>
-          <input id="fCvv" class="mono" inputmode="numeric" placeholder="CVV" maxlength="4">
-        </div>
-      </div>
-      <label for="fIssuer">Card name</label>
-      <input id="fIssuer" placeholder="e.g. Vanilla Visa (optional)">
-    </div>
-
-    <div class="row">
-      <div>
-        <label for="fAmount">Card value</label>
-        <input id="fAmount" type="number" step="0.01" min="0" inputmode="decimal" placeholder="$50.00">
-      </div>
-      <div>
-        <label for="fBalance">Balance left</label>
-        <input id="fBalance" type="number" step="0.01" min="0" inputmode="decimal" placeholder="Same as value">
-      </div>
-    </div>
-
-    <label for="fFrom">Gift from</label>
-    <input id="fFrom" placeholder="e.g. Grandma (optional)">
-
-    <label>Card color</label>
-    <div class="swatches" id="colorPicker"></div>
-
-    <label>Card theme <span class="lock" id="themeLock">PREMIUM</span></label>
-    <div class="themes" id="themePicker"></div>
-
-    <label for="fNotes">Notes</label>
-    <textarea id="fNotes" placeholder="e.g. Birthday gift from Grandma"></textarea>
-    <div class="hint bad" id="formError"></div>
-
-    <div class="actions">
-      <button type="button" class="btn" data-close>Cancel</button>
-      <button type="submit" class="btn primary">Save Card</button>
-    </div>
-  </form>
-</div>
-
-<!-- Card detail sheet -->
-<div class="overlay" id="detailOverlay">
-  <div class="sheet" id="detail"></div>
-</div>
-
-<!-- Checkout mode: big bright barcode to show the cashier -->
-<div class="overlay" id="payOverlay">
-  <form class="sheet pay" id="payForm" autocomplete="off">
-    <button type="button" class="x" data-close aria-label="Close" style="position:absolute;top:14px;right:14px">✕</button>
-    <div id="payBody"></div>
-    <div class="pay-spent">
-      <input id="paySpent" type="number" step="0.01" min="0" inputmode="decimal" placeholder="Amount spent">
-      <button type="submit" class="btn primary">Done</button>
-    </div>
-    <div class="pay-tip">Your screen stays on while this is open. Turn your brightness up so the scanner can read it.</div>
-  </form>
-</div>
-
-<!-- Update balance sheet -->
-<div class="overlay" id="balanceOverlay">
-  <form class="sheet" id="balanceForm">
-    <div class="sheet-head">
-      <h2>Update Balance</h2>
-      <button type="button" class="x" data-close aria-label="Close">✕</button>
-    </div>
-    <div class="seg" id="balanceMode">
-      <button type="button" data-mode="spent" class="on">I spent</button>
-      <button type="button" data-mode="set">Set new balance</button>
-    </div>
-    <label for="bAmount" id="bLabel">Amount spent</label>
-    <input id="bAmount" type="number" step="0.01" min="0" inputmode="decimal" required>
-    <div class="hint" id="bHint"></div>
-    <div class="actions">
-      <button type="button" class="btn" data-close>Cancel</button>
-      <button type="submit" class="btn primary">Update</button>
-    </div>
-  </form>
-</div>
-
-<!-- Barcode scanner sheet -->
-<div class="overlay" id="scanOverlay">
-  <div class="sheet">
-    <div class="sheet-head">
-      <h2>Scan Gift Card</h2>
-      <button type="button" class="x" id="scanX" aria-label="Close">✕</button>
-    </div>
-    <div class="scanner">
-      <video id="scanVideo" playsinline muted></video>
-      <canvas id="scanStill" hidden></canvas>
-      <div class="guide"></div>
-      <div class="flash" id="scanFlash"></div>
-    </div>
-    <p class="scan-status" id="scanStatus">Point the camera at the card and tap Take Photo.</p>
-    <div class="found" id="scanFound" hidden></div>
-    <div class="actions">
-      <button type="button" class="btn" id="scanCancel">⌨️ Type it in</button>
-      <button type="button" class="btn primary" id="scanShoot">📸 Take Photo</button>
-    </div>
-    <div class="actions" id="scanUseRow" hidden>
-      <button type="button" class="btn primary" id="scanUse">✓ Use this info</button>
+<section>
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat"><b class="grad-text">43%</b><span>of Americans have at least one unused gift card*</span></div>
+      <div class="stat"><b class="grad-text">$244</b><span>average unused gift card money per person who has some*</span></div>
+      <div class="stat"><b class="grad-text">1 place</b><span>for every card your family owns</span></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Who's using Gift Keeper? -->
-<div class="overlay" id="whoOverlay">
-  <div class="sheet who">
-    <h2>Who’s using Gift Keeper?</h2>
-    <div class="who-grid" id="whoGrid"></div>
-    <div id="pinBox" hidden>
-      <div id="pinPrompt"></div>
-      <input class="pin-input mono" id="pinInput" type="password" inputmode="numeric" maxlength="4" autocomplete="off">
-      <div class="hint bad" id="pinError"></div>
+<section id="features">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Everything your gift cards need</h2>
+      <p>Add a card in seconds, see what you have, and actually use it before it expires.</p>
+    </div>
+    <div class="features">
+      <div class="feature reveal"><div class="ic">💳</div><h3>Your whole wallet</h3><p>See every card and your total balance at a glance — store cards, Visa, Mastercard and Amex gift cards.</p></div>
+      <div class="feature reveal"><div class="ic">📷</div><h3>Scan to add</h3><p>Point your camera at a card. Gift Keeper reads the barcode and printed text and fills everything in.</p></div>
+      <div class="feature reveal"><div class="ic">⏰</div><h3>“Use it!” reminders</h3><p>Get a heads-up before a card expires, so the money gets spent instead of lost.</p></div>
+      <div class="feature reveal"><div class="ic">🛒</div><h3>Checkout mode</h3><p>A big, bright barcode for the cashier — then type what you spent and your balance updates.</p></div>
+      <div class="feature reveal"><div class="ic">📈</div><h3>Money insights</h3><p>Spot forgotten cards, tiny leftover balances and how much you’ve saved from expiring.</p></div>
+      <div class="feature reveal"><div class="ic">🎨</div><h3>Make it yours</h3><p>Card colors and themes — Birthday, Holiday, Galaxy, Gold and more. Kids love it.</p></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- Premium upgrade -->
-<div class="overlay" id="premiumOverlay">
-  <div class="sheet premium">
-    <button type="button" class="x" data-close aria-label="Close">✕</button>
-    <div class="pm-crown">👑</div>
-    <h2>Gift Keeper Premium</h2>
-    <p class="pm-why" id="pmWhy"></p>
-    <div class="pm-price"><b>$9.99</b> / month</div>
-    <table class="pm-table">
-      <tr><th></th><th>Free</th><th>Premium</th></tr>
-      <tr><td>💳 Gift cards</td><td>5</td><td>Unlimited</td></tr>
-      <tr><td>👨‍👩‍👧 Family members</td><td>Just you</td><td>Unlimited</td></tr>
-      <tr><td>📷 Scan to fill</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td>⬇️ Backup &amp; restore</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">🛒 Checkout mode</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">📈 Money insights</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">🎨 Card themes</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">⏰ Reminder timing</td><td>7 days</td><td>3–30 days</td></tr>
-      <tr><td class="new">🙈 Hide amounts</td><td class="no">—</td><td>✓</td></tr>
-    </table>
-    <button type="button" class="btn gold" id="pmBuy">Start Premium · $9.99/mo</button>
-    <p class="pm-fine" id="pmFine"></p>
+<section id="family">
+  <div class="wrap split">
+    <div class="reveal">
+      <h2>The whole family, <span class="grad-text">one wallet</span></h2>
+      <p>Grandma sent the kids gift cards again? Add everyone and keep track together.</p>
+      <ul>
+        <li>Parents see every card in the family — and the total</li>
+        <li>Kids see only their own cards, with fun themes</li>
+        <li>A parent PIN keeps kids out of grown-up profiles</li>
+        <li>Remember who gave each card, for thank-you notes</li>
+      </ul>
+    </div>
+    <div class="phone reveal"><img src="img/shot-family.png" alt="Family page with parents and kids"></div>
   </div>
-</div>
+</section>
 
-<!-- Add / edit family member -->
-<div class="overlay" id="memberOverlay">
-  <form class="sheet" id="memberForm" autocomplete="off" novalidate>
-    <div class="sheet-head">
-      <h2 id="memberTitle">Add family member</h2>
-      <button type="button" class="x" data-close aria-label="Close">✕</button>
+<section>
+  <div class="wrap split flip">
+    <div class="phone reveal"><img src="img/shot-activity.png" alt="Activity and money insights"></div>
+    <div class="reveal">
+      <h2>Know where the <span class="grad-text">money went</span></h2>
+      <p>Every time you use a card, Gift Keeper keeps track — so you always know what’s left and where it was spent.</p>
+      <ul>
+        <li>Spending this month and this year</li>
+        <li>Top stores, with a full history for every card</li>
+        <li>Forgotten money and small leftovers, found for you</li>
+      </ul>
     </div>
-    <div class="member-preview" id="memberPreview"></div>
-    <label for="mName">Name</label>
-    <input id="mName" placeholder="e.g. Emma" maxlength="20">
-    <label>Role</label>
-    <div class="seg" id="roleSeg">
-      <button type="button" data-role="parent">👑 Parent</button>
-      <button type="button" data-role="kid">🧒 Kid</button>
-    </div>
-    <div class="hint" id="roleHint"></div>
-    <label>Picture</label>
-    <div class="emoji-grid" id="emojiGrid"></div>
-    <label>Color</label>
-    <div class="swatches" id="memberColors"></div>
-    <div id="mPinWrap">
-      <label for="mPin">Parent PIN (4 digits)</label>
-      <input id="mPin" class="mono" inputmode="numeric" maxlength="4" placeholder="Optional — stops kids opening this profile">
-    </div>
-    <div class="hint bad" id="memberError"></div>
-    <div class="actions">
-      <button type="button" class="btn danger" id="mDelete">Remove</button>
-      <button type="button" class="btn" data-close>Cancel</button>
-      <button type="submit" class="btn primary">Save</button>
-    </div>
-  </form>
-</div>
+  </div>
+</section>
 
-<script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
+<section>
+  <div class="wrap">
+    <div class="section-head reveal"><h2>Start in 30 seconds</h2></div>
+    <div class="steps">
+      <div class="step reveal"><h3>Open Gift Keeper</h3><p>No account and no download. On your phone, tap Share → “Add to Home Screen” to keep it like an app.</p></div>
+      <div class="step reveal"><h3>Add your cards</h3><p>Scan them with your camera or type them in. Add family members if you want.</p></div>
+      <div class="step reveal"><h3>Use them up</h3><p>Show the barcode at checkout, update the balance, and get reminded before anything expires.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <h2>Simple pricing</h2>
+      <p>Start free. Upgrade when your family is ready.</p>
+    </div>
+    <div class="plans">
+      <div class="plan reveal">
+        <h3>Free</h3>
+        <div class="price">$0</div>
+        <div class="for">For getting started</div>
+        <ul>
+          <li>Up to 5 gift cards</li>
+          <li>Balances, barcodes &amp; history</li>
+          <li>“Use it!” reminders (7 days before)</li>
+          <li class="off">Family members</li>
+          <li class="off">Camera scan</li>
+          <li class="off">Checkout mode &amp; insights</li>
+        </ul>
+        <a class="btn ghost" href="app.html">Start free</a>
+      </div>
+      <div class="plan pro reveal">
+        <h3>👑 Premium</h3>
+        <div class="price">$9.99<small> / month</small></div>
+        <div class="for">For the whole family</div>
+        <ul>
+          <li>Unlimited gift cards</li>
+          <li>Unlimited family members</li>
+          <li>📷 Scan cards with your camera</li>
+          <li>🛒 Checkout mode</li>
+          <li>📈 Money insights</li>
+          <li>🎨 Card themes · 🙈 Hide amounts</li>
+          <li>⏰ Reminders 3–30 days early</li>
+          <li>⬇️ Backup &amp; restore</li>
+        </ul>
+        <a class="btn gold" href="app.html">Get Premium</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal"><h2>Questions</h2></div>
+    <div class="faq">
+      <details class="reveal"><summary>Where are my cards stored?</summary><p>Right now, on your own device — in your phone or computer’s browser. Nothing is sent to our servers. Use Settings → Download backup to keep a copy.</p></details>
+      <details class="reveal"><summary>Do I need to download an app?</summary><p>No. Gift Keeper works in your browser. On iPhone, tap Share → “Add to Home Screen”; on Android, tap “Install app”. It then opens full screen like any other app, even offline.</p></details>
+      <details class="reveal"><summary>Can it check my balance automatically?</summary><p>Stores don’t share balances with outside apps, so you update it yourself — Checkout mode makes that one tap. Each card also has a “Check balance online” link.</p></details>
+      <details class="reveal"><summary>Can my kids use it?</summary><p>Yes. Kids get their own profile and only see their own cards. Parents can set a PIN so kids can’t open a parent’s profile.</p></details>
+      <details class="reveal"><summary>Can I cancel Premium?</summary><p>Any time, in Settings. You keep all your cards — you just can’t add more than 5 on the free plan.</p></details>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final reveal">
+      <h2>Find the money hiding<br>in your drawer.</h2>
+      <p>Add your first gift card in under a minute.</p>
+      <a class="btn primary" href="app.html">Start free →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#"><img src="brand/logo-icon.svg" alt="">Gift Keeper</a>
+    <span>© 2026 Gift Keeper · Never lose a gift card again.<br><small>* Bankrate gift card survey, 2024.</small></span>
+  </div>
+</footer>
+
 <script>
-const STORAGE_KEY = 'giftKeeper.cards.v1';
-
-const CATEGORIES = {
-  'Shopping':      '#4f7cff',
-  'Food & Drink':  '#e8833a',
-  'Gaming':        '#9b5de5',
-  'Entertainment': '#e5484d',
-  'Travel & Rides':'#2bb3a3',
-  'Prepaid':       '#d4b44a',
-  'Other':         '#8a8580',
-};
-
-const BRANDS = [
-  // Shopping
-  ['Amazon', 'Shopping', '#232f3e'], ['Target', 'Shopping', '#cc0000'], ['Walmart', 'Shopping', '#0071ce'],
-  ['Costco', 'Shopping', '#005daa'], ['Best Buy', 'Shopping', '#0046be'], ['Apple', 'Shopping', '#3a3a3c'],
-  ['Home Depot', 'Shopping', '#e05a00'], ["Lowe's", 'Shopping', '#004990'], ['IKEA', 'Shopping', '#0058a3'],
-  ["Macy's", 'Shopping', '#c8102e'], ['Nordstrom', 'Shopping', '#1b1b1b'], ["Kohl's", 'Shopping', '#5c1a33'],
-  ['TJ Maxx', 'Shopping', '#a6192e'], ['Sephora', 'Shopping', '#111111'], ['Ulta Beauty', 'Shopping', '#d4572a'],
-  ['Nike', 'Shopping', '#111111'], ['Adidas', 'Shopping', '#1a1a1a'], ['Gap', 'Shopping', '#002b5c'],
-  ['Old Navy', 'Shopping', '#003764'], ['Bath & Body Works', 'Shopping', '#002f6c'], ['Barnes & Noble', 'Shopping', '#2e5c3c'],
-  ['eBay', 'Shopping', '#c4262e'], ['Etsy', 'Shopping', '#d5541a'], ['Wayfair', 'Shopping', '#7f187f'],
-  ['CVS', 'Shopping', '#cc0000'], ['Walgreens', 'Shopping', '#c8102e'], ['Lululemon', 'Shopping', '#b0102b'],
-  ['American Eagle', 'Shopping', '#0b2d5c'], ['Dick\'s Sporting Goods', 'Shopping', '#00573f'], ['Michaels', 'Shopping', '#b5121b'],
-  // Food & Drink
-  ['Starbucks', 'Food & Drink', '#00704a'], ["Dunkin'", 'Food & Drink', '#e0561a'], ["McDonald's", 'Food & Drink', '#c8102e'],
-  ['Chipotle', 'Food & Drink', '#441500'], ['Panera Bread', 'Food & Drink', '#4a6a2e'], ['Chick-fil-A', 'Food & Drink', '#c8102e'],
-  ['Subway', 'Food & Drink', '#008c15'], ["Domino's", 'Food & Drink', '#006491'], ['The Cheesecake Factory', 'Food & Drink', '#6b4e2e'],
-  ['Olive Garden', 'Food & Drink', '#5a6b2e'], ['Shake Shack', 'Food & Drink', '#1f1f1f'], ["Applebee's", 'Food & Drink', '#a5141c'],
-  ['Texas Roadhouse', 'Food & Drink', '#7a1f1f'], ['Whole Foods', 'Food & Drink', '#00674b'], ['Uber Eats', 'Food & Drink', '#047a3f'],
-  ['DoorDash', 'Food & Drink', '#d42a0c'], ['Grubhub', 'Food & Drink', '#c42e2e'], ['Instacart', 'Food & Drink', '#108910'],
-  // Gaming
-  ['Roblox', 'Gaming', '#393b3d'], ['Xbox', 'Gaming', '#107c10'], ['PlayStation', 'Gaming', '#003791'],
-  ['Nintendo eShop', 'Gaming', '#d1000f'], ['Steam', 'Gaming', '#1b2838'], ['Fortnite V-Bucks', 'Gaming', '#5b2bb3'],
-  ['Minecraft', 'Gaming', '#3f6f22'], ['Google Play', 'Gaming', '#01875f'], ['GameStop', 'Gaming', '#c41818'],
-  ['App Store & iTunes', 'Gaming', '#1c6ed8'],
-  // Entertainment
-  ['Netflix', 'Entertainment', '#b20710'], ['Spotify', 'Entertainment', '#1a8f46'], ['Disney+', 'Entertainment', '#113ccf'],
-  ['Hulu', 'Entertainment', '#0b6e4f'], ['AMC Theatres', 'Entertainment', '#b5121b'], ['Fandango', 'Entertainment', '#d4501c'],
-  ['Regal', 'Entertainment', '#8a0f1c'], ['YouTube', 'Entertainment', '#c4302b'], ['Audible', 'Entertainment', '#c46f00'],
-  ['Ticketmaster', 'Entertainment', '#026cdf'],
-  // Travel & Rides
-  ['Uber', 'Travel & Rides', '#000000'], ['Lyft', 'Travel & Rides', '#c4008f'], ['Airbnb', 'Travel & Rides', '#d93b46'],
-  ['Southwest', 'Travel & Rides', '#304cb2'], ['Delta', 'Travel & Rides', '#003366'], ['Marriott', 'Travel & Rides', '#8b1a2b'],
-  ['Hotels.com', 'Travel & Rides', '#c62828'], ['Shell', 'Travel & Rides', '#c8a200'],
-].map(([name, cat, color]) => ({ name, cat, color }));
-
-const NETWORKS = {
-  visa:       { name: 'Visa',             color: '#1a1f71', mark: '<span class="net visa">VISA</span>' },
-  mastercard: { name: 'Mastercard',       color: '#252525', mark: '<span class="net mc"><i></i><i></i></span>' },
-  amex:       { name: 'American Express', color: '#1f6fb2', mark: '<span class="net amex">AMEX</span>' },
-  discover:   { name: 'Discover',         color: '#3b3b3b', mark: '<span class="net discover">DISC<b>●</b>VER</span>' },
-};
-
-const SWATCHES = ['#1a1f71', '#1c6ed8', '#0b6e4f', '#00704a', '#c8102e', '#d93b46', '#e0561a',
-                  '#b8860b', '#5b2bb3', '#7f187f', '#3a3a3c', '#111111'];
-const URGENT_DAYS = 7;               // "Use it!" reminder starts this many days before expiration (free plan)
-const SETTINGS_KEY = 'giftKeeper.settings.v1';
-const REMIND_CHOICES = [3, 7, 14, 30];
-const THEMES = {
-  '':       { name: 'None' },
-  birthday: { name: 'Birthday', sticker: '🎂' },
-  holiday:  { name: 'Holiday',  sticker: '🎄' },
-  love:     { name: 'Love',     sticker: '💖' },
-  galaxy:   { name: 'Galaxy',   sticker: '🪐' },
-  gold:     { name: 'Gold',     sticker: '🏆' },
-  sports:   { name: 'Sports',   sticker: '⚽️' },
-};
-const NOTIFY_KEY = 'giftKeeper.notified.v1';
-const FAMILY_KEY = 'giftKeeper.family.v1';
-const PREMIUM_KEY = 'giftKeeper.premium.v1';
-const PREMIUM_PRICE = '$9.99';
-const FREE_CARD_LIMIT = 5;
-// Paste a Stripe Payment Link here to take real money. Set its "after payment" redirect to
-// this page with ?premium=success so the upgrade switches on when the customer comes back.
-const PAYMENT_LINK = '';
-const AVATARS = ['👩', '👨', '👧', '👦', '👶', '👵', '👴', '🧑', '🐶', '🐱', '🦄', '🐼', '🦊', '🐸', '🚀', '⚽️', '🎮', '🌸'];
-
-let cards = load();
-let editingId = null;
-let formType = 'store';
-let formColor = '';
-let balanceId = null;
-let balanceMode = 'spent';
-let activeFilter = 'All';
-let family = loadFamily();
-let walletScope = 'all';   // parents: 'all' or one member's id
-let page = 'wallet';
-let formOwner = null;
-let premium = loadPremium();
-let settings = loadSettings();
-let formTheme = '';
-let payId = null;
-let wakeLock = null;
-
-// ---------- storage ----------
-function load() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-  catch { return []; }
-}
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(cards)); }
-
-function loadFamily() {
-  let f = null;
-  try { f = JSON.parse(localStorage.getItem(FAMILY_KEY)); } catch {}
-  if (!f?.members?.length) {
-    const id = crypto.randomUUID();
-    f = { members: [{ id, name: 'Me', role: 'parent', avatar: '🧑', color: '#2f6b4f', pin: '' }], current: id };
-  }
-  const firstParent = f.members.find(m => m.role === 'parent') || f.members[0];
-  if (!f.members.some(m => m.id === f.current)) f.current = firstParent.id;
-  // Cards saved before family support belong to the first parent
-  cards.forEach(c => { if (!f.members.some(m => m.id === c.owner)) c.owner = firstParent.id; });
-  return f;
-}
-function saveFamily() { localStorage.setItem(FAMILY_KEY, JSON.stringify(family)); }
-
-function loadSettings() {
-  let s = {};
-  try { s = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}; } catch {}
-  return { remindDays: URGENT_DAYS, privacy: false, ...s };
-}
-function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
-
-function loadPremium() {
-  try { return JSON.parse(localStorage.getItem(PREMIUM_KEY)) || null; }
-  catch { return null; }
-}
-function savePremium() {
-  if (premium) localStorage.setItem(PREMIUM_KEY, JSON.stringify(premium));
-  else localStorage.removeItem(PREMIUM_KEY);
-}
-
-// ---------- helpers ----------
-const $ = id => document.getElementById(id);
-const money = n => '$' + (Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const today = () => new Date().toISOString().slice(0, 10);
-const digits = s => String(s || '').replace(/\D/g, '');
-const fmtDate = d => new Date(d + 'T00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-
-// Animate a money amount from its last value to the new one
-function countUp(el, value) {
-  const from = Number(el.dataset.value || 0);
-  el.dataset.value = value;
-  const token = (el._countToken || 0) + 1;
-  el._countToken = token;
-  const start = performance.now(), duration = 900;
-  const step = now => {
-    if (el._countToken !== token) return;
-    const k = Math.min(1, (now - start) / duration);
-    el.textContent = money(from + (value - from) * (1 - Math.pow(1 - k, 3)));
-    if (k < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-}
-
-function confetti() {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const colors = ['#7c5cff', '#d14dff', '#ff7a59', '#ffd166', '#4cc9f0', '#80ffdb', '#ffffff'];
-  for (let i = 0; i < 90; i++) {
-    const bit = document.createElement('i');
-    bit.className = 'confetti';
-    bit.style.background = colors[i % colors.length];
-    document.body.appendChild(bit);
-    const dx = (Math.random() - .5) * 700, dy = -(220 + Math.random() * 380), spin = (Math.random() - .5) * 900;
-    bit.animate([
-      { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
-      { transform: `translate(${dx}px, ${dy}px) rotate(${spin}deg)`, opacity: 1, offset: .55 },
-      { transform: `translate(${dx * 1.25}px, ${dy + 520}px) rotate(${spin * 2}deg)`, opacity: 0 },
-    ], { duration: 1500 + Math.random() * 900, easing: 'cubic-bezier(.2,.7,.3,1)' }).onfinish = () => bit.remove();
-  }
-}
-
-function toast(text) {
-  $('toast').textContent = text;
-  $('toast').classList.add('show');
-  clearTimeout(toast.t);
-  toast.t = setTimeout(() => $('toast').classList.remove('show'), 1600);
-}
-
-// ---------- family helpers ----------
-const member = id => family.members.find(m => m.id === id);
-const me = () => member(family.current);
-const isParent = () => me()?.role === 'parent';
-const hasFamily = () => family.members.length > 1;
-const possessive = name => name + (/s$/i.test(name) ? '’' : '’s');
-// Parents see the whole family's cards; kids only see their own
-const myCards = () => isParent() ? cards : cards.filter(c => c.owner === family.current);
-const scopedCards = () => isParent() && walletScope !== 'all' ? cards.filter(c => c.owner === walletScope) : myCards();
-const showOwners = () => isParent() && hasFamily() && walletScope === 'all';
-const balanceOf = list => list.reduce((s, c) => s + Number(c.balance || 0), 0);
-
-function avatar(m, size = '') {
-  return `<span class="avatar ${size}" style="--av:${m?.color || '#888'}">${esc(m?.avatar || '🙂')}</span>`;
-}
-
-const findBrand = name => BRANDS.find(b => b.name.toLowerCase() === String(name || '').trim().toLowerCase());
-const isPrepaid = c => c.type === 'prepaid';
-const categoryOf = c => isPrepaid(c) ? 'Prepaid' : (findBrand(c.store)?.cat || 'Other');
-
-function colorFor(c) {
-  if (c.color) return c.color;
-  if (isPrepaid(c)) return NETWORKS[c.network]?.color || '#2d2d44';
-  const brand = findBrand(c.store);
-  if (brand) return brand.color;
-  let h = 0;
-  for (const ch of c.store || '') h = (h * 31 + ch.charCodeAt(0)) % 360;
-  return `hsl(${h} 45% 38%)`;
-}
-
-function displayName(c) {
-  if (isPrepaid(c)) return c.store || `${NETWORKS[c.network]?.name || 'Prepaid'} Gift Card`;
-  return c.store || 'Gift Card';
-}
-
-function lastFour(num) {
-  const d = String(num || '').replace(/\s/g, '');
-  return d.length > 4 ? '•••• ' + d.slice(-4) : d;
-}
-
-function daysLeft(date) {
-  if (!date) return null;
-  return Math.ceil((new Date(date + 'T00:00') - new Date(today() + 'T00:00')) / 86400000);
-}
-function expiryText(date) {
-  const days = daysLeft(date);
-  if (days === null) return '';
-  if (days < 0) return 'Expired';
-  if (days === 0) return 'Expires today';
-  if (days <= 30) return `Expires in ${days} day${days === 1 ? '' : 's'}`;
-  return 'Expires ' + fmtDate(date);
-}
-const expiringSoon = c => Number(c.balance) > 0 && daysLeft(c.expires) !== null && daysLeft(c.expires) <= 30;
-// Money still on it and a week or less to go (or already expired)
-const remindDays = () => isPremium() ? settings.remindDays : URGENT_DAYS;
-const isUrgent = c => Number(c.balance) > 0 && daysLeft(c.expires) !== null && daysLeft(c.expires) <= remindDays();
-function urgentText(c) {
-  const days = daysLeft(c.expires);
-  if (days < 0) return 'expired';
-  if (days === 0) return 'expires today';
-  return `expires in ${days} day${days === 1 ? '' : 's'}`;
-}
-// Short MM/YY expiration for the card face
-function expShort(c) {
-  if (isPrepaid(c)) return c.exp || '';
-  if (!c.expires) return '';
-  const [y, m] = c.expires.split('-');
-  return `${m}/${y.slice(2)}`;
-}
-
-// ---------- prepaid card helpers ----------
-function detectNetwork(num) {
-  const n = digits(num);
-  if (/^4/.test(n)) return 'visa';
-  if (/^(5[1-5]|2(22[1-9]|2[3-9]\d|[3-6]\d\d|7[01]\d|720))/.test(n)) return 'mastercard';
-  if (/^3[47]/.test(n)) return 'amex';
-  if (/^(6011|65|64[4-9])/.test(n)) return 'discover';
-  return null;
-}
-function luhnOk(num) {
-  const n = digits(num);
-  if (n.length < 13) return false;
-  let sum = 0;
-  [...n].reverse().forEach((d, i) => {
-    let v = +d;
-    if (i % 2) { v *= 2; if (v > 9) v -= 9; }
-    sum += v;
-  });
-  return sum % 10 === 0;
-}
-function formatCardNumber(num) {
-  const n = digits(num).slice(0, 19);
-  if (detectNetwork(n) === 'amex') return [n.slice(0, 4), n.slice(4, 10), n.slice(10, 15)].filter(Boolean).join(' ');
-  return n.replace(/(\d{4})(?=\d)/g, '$1 ');
-}
-// "08/29" -> last day of that month, e.g. "2029-08-31"
-function expToDate(exp) {
-  const m = /^(\d{2})\/(\d{2})$/.exec(exp || '');
-  if (!m || +m[1] < 1 || +m[1] > 12) return '';
-  const year = 2000 + +m[2], month = +m[1];
-  const day = new Date(year, month, 0).getDate();
-  return `${year}-${String(month).padStart(2, '0')}-${day}`;
-}
-
-// ---------- card visual ----------
-const themeOf = c => isPremium() && THEMES[c.theme] ? c.theme : '';
-function cardVisual(c, big = false) {
-  const prepaid = isPrepaid(c);
-  const exp = expShort(c);
-  return `
-    <div class="gc ${big ? 'big' : ''} ${isUrgent(c) ? 'urgent' : ''} ${themeOf(c) ? 'theme-' + themeOf(c) : ''}" style="--c:${colorFor(c)}">
-      ${themeOf(c) ? `<div class="gc-sticker">${THEMES[themeOf(c)].sticker}</div>` : ''}
-      <div class="gc-top">
-        <div class="gc-title">
-          <div class="gc-name">${esc(displayName(c))}</div>
-          ${c.from ? `<div class="gc-from">From ${esc(c.from)}</div>` : ''}
-        </div>
-        ${prepaid && NETWORKS[c.network] ? NETWORKS[c.network].mark : ''}
-      </div>
-      ${prepaid ? '<div class="emv"></div>' : ''}
-      <div class="gc-bottom">
-        <div>
-          <div class="gc-label">Balance</div>
-          <div class="gc-bal">${money(c.balance)}</div>
-        </div>
-        <div class="gc-right">
-          ${exp ? `<div class="gc-exp"><small>EXP</small> ${esc(exp)}</div>` : ''}
-          <div class="gc-num">${esc(lastFour(c.number))}</div>
-        </div>
-      </div>
-      <div class="holo"></div>
-    </div>`;
-}
-
-// Back of the card: barcode for store cards, masked details for prepaid cards
-function cardBack(c) {
-  const code = !isPrepaid(c) && c.number ? barcodeSVG(c.number) : '';
-  const panel = code
-    ? `${code}<div class="mono">${esc(c.number)}</div>`
-    : isPrepaid(c)
-      ? `<div class="mono">${esc(lastFour(c.number) || 'No number')}</div>
-         <div class="mono">EXP ${esc(c.exp || '--/--')} · CVV ${c.cvv ? '•••' : '—'}</div>`
-      : `<div class="mono">${esc(c.number || 'No card number saved')}</div>`;
-  return `
-    <div class="gc big back-side" style="--c:${colorFor(c)}">
-      <div class="stripe"></div>
-      <div class="panel-back">${panel}</div>
-      <div class="back-note">${c.pin ? 'PIN saved · ' : ''}${esc(displayName(c))}</div>
-    </div>`;
-}
-
-// ---------- Code 128 (set B) barcode ----------
-const C128 = ['212222','222122','222221','121223','121322','131222','122213','122312','132212','221213',
-  '221312','231212','112232','122132','122231','113222','123122','123221','223211','221132','221231',
-  '213212','223112','312131','311222','321122','321221','312212','322112','322211','212123','212321',
-  '232121','111323','131123','131321','112313','132113','132311','211313','231113','231311','112133',
-  '112331','132131','113123','113321','133121','313121','211331','231131','213113','213311','213131',
-  '311123','311321','331121','312113','312311','332111','314111','221411','431111','111224','111422',
-  '121124','121421','141122','141221','112214','112412','122114','122411','142112','142211','241211',
-  '221114','413111','241112','134111','111242','121142','121241','114212','124112','124211','411212',
-  '421112','421211','212141','214121','412121','111143','111341','131141','114113','114311','411113',
-  '411311','113141','114131','311141','411131','211412','211214','211232','2331112'];
-
-function barcodeSVG(text) {
-  const data = text.replace(/\s/g, '');
-  if (!data || /[^\x20-\x7e]/.test(data)) return '';
-  const codes = [104];
-  for (const ch of data) codes.push(ch.charCodeAt(0) - 32);
-  const checksum = codes.reduce((sum, v, i) => sum + v * (i || 1), 0) % 103;
-  codes.push(checksum, 106);
-  let x = 10, bars = '';
-  for (const code of codes) {
-    [...C128[code]].forEach((w, i) => {
-      if (i % 2 === 0) bars += `<rect x="${x}" y="0" width="${w}" height="60"/>`;
-      x += +w;
-    });
-  }
-  return `<svg viewBox="0 0 ${x + 10} 60" preserveAspectRatio="none">${bars}</svg>`;
-}
-
-// ---------- wallet ----------
-function render() {
-  renderHeader();
-  renderScope();
-  renderAlerts();
-  renderHero();
-  renderFilters();
-  renderList();
-  renderFamily();
-  renderActivity();
-  renderSettings();
-}
-
-function renderHeader() {
-  $('meBtn').innerHTML = `${avatar(me())}${esc(me().name)}`;
-  $('proBtn').textContent = isPremium() ? '👑 Premium' : '👑 Go Premium';
-  $('proBtn').classList.toggle('on', isPremium());
-  $('scanTop').innerHTML = '📷 Scan card to fill everything' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
-  $('addMemberBtn').innerHTML = '+ Add family member' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
-}
-
-function renderScope() {
-  const visible = isParent() && hasFamily() && (page === 'wallet' || page === 'activity');
-  $('scope').hidden = !visible;
-  if (!visible) return;
-  $('scope').innerHTML =
-    `<button class="chip-btn all ${walletScope === 'all' ? 'on' : ''}" data-scope="all">Everyone<span class="count">${cards.length}</span></button>` +
-    family.members.map(m => `
-      <button class="chip-btn ${walletScope === m.id ? 'on' : ''}" data-scope="${m.id}">
-        ${avatar(m, 'sm')}${esc(m.name)}<span class="count">${cards.filter(c => c.owner === m.id).length}</span>
-      </button>`).join('');
-}
-
-function walletTitle() {
-  if (walletScope !== 'all' && isParent()) {
-    const m = member(walletScope);
-    return m.id === family.current ? 'My Wallet' : `${possessive(m.name)} Wallet`;
-  }
-  return isParent() && hasFamily() ? 'Family Wallet' : 'My Wallet';
-}
-const ownerTag = c => {
-  const m = member(c.owner);
-  return showOwners() && m ? `<span class="owner-tag">${esc(m.avatar)} ${esc(m.name)}</span> · ` : '';
-};
-
-function showPage(p) {
-  page = p;
-  document.querySelectorAll('.page').forEach(s => { s.hidden = s.id !== 'page-' + p; });
-  const el = $('page-' + p);
-  el.classList.remove('enter');
-  void el.offsetWidth;                    // restart the page entrance animation
-  el.classList.add('enter');
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.page === p));
-  renderScope();
-  window.scrollTo(0, 0);
-}
-
-// ---------- expiration reminders ----------
-const urgentCards = (list = scopedCards()) => list.filter(isUrgent).sort((a, b) => a.expires.localeCompare(b.expires));
-
-function renderAlerts() {
-  const list = urgentCards();
-  if (!list.length) { $('alerts').innerHTML = ''; return; }
-  const canAsk = 'Notification' in window && Notification.permission === 'default';
-  const live = list.filter(c => daysLeft(c.expires) >= 0);
-  $('alerts').innerHTML = `
-    <section class="alert">
-      <div class="alert-head">
-        <b>${live.length ? '⏰ Use it before you lose it!' : '⛔ Expired cards with money left'}</b>
-        ${canAsk ? '<button class="mini" id="notifyBtn">🔔 Remind me</button>' : ''}
-      </div>
-      ${list.map(c => `
-        <button class="alert-item" data-id="${c.id}">
-          <span>${ownerTag(c)}${esc(displayName(c))}</span>
-          <span>${money(c.balance)} · ${esc(urgentText(c))}</span>
-        </button>`).join('')}
-    </section>`;
-}
-
-// Pop-up notification once per card per day while it's in its last week
-function sendReminders() {
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
-  let sent = {};
-  try { sent = JSON.parse(localStorage.getItem(NOTIFY_KEY)) || {}; } catch {}
-  urgentCards(myCards()).filter(c => daysLeft(c.expires) >= 0 && sent[c.id] !== today()).forEach(c => {
-    const owner = c.owner !== family.current && member(c.owner) ? `${possessive(member(c.owner).name)} ` : 'your ';
-    new Notification(`Use ${owner}${displayName(c)} card!`, {
-      body: `${money(c.balance)} left — it ${urgentText(c)}.`,
-      tag: c.id,
-    });
-    sent[c.id] = today();
-  });
-  localStorage.setItem(NOTIFY_KEY, JSON.stringify(sent));
-}
-
-$('eyeBtn').onclick = () => {
-  if (!isPremium()) return openPremium('privacy');
-  settings.privacy = !settings.privacy;
-  saveSettings();
-  renderHero();
-};
-
-$('alerts').onclick = e => {
-  if (e.target.id === 'notifyBtn') {
-    Notification.requestPermission().then(p => {
-      toast(p === 'granted' ? 'Reminders on 🔔' : 'Reminders are blocked in this browser');
-      renderAlerts();
-      sendReminders();
-    });
-    return;
-  }
-  const item = e.target.closest('.alert-item');
-  if (item) showDetail(item.dataset.id);
-};
-
-function renderHero() {
-  document.body.classList.toggle('privacy', isPremium() && settings.privacy);
-  $('eyeBtn').textContent = isPremium() && settings.privacy ? '🙈 Show' : '👁 Hide';
-  const cards = scopedCards();
-  $('heroLabel').textContent = walletTitle();
-  const total = cards.reduce((s, c) => s + Number(c.balance || 0), 0);
-  const active = cards.filter(c => Number(c.balance) > 0).length;
-  const soon = cards.filter(expiringSoon).length;
-  countUp($('total'), total);
-
-  // Fan of the three fullest cards in the corner of the hero
-  const top = cards.filter(c => Number(c.balance) > 0).sort((a, b) => b.balance - a.balance).slice(0, 3);
-  const fan = [{ r: -6, x: 0, y: 0 }, { r: 7, x: -28, y: 22 }, { r: 18, x: -54, y: 46 }];
-  $('heroStack').innerHTML = top.map((c, i) => ({ c, i })).reverse().map(({ c, i }) =>
-    `<div class="slot" style="--r:${fan[i].r}deg;--x:${fan[i].x}px;--y:${fan[i].y}px;--d:${i * -1.4}s">${cardVisual(c)}</div>`).join('');
-  $('heroStack').parentElement.classList.toggle('has-stack', top.length > 0);
-  $('stats').innerHTML = `
-    <span><b>${cards.length}</b> card${cards.length === 1 ? '' : 's'}</span>
-    <span><b>${active}</b> with money left</span>
-    ${soon ? `<span class="warn"><b>${soon}</b> expiring soon</span>` : ''}`;
-
-  const byCat = {};
-  cards.forEach(c => { byCat[categoryOf(c)] = (byCat[categoryOf(c)] || 0) + Number(c.balance || 0); });
-  const cats = Object.keys(CATEGORIES).filter(k => byCat[k] > 0);
-  $('breakdown').innerHTML = total > 0 ? `
-    <div class="breakdown">${cats.map(k => `<span style="width:${byCat[k] / total * 100}%;background:${CATEGORIES[k]}"></span>`).join('')}</div>
-    <div class="legend">${cats.map(k => `<span><i style="background:${CATEGORIES[k]}"></i>${k} ${money(byCat[k])}</span>`).join('')}</div>` : '';
-}
-
-function renderFilters() {
-  const cards = scopedCards();
-  const counts = { All: cards.length };
-  cards.forEach(c => { counts[categoryOf(c)] = (counts[categoryOf(c)] || 0) + 1; });
-  const soon = cards.filter(expiringSoon).length;
-  const used = cards.filter(c => Number(c.balance) <= 0).length;
-  const filters = ['All', ...Object.keys(CATEGORIES).filter(k => counts[k])];
-  if (soon) { filters.push('Expiring soon'); counts['Expiring soon'] = soon; }
-  if (used) { filters.push('Used up'); counts['Used up'] = used; }
-  if (!filters.includes(activeFilter)) activeFilter = 'All';
-  $('filters').innerHTML = cards.length ? filters.map(f =>
-    `<button class="chip-btn ${f === activeFilter ? 'on' : ''}" data-filter="${esc(f)}">${esc(f)}<span class="count">${counts[f]}</span></button>`
-  ).join('') : '';
-}
-
-function renderList() {
-  const cards = scopedCards();
-  const q = $('search').value.trim().toLowerCase();
-  const sort = $('sort').value;
-
-  if (!cards.length) {
-    $('list').innerHTML = `<div class="empty-state"><div class="big-emoji">🎁</div>
-      <b>No gift cards ${walletScope !== 'all' && isParent() && walletScope !== family.current ? `for ${esc(member(walletScope).name)} ` : ''}yet</b><br>Tap the <b>+</b> button to add one.</div>`;
-    return;
-  }
-
-  const shown = cards.filter(c => {
-    if (activeFilter === 'Expiring soon' && !expiringSoon(c)) return false;
-    if (activeFilter === 'Used up' && Number(c.balance) > 0) return false;
-    if (!['All', 'Expiring soon', 'Used up'].includes(activeFilter) && categoryOf(c) !== activeFilter) return false;
-    const haystack = `${displayName(c)} ${categoryOf(c)} ${c.notes || ''} ${NETWORKS[c.network]?.name || ''} ${member(c.owner)?.name || ''}`.toLowerCase();
-    return haystack.includes(q);
-  });
-
-  const sorters = {
-    balance: (a, b) => b.balance - a.balance,
-    name: (a, b) => displayName(a).localeCompare(displayName(b)),
-    expiring: (a, b) => (a.expires || '9999') .localeCompare(b.expires || '9999'),
-    recent: (a, b) => (b.added || '').localeCompare(a.added || ''),
-  };
-  shown.sort((a, b) => (Number(b.balance) > 0) - (Number(a.balance) > 0) || sorters[sort](a, b));
-
-  if (!shown.length) {
-    $('list').innerHTML = `<div class="empty-state">No cards match.</div>`;
-    return;
-  }
-  // Only play the entrance animation when the set of cards on screen changes
-  const signature = shown.map(c => c.id).join() + activeFilter + walletScope;
-  const animate = signature !== renderList.last;
-  renderList.last = signature;
-  $('list').innerHTML = `<div class="grid">${shown.map((c, i) => {
-    const used = Number(c.balance) <= 0;
-    const caption =
-      used ? 'Used up' :
-      isUrgent(c) ? (daysLeft(c.expires) < 0 ? '⛔ Expired with money on it' : `⏰ Use it! ${urgentText(c)}`) :
-      expiringSoon(c) ? '⚠️ ' + expiryText(c.expires) :
-      (c.from ? `From ${c.from}` : categoryOf(c));
-    const tone = isUrgent(c) ? 'urgent' : expiringSoon(c) ? 'warn' : '';
-    return `
-      <button class="tile ${used ? 'used' : ''} ${animate ? 'enter' : ''}" data-id="${c.id}" style="--i:${i}">
-        ${cardVisual(c)}
-        <div class="caption ${tone}">${ownerTag(c)}${esc(caption)}</div>
-      </button>`;
-  }).join('')}</div>`;
-}
-
-// ---------- add / edit form ----------
-function setFormType(type) {
-  formType = type;
-  document.querySelectorAll('#typeSeg button').forEach(b => b.classList.toggle('on', b.dataset.type === type));
-  $('storeFields').hidden = type !== 'store';
-  $('prepaidFields').hidden = type !== 'prepaid';
-  updatePreview();
-}
-
-function renderBrandPicker() {
-  const q = $('fStore').value.trim().toLowerCase();
-  const matches = q ? BRANDS.filter(b => b.name.toLowerCase().includes(q)) : BRANDS;
-  $('brandPicker').innerHTML = matches.map(b =>
-    `<button type="button" class="brand ${b.name.toLowerCase() === q ? 'on' : ''}" data-brand="${esc(b.name)}">
-       <i style="background:${b.color}"></i>${esc(b.name)}</button>`).join('');
-}
-
-function readForm() {
-  const amount = $('fAmount').value === '' ? null : Number($('fAmount').value);
-  const balance = $('fBalance').value === '' ? amount : Number($('fBalance').value);
-  const base = { type: formType, amount: amount ?? balance ?? 0, balance: balance ?? 0, notes: $('fNotes').value.trim(),
-                 from: $('fFrom').value.trim(), color: formColor, theme: formTheme, owner: formOwner };
-  if (formType === 'prepaid') {
-    const number = digits($('fCardNum').value);
-    const network = detectNetwork(number);
-    return { ...base, network, store: $('fIssuer').value.trim(), number: formatCardNumber(number),
-             exp: $('fExp').value, cvv: $('fCvv').value.trim(), expires: expToDate($('fExp').value), pin: '' };
-  }
-  return { ...base, network: null, store: $('fStore').value.trim(), number: $('fNumber').value.trim(),
-           pin: $('fPin').value.trim(), expires: $('fExpires').value, exp: '', cvv: '' };
-}
-
-function updatePreview() {
-  $('formPreview').innerHTML = cardVisual(readForm());
-  if (formType === 'store') renderBrandPicker();
-  else {
-    const num = digits($('fCardNum').value);
-    const net = detectNetwork(num);
-    const hint = $('netHint');
-    hint.classList.remove('bad');
-    if (!num) hint.textContent = 'Visa, Mastercard, Amex and Discover are detected automatically.';
-    else if (num.length >= 15 && !luhnOk(num)) { hint.textContent = 'Hmm, that number doesn’t look right — double-check it.'; hint.classList.add('bad'); }
-    else hint.textContent = net ? `${NETWORKS[net].name} card ✓` : 'Card type not recognized yet…';
-  }
-}
-
-function openForm(id = null) {
-  if (!id && !canAddCard()) { openPremium('cards'); return false; }
-  editingId = id;
-  const c = cards.find(x => x.id === id) || {};
-  $('formTitle').textContent = id ? 'Edit Card' : 'Add Card';
-  $('fStore').value = isPrepaid(c) ? '' : (c.store || '');
-  $('fNumber').value = isPrepaid(c) ? '' : (c.number || '');
-  $('fPin').value = c.pin || '';
-  $('fExpires').value = isPrepaid(c) ? '' : (c.expires || '');
-  $('fCardNum').value = isPrepaid(c) ? (c.number || '') : '';
-  $('fExp').value = c.exp || '';
-  $('fCvv').value = c.cvv || '';
-  $('fIssuer').value = isPrepaid(c) ? (c.store || '') : '';
-  $('fAmount').value = c.amount ?? '';
-  $('fBalance').value = c.balance ?? '';
-  $('fNotes').value = c.notes || '';
-  $('fFrom').value = c.from || '';
-  formOwner = c.owner || (isParent() && walletScope !== 'all' ? walletScope : family.current);
-  renderOwnerPicker();
-  formColor = c.color || '';
-  renderSwatches();
-  formTheme = c.theme || '';
-  renderThemes();
-  $('formError').textContent = '';
-  setFormType(isPrepaid(c) ? 'prepaid' : 'store');
-  open('formOverlay');
-  return true;
-}
-
-function renderOwnerPicker() {
-  $('ownerWrap').hidden = !isParent() || !hasFamily();
-  $('ownerPicker').innerHTML = family.members.map(m =>
-    `<button type="button" class="owner-opt ${m.id === formOwner ? 'on' : ''}" data-owner="${m.id}">${avatar(m, 'sm')}${esc(m.name)}</button>`).join('');
-}
-$('ownerPicker').onclick = e => {
-  const b = e.target.closest('[data-owner]');
-  if (!b) return;
-  formOwner = b.dataset.owner;
-  renderOwnerPicker();
-};
-
-function renderSwatches() {
-  $('colorPicker').innerHTML =
-    `<button type="button" class="swatch auto ${formColor ? '' : 'on'}" data-color="" title="Brand color"></button>` +
-    SWATCHES.map(s => `<button type="button" class="swatch ${s === formColor ? 'on' : ''}" data-color="${s}" style="background:${s}"></button>`).join('');
-}
-$('colorPicker').onclick = e => {
-  const s = e.target.closest('.swatch');
-  if (!s) return;
-  formColor = s.dataset.color;
-  renderSwatches();
-  updatePreview();
-};
-
-function renderThemes() {
-  $('themeLock').hidden = isPremium();
-  $('themePicker').innerHTML = Object.entries(THEMES).map(([k, t]) =>
-    `<button type="button" class="theme-btn ${k === formTheme ? 'on' : ''}" data-theme="${k}">${t.sticker || '⬜️'} ${t.name}</button>`).join('');
-}
-$('themePicker').onclick = e => {
-  const b = e.target.closest('[data-theme]');
-  if (!b) return;
-  if (!isPremium()) return openPremium('themes');
-  formTheme = b.dataset.theme;
-  renderThemes();
-  updatePreview();
-};
-
-$('typeSeg').onclick = e => { const b = e.target.closest('button'); if (b) setFormType(b.dataset.type); };
-$('brandPicker').onclick = e => {
-  const b = e.target.closest('.brand');
-  if (!b) return;
-  $('fStore').value = b.dataset.brand;
-  updatePreview();
-};
-$('fCardNum').addEventListener('input', () => { $('fCardNum').value = formatCardNumber($('fCardNum').value); });
-$('fExp').addEventListener('input', e => {
-  const d = digits($('fExp').value).slice(0, 4);
-  $('fExp').value = d.length > 2 || (d.length === 2 && e.inputType !== 'deleteContentBackward') ? d.slice(0, 2) + '/' + d.slice(2) : d;
-});
-$('fCvv').addEventListener('input', () => { $('fCvv').value = digits($('fCvv').value).slice(0, 4); });
-$('cardForm').addEventListener('input', updatePreview);
-
-$('cardForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const fields = readForm();
-  const error =
-    formType === 'store' && !fields.store ? 'Please choose or type a store name.' :
-    formType === 'prepaid' && !digits(fields.number) ? 'Please enter the card number.' :
-    formType === 'prepaid' && fields.exp && !fields.expires ? 'Expiration should look like 08/29.' :
-    $('fAmount').value === '' && $('fBalance').value === '' ? 'Please enter how much is on the card.' : '';
-  $('formError').textContent = error;
-  if (error) return;
-
-  if (editingId) {
-    const c = cards.find(x => x.id === editingId);
-    if (Number(c.balance) !== fields.balance) c.history.push({ date: today(), balance: fields.balance, note: 'Edited', by: family.current });
-    Object.assign(c, fields);
-  } else {
-    cards.push({ id: crypto.randomUUID(), added: today(), history: [{ date: today(), balance: fields.balance, note: 'Added', by: family.current }], ...fields });
-  }
-  save();
-  close('formOverlay');
-  render();
-  toast(editingId ? 'Card updated' : 'Card added 🎉');
-  if (!editingId) confetti();
-  if (editingId) showDetail(editingId);
-});
-
-// ---------- card detail ----------
-function secretRow(label, value, masked) {
-  return `<div class="field"><span>${label}</span><span class="val">
-    <span class="mono" data-secret="${esc(value)}" data-masked="${esc(masked)}">${esc(masked)}</span>
-    <button class="mini" data-act="reveal">Show</button>
-    <button class="mini" data-act="copy" data-value="${esc(value)}">Copy</button></span></div>`;
-}
-
-function showDetail(id) {
-  const c = cards.find(x => x.id === id);
-  if (!c) return;
-  const prepaid = isPrepaid(c);
-  const pct = c.amount > 0 ? Math.min(100, c.balance / c.amount * 100) : 0;
-  const code = !prepaid && c.number ? barcodeSVG(c.number) : '';
-  const exp = expiryText(c.expires);
-
-  $('detail').innerHTML = `
-    <div class="sheet-head">
-      <h2>${esc(displayName(c))}</h2>
-      <button class="x" data-close aria-label="Close">✕</button>
-    </div>
-    ${isUrgent(c) ? `<div class="use-it">${daysLeft(c.expires) < 0
-        ? `⛔ This card expired with ${money(c.balance)} on it. Call the store — some still honor the balance.`
-        : `⏰ Use it! This card ${esc(urgentText(c))} and still has ${money(c.balance)}.`}</div>` : ''}
-    <div class="flip" data-act="flip">
-      <div class="flip-inner">
-        <div class="face">${cardVisual(c, true)}</div>
-        <div class="face back">${cardBack(c)}</div>
-      </div>
-    </div>
-    <div class="flip-hint">Tap the card to flip it</div>
-    <div class="progress"><span style="width:${pct}%"></span></div>
-    <div class="progress-text"><span>${money(c.balance)} left</span><span>of ${money(c.amount)}</span></div>
-    <a class="check-link" target="_blank" rel="noopener"
-       href="https://www.google.com/search?q=${encodeURIComponent(displayName(c) + ' gift card check balance')}">Check balance online ↗</a>
-
-    <button class="btn gold" data-act="pay" style="margin-top:14px">🛒 Pay at checkout${isPremium() ? '' : ' <span class="lock" style="background:#2a1a00;color:#ffd27a">PREMIUM</span>'}</button>
-    <div class="quick">
-      <button class="btn primary" data-act="balance">Update Balance</button>
-      <button class="btn" data-act="edit">Edit</button>
-      <button class="btn danger" data-act="delete">Delete</button>
-    </div>
-
-    ${code ? `<div class="section-title">Show at checkout</div>
-      <div class="barcode-box">${code}<div class="num">${esc(c.number)}</div></div>` : ''}
-
-    <div class="section-title">Card details</div>
-    <div class="panel">
-      ${prepaid ? `
-        <div class="field"><span>Network</span><span class="val">${esc(NETWORKS[c.network]?.name || 'Unknown')}</span></div>
-        ${c.number ? secretRow('Card number', c.number, lastFour(c.number)) : ''}
-        ${c.exp ? `<div class="field"><span>Expires</span><span class="val mono">${esc(c.exp)}</span></div>` : ''}
-        ${c.cvv ? secretRow('Security code', c.cvv, '•••') : ''}`
-      : `
-        ${c.number && !code ? `<div class="field"><span>Card number</span><span class="val mono">${esc(c.number)}</span></div>` : ''}
-        ${c.pin ? secretRow('PIN', c.pin, '••••') : ''}
-        ${exp ? `<div class="field"><span>Expiration</span><span class="val">${expiringSoon(c) ? `<span class="pill">${esc(exp)}</span>` : esc(exp)}</span></div>` : ''}`}
-      ${hasFamily() && member(c.owner) ? `<div class="field"><span>Belongs to</span><span class="val">${avatar(member(c.owner), 'sm')} ${esc(member(c.owner).name)}</span></div>` : ''}
-      <div class="field"><span>Category</span><span class="val">${esc(categoryOf(c))}</span></div>
-      <div class="field"><span>Added</span><span class="val">${fmtDate(c.added)}</span></div>
-      ${c.notes ? `<div class="field"><span>Notes</span><span class="val">${esc(c.notes)}</span></div>` : ''}
-    </div>
-
-    <div class="section-title">Balance history</div>
-    <div class="panel timeline">${c.history.slice().reverse().map(h =>
-      `<div><span>${esc(h.note)} <small>· ${fmtDate(h.date)}${hasFamily() && member(h.by) ? ` · by ${esc(member(h.by).name)}` : ''}</small></span><b>${money(h.balance)}</b></div>`).join('')}</div>`;
-
-  $('detail').onclick = e => {
-    const b = e.target.closest('[data-act]');
-    if (!b) return;
-    const act = b.dataset.act;
-    if (act === 'flip') {
-      b.classList.toggle('flipped');
-    } else if (act === 'reveal') {
-      const s = b.parentElement.querySelector('[data-secret]');
-      const hidden = b.textContent === 'Show';
-      s.textContent = hidden ? s.dataset.secret : s.dataset.masked;
-      b.textContent = hidden ? 'Hide' : 'Show';
-    } else if (act === 'copy') {
-      navigator.clipboard?.writeText(b.dataset.value).then(() => toast('Copied'), () => toast('Couldn’t copy'));
-    } else if (act === 'pay') {
-      isPremium() ? openPay(id) : openPremium('checkout');
-    } else if (act === 'balance') {
-      openBalance(id);
-    } else if (act === 'edit') {
-      close('detailOverlay');
-      openForm(id);
-    } else if (act === 'delete') {
-      if (!confirm(`Delete ${displayName(c)}? This can’t be undone.`)) return;
-      cards = cards.filter(x => x.id !== id);
-      save(); close('detailOverlay'); render(); toast('Card deleted');
-    }
-  };
-  open('detailOverlay');
-}
-
-// ---------- checkout mode (Premium) ----------
-function openPay(id) {
-  const c = cards.find(x => x.id === id);
-  if (!c) return;
-  payId = id;
-  const code = !isPrepaid(c) && c.number ? barcodeSVG(c.number) : '';
-  $('payBody').innerHTML = `
-    <h2>${esc(displayName(c))}</h2>
-    <div class="pay-bal"><small>Balance</small>${money(c.balance)}</div>
-    ${code ? `<div class="barcode-box">${code}<div class="num">${esc(c.number)}</div></div>`
-      : c.number ? `<div class="barcode-box"><div class="num">${esc(isPrepaid(c) ? formatCardNumber(c.number) : c.number)}</div>
-          ${isPrepaid(c) ? `<div class="pay-pin"><span>Exp</span>${esc(c.exp || '--/--')} <span style="margin-left:14px">CVV</span>${esc(c.cvv || '—')}</div>` : ''}</div>`
-      : '<div class="pay-tip">No card number saved — edit the card to add one.</div>'}
-    ${c.pin ? `<div class="pay-pin"><span>PIN</span>${esc(c.pin)}</div>` : ''}`;
-  $('paySpent').value = '';
-  open('payOverlay');
-  navigator.wakeLock?.request('screen').then(l => { wakeLock = l; }, () => {});
-}
-function closePay() {
-  wakeLock?.release().catch(() => {});
-  wakeLock = null;
-  close('payOverlay');
-}
-$('payForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const c = cards.find(x => x.id === payId);
-  const spent = Number($('paySpent').value) || 0;
-  if (c && spent > 0) {
-    const balance = Math.round(Math.max(0, c.balance - spent) * 100) / 100;
-    c.history.push({ date: today(), balance, note: `Spent ${money(spent)} at checkout`, by: family.current });
-    c.balance = balance;
-    save();
-    toast(`${money(balance)} left on ${displayName(c)}`);
-  }
-  closePay();
-  render();
-  if (c) showDetail(c.id);
-});
-
-// ---------- update balance ----------
-function openBalance(id) {
-  balanceId = id;
-  setBalanceMode('spent');
-  $('bAmount').value = '';
-  open('balanceOverlay');
-  setTimeout(() => $('bAmount').focus(), 50);
-}
-function setBalanceMode(mode) {
-  balanceMode = mode;
-  document.querySelectorAll('#balanceMode button').forEach(b => b.classList.toggle('on', b.dataset.mode === mode));
-  $('bLabel').textContent = mode === 'spent' ? 'Amount spent' : 'New balance';
-  updateBalanceHint();
-}
-function updateBalanceHint() {
-  const c = cards.find(x => x.id === balanceId);
-  if (!c) return;
-  const v = Number($('bAmount').value) || 0;
-  const after = balanceMode === 'spent' ? Math.max(0, c.balance - v) : v;
-  $('bHint').textContent = `Now ${money(c.balance)} → after update ${money(after)}`;
-}
-document.querySelectorAll('#balanceMode button').forEach(b => b.onclick = () => setBalanceMode(b.dataset.mode));
-$('bAmount').oninput = updateBalanceHint;
-
-$('balanceForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const c = cards.find(x => x.id === balanceId);
-  const value = Number($('bAmount').value);
-  const balance = Math.round((balanceMode === 'spent' ? Math.max(0, c.balance - value) : value) * 100) / 100;
-  c.history.push({ date: today(), balance, note: balanceMode === 'spent' ? `Spent ${money(value)}` : 'Balance set', by: family.current });
-  c.balance = balance;
-  save();
-  close('balanceOverlay');
-  render();
-  showDetail(c.id);
-  toast('Balance updated');
-});
-
-// ---------- barcode scanner ----------
-// Uses the browser's built-in BarcodeDetector when available (Chrome, Android),
-// otherwise falls back to the ZXing library (Safari, Firefox).
-let scanStream = null;
-let scanTimer = null;
-let nativeDetector = null;
-const scanCanvas = document.createElement('canvas');
-
-async function detectBarcode(source, width, height, tryEverything) {
-  scanCanvas.width = width;
-  scanCanvas.height = height;
-  scanCanvas.getContext('2d', { willReadFrequently: true }).drawImage(source, 0, 0, width, height);
-
-  if ('BarcodeDetector' in window) {
-    try {
-      nativeDetector ??= new BarcodeDetector();
-      const found = await nativeDetector.detect(scanCanvas);
-      if (found.length) return found[0].rawValue;
-      if (!tryEverything) return null;
-    } catch {}
-  }
-  if (!window.ZXing) return null;
-  try {
-    const reader = new ZXing.MultiFormatReader();
-    reader.setHints(new Map([[ZXing.DecodeHintType.TRY_HARDER, true]]));
-    const source = new ZXing.HTMLCanvasElementLuminanceSource(scanCanvas);
-    return reader.decode(new ZXing.BinaryBitmap(new ZXing.HybridBinarizer(source))).getText();
-  } catch {
-    return null; // no barcode in this frame
-  }
-}
-
-function scanStatus(text) { $('scanStatus').textContent = text; }
-
-// ---------- reading the printed text (OCR) ----------
-// Tesseract.js runs in the browser, so card photos never leave the device.
-let ocrWorker = null;
-function loadOcr() {
-  ocrWorker ??= new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js';
-    script.onload = () => Tesseract.createWorker('eng').then(resolve, reject);
-    script.onerror = reject;
-    document.head.appendChild(script);
-  }).catch(err => { ocrWorker = null; throw err; });
-  return ocrWorker;
-}
-async function readText(canvas) {
-  try {
-    const worker = await loadOcr();
-    return (await worker.recognize(canvas)).data.text || '';
-  } catch {
-    return '';
-  }
-}
-
-const normalize = s => ' ' + s.toLowerCase().replace(/['’]/g, '').replace(/[^a-z0-9]+/g, ' ') + ' ';
-const BRAND_ALIASES = {
-  'amazon com': 'Amazon', 'itunes': 'App Store & iTunes', 'apple gift card': 'Apple', 'v bucks': 'Fortnite V-Bucks',
-  'vbucks': 'Fortnite V-Bucks', 'nintendo': 'Nintendo eShop', 'eshop': 'Nintendo eShop', 'psn': 'PlayStation',
-  'steam wallet': 'Steam', 'robux': 'Roblox',
-};
-
-// Pull store, numbers, PIN, expiration and amount out of the text printed on a card
-function parseCardText(text) {
-  const found = {};
-  const norm = normalize(text);
-  const names = [...BRANDS.map(b => [normalize(b.name).trim(), b.name]), ...Object.entries(BRAND_ALIASES)];
-  const brand = names.filter(([key]) => key && norm.includes(` ${key} `)).sort((a, b) => b[0].length - a[0].length)[0];
-  if (brand) found.store = brand[1];
-
-  if (/\bvisa\b/i.test(text)) found.network = 'visa';
-  else if (/master\s?card/i.test(text)) found.network = 'mastercard';
-  else if (/american\s+express|\bamex\b/i.test(text)) found.network = 'amex';
-  else if (/\bdiscover\b/i.test(text)) found.network = 'discover';
-
-  const claim = /claim\s*code\W*([A-Z0-9]{4}-?[A-Z0-9]{6}-?[A-Z0-9]{4,5})\b/i.exec(text);
-  const numbers = (text.match(/\d(?:[ -]?\d){11,18}/g) || []).map(digits);
-  const cardNumber = numbers.find(n => luhnOk(n) && detectNetwork(n)) || numbers.sort((a, b) => b.length - a.length)[0];
-  if (claim) found.number = claim[1].toUpperCase();
-  else if (cardNumber) found.number = cardNumber;
-
-  const pin = /\b(?:pin|access\s*(?:code|number)|scratch(?:-off)?\s*code)\W{0,3}(\d{3,10})\b/i.exec(text);
-  if (pin) found.pin = pin[1];
-  const cvv = /\b(?:cvv2?|cvc2?|cid|security\s*code)\W{0,3}(\d{3,4})\b/i.exec(text);
-  if (cvv) found.cvv = cvv[1];
-  const exp = /(?:exp(?:ires|iration)?|valid\s*thru|good\s*thru|valid\s*until)\W{0,3}(0[1-9]|1[0-2])\s*[\/-]\s*(\d{4}|\d{2})\b/i.exec(text)
-           || /\b(0[1-9]|1[0-2])\/(\d{2})\b/.exec(text);
-  if (exp) found.exp = `${exp[1]}/${exp[2].slice(-2)}`;
-  const amounts = [...text.matchAll(/\$\s?(\d{1,4}(?:[.,]\d{2})?)\b/g)]
-    .map(m => Number(m[1].replace(',', '.'))).filter(n => n > 0 && n <= 2000);
-  if (amounts.length) found.amount = Math.max(...amounts);
-  return found;
-}
-
-// ---------- scanning flow ----------
-let scanFrozen = false;
-let scanData = {};      // everything found so far, across front and back photos
-
-function resetStill() {
-  scanFrozen = false;
-  $('scanStill').hidden = true;
-  $('scanShoot').textContent = '📸 Take Photo';
-}
-
-async function openScanner() {
-  scanData = {};
-  $('scanFound').hidden = true;
-  $('scanUseRow').hidden = true;
-  open('scanOverlay');
-  resetStill();
-  startCamera();
-}
-
-// Open the live camera right inside the page
-async function startCamera() {
-  scanStatus('Opening camera…');
-  if (!navigator.mediaDevices?.getUserMedia) {
-    scanStatus('This browser can’t open the camera. Please use Chrome or Safari.');
-    $('scanShoot').textContent = '↻ Try again';
-    return;
-  }
-  try {
-    scanStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: 'environment', width: { ideal: 1920 } },
-    });
-  } catch (err) {
-    scanStatus(err.name === 'NotAllowedError'
-      ? 'Camera is blocked. Click the camera icon in the address bar, choose Allow, then tap Try again.'
-      : err.name === 'NotFoundError' ? 'No camera found on this device.'
-      : 'Couldn’t start the camera — close other apps using it (Zoom, FaceTime) and tap Try again.');
-    $('scanShoot').textContent = '↻ Try again';
-    return;
-  }
-  if (!$('scanOverlay').classList.contains('open')) return stopScanner(); // closed while waiting
-  scanStatus('Fit the card inside the box and tap Take Photo.');
-  $('scanShoot').textContent = '📸 Take Photo';
-  const video = $('scanVideo');
-  video.srcObject = scanStream;
-  await video.play();
-  scanLoop();
-}
-
-// While the camera is live, snap a photo automatically as soon as a barcode is in view
-async function scanLoop() {
-  if (!scanStream) return;
-  const video = $('scanVideo');
-  if (video.videoWidth && !scanFrozen && !scanData.barcode) {
-    const scale = Math.min(1, 1280 / video.videoWidth);
-    const code = await detectBarcode(video, video.videoWidth * scale, video.videoHeight * scale, false);
-    if (code && !scanFrozen) takePhoto();
-  }
-  scanTimer = setTimeout(scanLoop, 250);
-}
-
-function stopScanner() {
-  clearTimeout(scanTimer);
-  scanStream?.getTracks().forEach(t => t.stop());
-  scanStream = null;
-  $('scanVideo').srcObject = null;
-  resetStill();
-  scanData = {};
-  close('scanOverlay');
-}
-
-function freeze() {
-  $('scanStill').hidden = false;
-  scanFrozen = true;
-  $('scanFlash').classList.remove('go');
-  void $('scanFlash').offsetWidth;        // restart the flash animation
-  $('scanFlash').classList.add('go');
-  navigator.vibrate?.(60);
-}
-
-async function takePhoto() {
-  if (scanFrozen) {                       // "Retake" / "Other side"
-    resetStill();
-    scanStatus(Object.keys(scanData).length
-      ? 'Now flip the card and take a photo of the other side.'
-      : 'Fit the card inside the box and tap Take Photo.');
-    return;
-  }
-  const video = $('scanVideo');
-  if (!scanStream) return startCamera();  // "Try again"
-  if (!video.videoWidth) return;
-  const still = $('scanStill');
-  still.width = video.videoWidth;
-  still.height = video.videoHeight;
-  still.getContext('2d').drawImage(video, 0, 0);
-  freeze();
-  analyze(still);
-}
-
-async function analyze(still) {
-  $('scanShoot').disabled = true;
-  scanStatus(ocrWorker ? 'Reading the card…' : 'Reading the card… (the first time takes a few seconds)');
-  const scale = Math.min(1, 2000 / Math.max(still.width, still.height));
-  const [code, text] = await Promise.all([
-    detectBarcode(still, still.width * scale, still.height * scale, true),
-    readText(still),
-  ]);
-  $('scanShoot').disabled = false;
-  if (!$('scanOverlay').classList.contains('open')) return;   // cancelled while reading
-
-  const before = Object.keys(scanData).length;
-  if (code && !scanData.barcode) scanData.barcode = code;
-  for (const [k, v] of Object.entries(parseCardText(text))) if (v && !scanData[k]) scanData[k] = v;
-  const gotNew = Object.keys(scanData).length > before;
-
-  $('scanShoot').textContent = Object.keys(scanData).length ? '↺ Other side' : '↺ Retake';
-  scanStatus(
-    !Object.keys(scanData).length ? 'Couldn’t read this card. Hold it flat in good light, fill the box, and retake.' :
-    gotNew ? 'Got it! Check the info below — or flip the card and tap “Other side” to read more.' :
-    'Nothing new on this side. Check the info below.');
-  renderFound();
-}
-
-// Prepaid if we found a valid Visa/Mastercard/Amex/Discover number, or the network logo and no store
-function scanKind() {
-  const n = scanData.number;
-  if (n && luhnOk(n) && detectNetwork(n) && (scanData.network || !scanData.store)) return 'prepaid';
-  return scanData.network && !scanData.store ? 'prepaid' : 'store';
-}
-
-function renderFound() {
-  const kind = scanKind();
-  const d = scanData;
-  const miss = text => `<span class="miss">${text}</span>`;
-  const rows = kind === 'prepaid' ? [
-    ['Card type', d.network || detectNetwork(d.number) ? NETWORKS[d.network || detectNetwork(d.number)].name + ' gift card' : ''],
-    ['Card number', d.number ? lastFour(formatCardNumber(d.number)) : ''],
-    ['Expires', d.exp],
-    ['Security code', d.cvv ? '•••' : ''],
-  ] : [
-    ['Store', d.store],
-    ['Card number', d.barcode || d.number],
-    ['PIN', d.pin],
-    ['Expires', d.exp],
-  ];
-  rows.push(['Card value', d.amount ? money(d.amount) : '']);
-  $('scanFound').innerHTML = rows.map(([k, v]) =>
-    `<div><span class="k">${k}</span><span class="v">${v ? esc(v) : miss('Not found')}</span></div>`).join('') +
-    `<div><span class="k">Balance</span><span class="v">${miss('Not on the card — check online after saving')}</span></div>`;
-  $('scanFound').hidden = false;
-  $('scanUseRow').hidden = !Object.keys(d).length;
-}
-
-function applyScan() {
-  const d = scanData;
-  const kind = scanKind();
-  setFormType(kind);
-  let filled = 0;
-  const fill = (id, value) => { if (value) { $(id).value = value; filled++; } };
-  if (kind === 'prepaid') {
-    fill('fCardNum', d.number && formatCardNumber(d.number));
-    fill('fExp', d.exp);
-    fill('fCvv', d.cvv);
-  } else {
-    fill('fStore', d.store);
-    fill('fNumber', d.barcode || d.number);
-    fill('fPin', d.pin);
-    fill('fExpires', expToDate(d.exp));
-  }
-  if ($('fAmount').value === '') fill('fAmount', d.amount);
-  stopScanner();
-  updatePreview();
-  toast(`Filled ${filled} field${filled === 1 ? '' : 's'} — please double-check`);
-}
-
-$('scanBtn').onclick = openScanner;
-$('scanTop').onclick = () => isPremium() ? openScanner() : openPremium('scan');
-$('scanCancel').onclick = stopScanner;
-$('scanX').onclick = stopScanner;
-$('scanShoot').onclick = takePhoto;
-$('scanUse').onclick = applyScan;
-
-// ---------- Family page ----------
-function renderFamily() {
-  const parent = isParent();
-  const ordered = [...family.members].sort((a, b) => (a.role === 'parent' ? 0 : 1) - (b.role === 'parent' ? 0 : 1));
-  $('familySub').textContent = parent
-    ? 'Tap someone to see their gift cards.'
-    : 'Ask a parent if you want to add or change a card.';
-  $('famHero').hidden = !parent;
-  $('addMemberBtn').hidden = !parent;
-  countUp($('famTotal'), balanceOf(cards));
-  const soon = cards.filter(isUrgent).length;
-  $('famStats').innerHTML = `
-    <span><b>${family.members.length}</b> ${family.members.length === 1 ? 'person' : 'people'}</span>
-    <span><b>${cards.length}</b> card${cards.length === 1 ? '' : 's'}</span>
-    ${soon ? `<span class="warn"><b>${soon}</b> need using this week</span>` : ''}`;
-
-  $('memberList').innerHTML = ordered.map(m => {
-    const own = cards.filter(c => c.owner === m.id);
-    const urgent = own.filter(isUrgent).length;
-    const canSee = parent || m.id === family.current;
-    return `
-      <div class="member" data-member="${m.id}">
-        ${avatar(m, 'lg')}
-        <div class="info">
-          <div class="name">${esc(m.name)}<span class="role-tag ${m.role}">${m.role === 'parent' ? 'Parent' : 'Kid'}</span>
-            ${m.id === family.current ? '<span class="role-tag">You</span>' : ''}</div>
-          <div class="meta">${canSee
-            ? `${own.length} card${own.length === 1 ? '' : 's'}${urgent ? ` · <span class="warn">⏰ ${urgent} expiring this week</span>` : ''}`
-            : 'Family member'}</div>
-        </div>
-        ${canSee ? `<div class="amt">${money(balanceOf(own))}</div>` : ''}
-        ${parent ? `<button class="edit" data-edit="${m.id}" aria-label="Edit ${esc(m.name)}">✎</button>` : ''}
-      </div>`;
-  }).join('');
-}
-
-$('memberList').onclick = e => {
-  const edit = e.target.closest('[data-edit]');
-  if (edit) return openMember(edit.dataset.edit);
-  const row = e.target.closest('[data-member]');
-  if (!row || (!isParent() && row.dataset.member !== family.current)) return;
-  walletScope = isParent() ? row.dataset.member : 'all';
-  activeFilter = 'All';
-  showPage('wallet');
-  render();
-};
-$('addMemberBtn').onclick = () => isPremium() ? openMember() : openPremium('family');
-
-// ---------- add / edit family member ----------
-let editingMember = null;
-let mRole = 'kid', mAvatar = '👧', mColor = '#5b2bb3';
-
-function openMember(id = null) {
-  editingMember = id;
-  const m = member(id) || {};
-  $('memberTitle').textContent = id ? `Edit ${m.name}` : 'Add family member';
-  $('mName').value = m.name || '';
-  $('mPin').value = m.pin || '';
-  mRole = m.role || 'kid';
-  mAvatar = m.avatar || '👧';
-  mColor = m.color || '#5b2bb3';
-  $('mDelete').hidden = !id || id === family.current;
-  $('memberError').textContent = '';
-  renderMemberForm();
-  open('memberOverlay');
-}
-
-function renderMemberForm() {
-  $('memberPreview').innerHTML = `${avatar({ avatar: mAvatar, color: mColor }, 'xl')}<span>${esc($('mName').value.trim() || 'New member')}</span>`;
-  document.querySelectorAll('#roleSeg button').forEach(b => b.classList.toggle('on', b.dataset.role === mRole));
-  $('roleHint').textContent = mRole === 'parent'
-    ? 'Parents can see and manage everyone’s gift cards.'
-    : 'Kids only see their own gift cards.';
-  $('emojiGrid').innerHTML = AVATARS.map(a =>
-    `<button type="button" class="emoji-opt ${a === mAvatar ? 'on' : ''}" data-emoji="${a}">${a}</button>`).join('');
-  $('memberColors').innerHTML = SWATCHES.map(s =>
-    `<button type="button" class="swatch ${s === mColor ? 'on' : ''}" data-color="${s}" style="background:${s}"></button>`).join('');
-  $('mPinWrap').hidden = mRole !== 'parent';
-}
-
-$('roleSeg').onclick = e => { const b = e.target.closest('[data-role]'); if (b) { mRole = b.dataset.role; renderMemberForm(); } };
-$('emojiGrid').onclick = e => { const b = e.target.closest('[data-emoji]'); if (b) { mAvatar = b.dataset.emoji; renderMemberForm(); } };
-$('memberColors').onclick = e => { const b = e.target.closest('[data-color]'); if (b) { mColor = b.dataset.color; renderMemberForm(); } };
-$('mName').oninput = renderMemberForm;
-$('mPin').oninput = () => { $('mPin').value = digits($('mPin').value).slice(0, 4); };
-
-$('memberForm').addEventListener('submit', e => {
-  e.preventDefault();
-  const name = $('mName').value.trim();
-  const pin = mRole === 'parent' ? $('mPin').value : '';
-  const otherParents = family.members.filter(m => m.role === 'parent' && m.id !== editingMember).length;
-  const error =
-    !name ? 'Please enter a name.' :
-    pin && pin.length !== 4 ? 'The PIN needs exactly 4 digits.' :
-    mRole === 'kid' && !otherParents ? 'The family needs at least one parent.' : '';
-  $('memberError').textContent = error;
-  if (error) return;
-  const fields = { name, role: mRole, avatar: mAvatar, color: mColor, pin };
-  if (editingMember) Object.assign(member(editingMember), fields);
-  else family.members.push({ id: crypto.randomUUID(), ...fields });
-  saveFamily();
-  close('memberOverlay');
-  render();
-  toast(editingMember ? 'Saved' : `${name} joined the family 🎉`);
-  if (!editingMember) confetti();
-});
-
-$('mDelete').onclick = () => {
-  const m = member(editingMember);
-  const own = cards.filter(c => c.owner === m.id);
-  if (!confirm(`Remove ${m.name} from the family?${own.length ? ` Their ${own.length} card${own.length === 1 ? '' : 's'} will move to you.` : ''}`)) return;
-  own.forEach(c => { c.owner = family.current; });
-  family.members = family.members.filter(x => x.id !== m.id);
-  if (walletScope === m.id) walletScope = 'all';
-  save(); saveFamily();
-  close('memberOverlay');
-  render();
-  toast(`${m.name} removed`);
-};
-
-// ---------- who's using the app ----------
-let pendingMember = null;
-
-function openWho() {
-  pendingMember = null;
-  $('pinBox').hidden = true;
-  $('whoGrid').innerHTML = family.members.map(m => `
-    <button class="who-btn ${m.id === family.current ? 'on' : ''}" data-who="${m.id}">
-      ${avatar(m, 'xl')}${esc(m.name)}<small>${m.role === 'parent' ? 'Parent' : 'Kid'}${m.pin ? ' · 🔒' : ''}</small>
-    </button>`).join('');
-  open('whoOverlay');
-}
-
-function switchTo(id) {
-  family.current = id;
-  saveFamily();
-  walletScope = 'all';
-  activeFilter = 'All';
-  close('whoOverlay');
-  showPage('wallet');
-  render();
-  toast(`Hi ${me().name}! 👋`);
-}
-
-$('whoGrid').onclick = e => {
-  const b = e.target.closest('[data-who]');
-  if (!b) return;
-  const m = member(b.dataset.who);
-  if (m.pin && m.id !== family.current) {
-    pendingMember = m.id;
-    $('pinPrompt').textContent = `Enter ${possessive(m.name)} PIN`;
-    $('pinInput').value = '';
-    $('pinError').textContent = '';
-    $('pinBox').hidden = false;
-    $('pinInput').focus();
-    return;
-  }
-  switchTo(m.id);
-};
-$('pinInput').oninput = () => {
-  $('pinInput').value = digits($('pinInput').value).slice(0, 4);
-  if ($('pinInput').value.length < 4) return;
-  if ($('pinInput').value === member(pendingMember)?.pin) return switchTo(pendingMember);
-  $('pinError').textContent = 'Wrong PIN — try again.';
-  $('pinInput').value = '';
-};
-$('meBtn').onclick = openWho;
-
-// ---------- Activity page ----------
-// Every balance change, newest first. delta = how much the balance went up or down.
-function cardEvents(list) {
-  const events = [];
-  list.forEach(c => {
-    let prev = null;
-    (c.history || []).forEach(h => {
-      events.push({ card: c, date: h.date, note: h.note, by: h.by, first: prev === null,
-                    delta: prev === null ? h.balance : h.balance - prev });
-      prev = h.balance;
-    });
-  });
-  return events.reverse().sort((a, b) => b.date.localeCompare(a.date));
-}
-
-function dayLabel(date) {
-  const diff = daysLeft(date);
-  return diff === 0 ? 'Today' : diff === -1 ? 'Yesterday' : fmtDate(date);
-}
-
-function renderActivity() {
-  const list = scopedCards();
-  const events = cardEvents(list);
-  const month = today().slice(0, 7), year = today().slice(0, 4);
-  const spentIn = prefix => events.filter(e => !e.first && e.delta < 0 && e.date.startsWith(prefix)).reduce((s, e) => s - e.delta, 0);
-  const received = events.filter(e => e.first && e.date.startsWith(year));
-
-  $('activitySub').textContent = walletScope !== 'all' && isParent()
-    ? `${possessive(member(walletScope).name)} spending and gift cards.`
-    : isParent() && hasFamily() ? 'Spending and gift cards for the whole family.' : 'Your spending and gift cards.';
-  $('activityStats').innerHTML = [
-    ['Spent this month', money(spentIn(month))],
-    ['Money left', money(balanceOf(list))],
-    [`Cards received in ${year}`, received.length],
-    [`Gift value in ${year}`, money(received.reduce((s, e) => s + e.delta, 0))],
-  ].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
-
-  renderInsights(list, events);
-
-  const byStore = {};
-  events.filter(e => !e.first && e.delta < 0).forEach(e => {
-    const key = displayName(e.card);
-    byStore[key] ??= { amount: 0, color: colorFor(e.card) };
-    byStore[key].amount -= e.delta;
-  });
-  const top = Object.entries(byStore).sort((a, b) => b[1].amount - a[1].amount).slice(0, 6);
-  const max = top[0]?.[1].amount || 1;
-  $('topStores').innerHTML = top.length ? top.map(([name, s]) => `
-    <div class="bar-row"><span class="lbl">${esc(name)}</span>
-      <span class="track"><span class="fill" style="display:block;width:${s.amount / max * 100}%;background:linear-gradient(90deg, ${s.color}, color-mix(in srgb, ${s.color} 45%, #fff))"></span></span>
-      <span class="num">${money(s.amount)}</span></div>`).join('')
-    : '<div class="empty-state" style="padding:22px 6px">No spending yet. When you use a card, tap <b>Update Balance</b> and it shows up here.</div>';
-
-  let lastDay = null;
-  $('eventList').innerHTML = events.length ? events.slice(0, 60).map(e => {
-    const day = e.date !== lastDay ? `<div class="day-label">${dayLabel(e.date)}</div>` : '';
-    lastDay = e.date;
-    const by = hasFamily() && member(e.by) ? ` · by ${esc(member(e.by).name)}` : '';
-    const amount = e.first || e.delta > 0
-      ? `<span class="amt pos">+${money(e.delta)}</span>`
-      : e.delta < 0 ? `<span class="amt neg">−${money(-e.delta)}</span>` : `<span class="amt">${money(0)}</span>`;
-    return `${day}
-      <button class="event" data-id="${e.card.id}">
-        <span class="dot" style="background:${colorFor(e.card)}">${esc(displayName(e.card)[0] || '?')}</span>
-        <span class="info"><div class="t">${esc(displayName(e.card))}</div>
-          <div class="s">${ownerTag(e.card)}${esc(e.first ? 'Card added' : e.note)}${by}</div></span>
-        ${amount}
-      </button>`;
-  }).join('') : '<div class="empty-state" style="padding:22px 6px">Nothing yet — add a gift card to get started.</div>';
-}
-function renderInsights(list, events) {
-  const lastUsed = c => (c.history || []).reduce((d, h) => h.date > d ? h.date : d, c.added || '');
-  const forgotten = list.filter(c => c.balance > 0 && daysLeft(lastUsed(c)) <= -90);
-  const leftovers = list.filter(c => c.balance > 0 && c.balance < 5);
-  // Money spent in the last month before a card expired = money that would have been lost
-  const rescued = events.filter(e => !e.first && e.delta < 0 && e.card.expires &&
-    e.date <= e.card.expires && daysLeft(e.card.expires) - daysLeft(e.date) <= 30).reduce((s, e) => s - e.delta, 0);
-  const given = list.reduce((s, c) => s + Number(c.amount || 0), 0);
-  const used = list.reduce((s, c) => s + Math.max(0, Number(c.amount || 0) - Number(c.balance || 0)), 0);
-  const items = [
-    ['🕸 Forgotten money', money(balanceOf(forgotten)),
-      forgotten.length ? `${forgotten.length} card${forgotten.length === 1 ? '' : 's'} not used in 3+ months` : 'No forgotten cards — nice!'],
-    ['🪙 Small leftovers', money(balanceOf(leftovers)),
-      leftovers.length ? `Under $5 on ${leftovers.map(displayName).slice(0, 3).map(esc).join(', ')} — use it at checkout` : 'No tiny balances hiding'],
-    ['🛟 Saved from expiring', money(rescued), 'Spent in the last month before a card expired'],
-    ['📊 Gift money used', given ? Math.round(used / given * 100) + '%' : '—', `${money(used)} of ${money(given)} used so far`],
-  ];
-  const locked = !isPremium();
-  $('insights').innerHTML = `<div class="insights ${locked ? 'locked' : ''}">
-    ${items.map(([k, v, sub]) => `<div class="insight"><div class="k">${k}</div><div class="v">${locked ? '$••' : v}</div><div class="s">${locked ? 'Premium shows you where money is hiding' : sub}</div></div>`).join('')}
-    ${locked ? '<div class="unlock"><button class="pro-btn" data-unlock>👑 Unlock money insights</button></div>' : ''}
-  </div>`;
-}
-$('insights').onclick = e => { if (e.target.closest('[data-unlock]')) openPremium('insights'); };
-
-$('eventList').onclick = e => { const b = e.target.closest('.event'); if (b) showDetail(b.dataset.id); };
-
-// ---------- Settings page ----------
-function renderSettings() {
-  const m = me();
-  $('settingsProfile').innerHTML = `
-    <button class="setting" id="setSwitch"><span class="lead">${avatar(m, 'lg')}
-      <span><b>${esc(m.name)}</b><span class="sub">${m.role === 'parent' ? 'Parent' : 'Kid'}${m.pin ? ' · PIN on 🔒' : ''}</span></span></span>
-      <span class="mini">Switch person</span></button>
-    ${isParent() ? `<button class="setting" id="setEdit"><span>✎ Edit my profile<span class="sub">Name, picture, color and PIN</span></span><span class="go">›</span></button>` : ''}`;
-
-  const perm = 'Notification' in window ? Notification.permission : 'unsupported';
-  $('settingsReminders').innerHTML = `
-    <div class="setting static"><span>⏰ “Use it!” alerts<span class="sub">Cards are flagged ${remindDays()} days before they expire</span></span><span class="pill" style="background:var(--accent-soft);color:var(--accent)">On</span></div>
-    <div class="setting static"><span>🗓 Remind me<span class="sub">How early to start the “Use it!” alert${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
-      <select id="setRemind" aria-label="Reminder timing">${REMIND_CHOICES.map(d =>
-        `<option value="${d}" ${d === remindDays() ? 'selected' : ''}>${d} days before</option>`).join('')}</select></div>
-    <div class="setting static"><span>🙈 Hide amounts<span class="sub">Blur balances when someone’s looking${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
-      <button class="mini" id="setPrivacy">${isPremium() && settings.privacy ? 'On' : 'Off'}</button></div>
-    <button class="setting" id="setNotify"><span>🔔 Pop-up reminders<span class="sub">${
-      perm === 'granted' ? 'On — you’ll get one a day for cards about to expire' :
-      perm === 'denied' ? 'Blocked — allow notifications for this page in your browser' :
-      perm === 'unsupported' ? 'Not supported in this browser' : 'Get a pop-up when a card is about to expire'}</span></span>
-      <span class="go">${perm === 'default' ? '<span class="mini">Turn on</span>' : ''}</span></button>`;
-  $('parentSettings').hidden = !isParent();
-
-  $('settingsPlan').innerHTML = isPremium()
-    ? `<div class="setting static"><span>👑 Gift Keeper Premium<span class="sub">${PREMIUM_PRICE}/month · since ${fmtDate(premium.since)}${premium.test ? ' · test mode' : ''}</span></span><span class="pill" style="background:rgba(255,200,90,.15);color:#ffd27a">Active</span></div>
-       ${isParent() ? `<button class="setting" id="setCancel"><span>Cancel Premium<span class="sub">Your cards stay — you just can’t add more than ${FREE_CARD_LIMIT}</span></span><span class="go">›</span></button>` : ''}`
-    : `<button class="setting" id="setUpgrade"><span>🆓 Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT} cards used · just you</span></span><span class="mini">👑 Upgrade</span></button>`;
-}
-
-// ---------- Premium ----------
-const isPremium = () => !!premium;
-const canAddCard = () => isPremium() || cards.length < FREE_CARD_LIMIT;
-
-const PREMIUM_WHY = {
-  cards:  `The free plan holds ${FREE_CARD_LIMIT} gift cards. Go Premium to keep them all.`,
-  scan:   'Scan a card with your camera and Gift Keeper fills in everything for you.',
-  family: 'Add mom, dad and the kids — everyone’s gift cards in one family wallet.',
-  backup: 'Save all your cards to a file and bring them back any time.',
-  checkout: 'Show a big, bright barcode at the register and update the balance in one tap.',
-  insights: 'See forgotten money, small leftovers and how much you saved from expiring.',
-  themes: 'Dress up your cards with Birthday, Holiday, Galaxy, Gold and more.',
-  reminders: 'Choose when the “Use it!” alert starts — from 3 days to a whole month early.',
-  privacy: 'Blur your balances with one tap when someone’s looking over your shoulder.',
-};
-function openPremium(reason = '') {
-  $('pmWhy').textContent = PREMIUM_WHY[reason] || 'Every gift card for the whole family, in one place.';
-  const parent = isParent();
-  $('pmBuy').disabled = !parent || isPremium();
-  $('pmBuy').textContent = isPremium() ? 'You’re Premium 👑' : parent ? `Start Premium · ${PREMIUM_PRICE}/mo` : 'Ask a parent to upgrade';
-  $('pmFine').textContent = !parent ? 'Only parents can buy Premium.'
-    : PAYMENT_LINK ? 'Billed monthly. Cancel any time.'
-    : 'Test mode — payments aren’t connected yet, so this unlocks Premium for free.';
-  open('premiumOverlay');
-}
-function activatePremium(test) {
-  premium = { since: today(), plan: 'monthly', test };
-  savePremium();
-  close('premiumOverlay');
-  render();
-  confetti();
-  toast('Welcome to Premium 👑');
-}
-$('pmBuy').onclick = () => {
-  if (!PAYMENT_LINK) return activatePremium(true);
-  location.href = PAYMENT_LINK;
-};
-$('settingsPlan').onclick = e => {
-  if (e.target.closest('#setUpgrade')) openPremium();
-  if (e.target.closest('#setCancel') && confirm('Cancel Premium? You’ll keep all your cards.')) {
-    premium = null;
-    savePremium();
-    render();
-    toast('Premium cancelled');
-  }
-};
-// Coming back from a successful Stripe checkout
-if (new URLSearchParams(location.search).get('premium') === 'success') {
-  history.replaceState(null, '', location.pathname);
-  if (!isPremium()) setTimeout(() => activatePremium(false), 300);
-}
-
-$('settingsProfile').onclick = e => {
-  if (e.target.closest('#setSwitch')) openWho();
-  if (e.target.closest('#setEdit')) openMember(family.current);
-};
-$('settingsReminders').onchange = e => {
-  if (e.target.id !== 'setRemind') return;
-  if (!isPremium()) { e.target.value = URGENT_DAYS; return openPremium('reminders'); }
-  settings.remindDays = Number(e.target.value);
-  saveSettings();
-  render();
-  toast(`“Use it!” alerts start ${settings.remindDays} days before`);
-};
-$('settingsReminders').onclick = e => {
-  if (e.target.closest('#setPrivacy')) {
-    if (!isPremium()) return openPremium('privacy');
-    settings.privacy = !settings.privacy;
-    saveSettings();
-    return render();
-  }
-  if (!e.target.closest('#setNotify') || !('Notification' in window) || Notification.permission !== 'default') return;
-  Notification.requestPermission().then(p => {
-    toast(p === 'granted' ? 'Reminders on 🔔' : 'Reminders are blocked in this browser');
-    render();
-    sendReminders();
-  });
-};
-
-$('exportBtn').onclick = () => {
-  if (!isPremium()) return openPremium('backup');
-  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family };
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
-  a.download = `gift-keeper-backup-${today()}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-  toast('Backup downloaded');
-};
-$('importBtn').onclick = () => isPremium() ? $('importFile').click() : openPremium('backup');
-$('importFile').onchange = async () => {
-  const file = $('importFile').files[0];
-  $('importFile').value = '';
-  if (!file) return;
-  try {
-    const data = JSON.parse(await file.text());
-    if (!Array.isArray(data.cards) || !data.family?.members?.length) throw new Error('not a backup');
-    if (!confirm(`Replace everything on this device with the backup (${data.cards.length} cards, ${data.family.members.length} people)?`)) return;
-    cards = data.cards;
-    family = data.family;
-    save(); saveFamily();
-    walletScope = 'all';
-    render();
-    toast('Backup restored ✓');
-  } catch {
-    toast('That file isn’t a Gift Keeper backup');
-  }
-};
-$('wipeBtn').onclick = () => {
-  if (!confirm('Delete ALL gift cards and family members from this device? This can’t be undone.')) return;
-  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY].forEach(k => localStorage.removeItem(k));
-  location.reload();
-};
-
-// ---------- 3D tilt: cards lean toward the pointer ----------
-document.addEventListener('pointermove', e => {
-  const t = e.target.closest?.('.tile, .flip');
-  if (!t || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const r = t.getBoundingClientRect();
-  const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
-  t.style.setProperty('--rx', `${(0.5 - py) * 16}deg`);
-  t.style.setProperty('--ry', `${(px - 0.5) * 20}deg`);
-  t.style.setProperty('--mx', `${px * 100}%`);
-  t.style.setProperty('--my', `${py * 100}%`);
-  t.style.setProperty('--hx', `${px * 100}%`);
-  t.style.setProperty('--hy', `${py * 100}%`);
-  t.classList.add('tilting');
-});
-document.addEventListener('pointerout', e => {
-  const t = e.target.closest?.('.tile, .flip');
-  if (!t || t.contains(e.relatedTarget)) return;
-  ['--rx', '--ry', '--mx', '--my'].forEach(v => t.style.removeProperty(v));
-  t.classList.remove('tilting');
-});
-
-// ---------- overlays ----------
-function open(id) { $(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
-function close(id) {
-  $(id).classList.remove('open');
-  if (!document.querySelector('.overlay.open')) document.body.style.overflow = '';
-}
-document.querySelectorAll('.overlay').forEach(o => {
-  o.addEventListener('click', e => {
-    if (e.target !== o && !e.target.closest('[data-close]')) return;
-    if (o.id === 'scanOverlay') stopScanner();
-    else if (o.id === 'payOverlay') closePay();
-    else close(o.id);
-  });
-});
-document.addEventListener('keydown', e => {
-  if (e.key !== 'Escape') return;
-  const top = [...document.querySelectorAll('.overlay.open')].pop();
-  if (!top) return;
-  if (top.id === 'scanOverlay') stopScanner();
-  else if (top.id === 'payOverlay') closePay();
-  else close(top.id);
-});
-
-// ---------- wire up ----------
-$('addBtn').onclick = () => { if (openForm() && isPremium()) openScanner(); };  // Premium goes straight to the camera
-$('proBtn').onclick = () => openPremium();
-$('search').oninput = renderList;
-$('sort').onchange = renderList;
-$('filters').onclick = e => {
-  const b = e.target.closest('[data-filter]');
-  if (!b) return;
-  activeFilter = b.dataset.filter;
-  renderFilters();
-  renderList();
-};
-$('list').onclick = e => {
-  const tile = e.target.closest('.tile');
-  if (tile) showDetail(tile.dataset.id);
-};
-$('scope').onclick = e => {
-  const b = e.target.closest('[data-scope]');
-  if (!b) return;
-  walletScope = b.dataset.scope;
-  activeFilter = 'All';
-  render();
-};
-document.querySelectorAll('.tab').forEach(t => t.onclick = () => { showPage(t.dataset.page); render(); });
-
-save();
-saveFamily();
-render();
-sendReminders();
-if (hasFamily()) openWho();   // shared device: ask who's here
-// Re-check every hour in case the app stays open past midnight
-setInterval(() => { render(); sendReminders(); }, 60 * 60 * 1000);
+  // Fade sections in as they scroll into view
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 </script>
 </body>
 </html>
