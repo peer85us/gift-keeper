@@ -741,7 +741,7 @@
   .goal .goal-top b { color: var(--ink); font-weight: 650; }
   .goal .track { height: 8px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
   .goal .track span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #ffe08a, #ffb84d, #ff8a5c); box-shadow: 0 0 12px rgba(255,180,80,.5); }
-  .goal.done .goal-top b::after { content: " · Reached! 🎉"; color: #ffd27a; }
+  .goal.done .goal-top b::after { content: " · Reached"; color: #ffd27a; }
   .hero .goal { margin-top: 14px; max-width: 420px; }
   .goal-lock { width: 100%; margin-top: 6px; border: 1px dashed rgba(255,200,90,.45); background: rgba(255,200,90,.06); color: #ffd27a;
     border-radius: 12px; padding: 12px; cursor: pointer; font-weight: 650; }
@@ -850,12 +850,155 @@
 
   .pm-fine { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
 
+
+  /* =====================================================================
+     REFINED THEME — calm, professional finish over everything above
+     ===================================================================== */
+  :root {
+    --bg: #0b0b10;
+    --surface: rgba(255,255,255,.04);
+    --surface-2: rgba(255,255,255,.07);
+    --ink: #f3f3f6;
+    --muted: #9898a6;
+    --line: rgba(255,255,255,.08);
+    --accent: #8576ff;
+    --accent-soft: rgba(133,118,255,.14);
+    --warn: #f0b252;
+    --danger: #ff6b81;
+    --grad: linear-gradient(135deg, #7f6dff, #9a6bff);
+    --gold: #e6c27a;
+    --round: -apple-system, BlinkMacSystemFont, "SF Pro Display", Inter, "Segoe UI", Roboto, sans-serif;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", Inter, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+  body::before { opacity: .28; animation: none; filter: blur(70px); }
+  body::after { opacity: .025; }
+  .i { width: 1.15em; height: 1.15em; flex: none; vertical-align: -.2em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .setting .i { color: var(--muted); margin-right: 10px; }
+  .section-title .i { color: var(--muted); margin-right: 4px; }
+
+  /* Header */
+  .logo { font-size: 18px; font-weight: 650; letter-spacing: -.02em; }
+  .logo .mark { animation: none; box-shadow: none; border-radius: 8px; }
+  .logo-text { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
+  .avatar { box-shadow: none; }
+  .me-btn, .pro-btn { font-family: inherit; font-weight: 600; }
+  .pro-btn, .pro-btn.on { display: inline-flex; align-items: center; gap: 6px; background: rgba(230,194,122,.1); color: var(--gold);
+    border: 1px solid rgba(230,194,122,.3); box-shadow: none; }
+  .pro-btn.ultra { background: rgba(160,145,255,.12); color: #c9c0ff; border: 1px solid rgba(160,145,255,.35); animation: none; }
+
+  /* Wallet summary */
+  .hero { border-radius: 20px; box-shadow: none; background: linear-gradient(165deg, rgba(255,255,255,.065), rgba(255,255,255,.02)); }
+  .hero::after { opacity: .14; animation: none; }
+  .hero .label { letter-spacing: .08em; font-size: 11.5px; font-weight: 600; color: var(--muted); opacity: 1; }
+  .hero .amount { font-weight: 650; letter-spacing: -.035em; background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
+  .hero-stack .gc { animation: none; box-shadow: 0 10px 24px rgba(0,0,0,.45); }
+  .breakdown span { box-shadow: none; }
+  .eye-btn { display: inline-flex; align-items: center; gap: 6px; font-family: inherit; color: var(--muted); }
+
+  /* Controls */
+  .chip-btn.on { background: var(--ink); color: #0b0b10; box-shadow: none; }
+  .chip-btn.on .count { color: #55556a; }
+  .chip-btn:hover, .btn:hover, .me-btn:hover { transform: none; }
+  .btn { font-family: inherit; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+  .btn.primary { background: var(--accent); box-shadow: none; }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.gold { background: var(--gold); color: #1c1608; box-shadow: none; font-weight: 650; }
+  .btn.ultra { background: #8576ff; animation: none; box-shadow: none; font-weight: 650; }
+  .add-row { color: var(--ink); border: 1px dashed rgba(255,255,255,.16); background: none; font-weight: 550; }
+  .lock, .ultra-tag { background: none; border: 1px solid rgba(230,194,122,.45); color: var(--gold); font-weight: 600; font-size: 9.5px; letter-spacing: .06em; padding: 1px 6px; }
+  .ultra-tag { border-color: rgba(160,145,255,.5); color: #c9c0ff; }
+  .goal-lock { border-style: solid; border-color: var(--line); background: var(--surface); color: var(--ink); font-weight: 550; display: flex; gap: 8px; align-items: center; justify-content: center; }
+  .x { display: grid; place-items: center; }
+  .member .edit { display: grid; place-items: center; color: var(--muted); }
+  .theme-btn { display: inline-flex; align-items: center; gap: 7px; font-family: inherit; }
+  .theme-btn.on { background: var(--ink); color: #0b0b10; }
+  .tdot.gc { width: 14px; height: 14px; aspect-ratio: auto; padding: 0; border-radius: 4px; display: inline-block; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+  .tdot.gc::before, .tdot.gc::after { display: none; }
+
+  /* Gift cards: keep the tilt, drop the rainbow foil and glow */
+  .gc .holo { display: none; }
+  .tile:hover .gc { transform: perspective(800px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-3px);
+    box-shadow: 0 16px 34px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.08); }
+  .gc.big { box-shadow: 0 24px 50px rgba(0,0,0,.5); }
+  .gc.urgent { outline: 2px solid rgba(255,107,129,.75); animation: none; }
+
+  /* Pages */
+  .page-title { font-size: 30px; font-weight: 700; letter-spacing: -.03em; background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
+  .member { box-shadow: none; }
+  .member:hover { transform: none; box-shadow: none; border-color: rgba(255,255,255,.14); }
+  .member .amt, .stat .v { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; font-weight: 650; letter-spacing: -.02em; }
+  .stat::after { display: none; }
+  .note-box { background: var(--surface); color: var(--muted); }
+  .note-box b { color: var(--ink); }
+  .empty-state .big-emoji .i { width: 44px; height: 44px; color: var(--muted); stroke-width: 1.4; }
+  .gift-row .dot { color: var(--muted); }
+  .gift-row .dot .i { width: 18px; height: 18px; }
+  .gift-row .del { display: grid; place-items: center; }
+
+  /* Alerts */
+  .alert { background: rgba(255,107,129,.07); color: var(--ink); border: 1px solid rgba(255,107,129,.25); box-shadow: none; }
+  .alert-head b { display: inline-flex; align-items: center; gap: 8px; color: #ff9aaa; font-weight: 650; }
+  .use-it { background: rgba(255,107,129,.1); color: #ffb0bc; border: 1px solid rgba(255,107,129,.28); box-shadow: none; }
+  .kid-alert { background: var(--surface); border-color: var(--line); }
+  .kid-alert .alert-head b { color: var(--ink); }
+  .kid-alert .over { color: var(--warn); }
+
+  /* Premium surfaces */
+  .premium::before { opacity: .35; }
+  .pm-crown { width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; margin: 6px auto 12px; font-size: 0;
+    background: rgba(230,194,122,.1); color: var(--gold); border: 1px solid rgba(230,194,122,.25); animation: none; filter: none; }
+  .premium.is-ultra .pm-crown { background: rgba(160,145,255,.12); color: #c9c0ff; border-color: rgba(160,145,255,.3); }
+  .pm-crown .i { width: 26px; height: 26px; }
+  .premium h2, .premium.is-ultra h2 { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; font-weight: 700; letter-spacing: -.02em; }
+  .pm-table th { font-weight: 600; }
+  .pm-table td .i { width: 16px; height: 16px; }
+  .pm-table.three td:nth-child(3) { color: var(--gold); }
+  .pm-table.three td:last-child { color: #c9c0ff; }
+  .insight { border-color: var(--line); background: var(--surface); }
+  .insight .k { display: flex; align-items: center; gap: 6px; }
+  .insight .v { color: var(--ink); font-family: inherit; font-weight: 650; }
+  .report { background: var(--surface); }
+  .report h3, .report-grid .v { font-family: inherit; font-weight: 650; letter-spacing: -.02em; }
+  .goal .track span { background: var(--accent); box-shadow: none; }
+  .goal .goal-top b { display: inline-flex; align-items: center; gap: 5px; }
+  .wrap-btn { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--surface); border: 1px solid var(--line); color: var(--ink); font-family: inherit; font-weight: 600; font-size: 15px; }
+  .wrap-emoji { width: 88px; height: 88px; margin: 0 auto 18px; border-radius: 26px; display: grid; place-items: center; background: rgba(255,255,255,.18); }
+  .wrap-emoji .i { width: 42px; height: 42px; stroke-width: 1.6; }
+  .wrap-big, .wrap-kicker, .wrap-text { font-family: var(--round); }
+  .wrap-big { font-weight: 750; letter-spacing: -.04em; }
+  .lock-dots i.on { background: var(--ink); }
+  .lock-box h2 { font-family: inherit; font-weight: 650; }
+
+  /* Tab bar */
+  .tabbar { border-radius: 22px; background: rgba(16,16,22,.82); box-shadow: 0 12px 40px rgba(0,0,0,.5); }
+  .tab .ic { filter: none; opacity: .55; display: grid; place-items: center; }
+  .tab .ic .i { width: 22px; height: 22px; }
+  .tab.on .ic { filter: none; opacity: 1; }
+  .tab.on::after { background: var(--ink); box-shadow: none; width: 4px; height: 4px; }
+  .tab-add { background: var(--accent); animation: none; box-shadow: 0 8px 22px rgba(0,0,0,.45); border-color: #0b0b10; }
+  .tab-add:hover { transform: none; }
+
+  /* Sheets */
+  .sheet { background: rgba(20,20,27,.97); }
+  .overlay.open .sheet { animation: rise .32s cubic-bezier(.2,.8,.2,1); }
+  .sheet h2 { font-family: inherit; font-weight: 650; letter-spacing: -.02em; }
+  .who h2 { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; }
+  .seg button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+  .toast { background: #f3f3f6; color: #0b0b10; border: 0; font-weight: 550; }
+  .pm-buttons .btn.gold { background: var(--gold); color: #1c1608; border: 0; }
+  .pm-buttons .btn.ultra { background: var(--accent); color: #fff; border: 0; }
+  .pm-buttons .btn:disabled { opacity: 1; background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  @media (max-width: 460px) {
+    .hero-stack { display: none; }
+    .hero.has-stack .label, .hero.has-stack .amount, .hero.has-stack .stats { padding-right: 0; }
+  }
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V8"/><path d="M18 17v-9"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol><symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.3l4.27-3.67a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.67a1 1 0 0 0 1.52-.3z"/><path d="M5 21h14"/></symbol><symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol><symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13.2 13.2 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M14 8v8M17 8v8"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol><symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol><symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol><symbol id="i-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3"/></symbol><symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></symbol><symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol><symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.56-2.5 5.56-5.56C22 6.02 17.5 2 12 2z"/></symbol></svg>
 <div class="app">
   <header>
     <div class="logo"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true">
@@ -939,12 +1082,12 @@
     <div id="memberList"></div>
     <button class="add-row" id="addMemberBtn">+ Add family member</button>
     <div id="givenSection">
-      <div class="section-title given-head"><span>🎁 Gifts we gave</span><span class="sub" id="givenSub"></span></div>
+      <div class="section-title given-head"><span><svg class="i" aria-hidden="true"><use href="#i-gift"/></svg> Gifts we gave</span><span class="sub" id="givenSub"></span></div>
       <div class="list-panel" id="givenList"></div>
       <button class="add-row" id="addGiftBtn" style="margin-top:10px">+ Log a gift card we gave</button>
     </div>
     <div class="note-box">
-      👨‍👩‍👧 <b>How family works:</b> parents see everyone’s gift cards and can add cards for the kids.
+      <b>How family works:</b> parents see everyone’s gift cards and can add cards for the kids.
       Kids only see their own cards. Give parents a PIN so kids can’t open a parent’s profile.
     </div>
   </section>
@@ -955,7 +1098,7 @@
     <div class="stat-grid" id="activityStats"></div>
     <div id="report"></div>
     <button class="wrap-btn" id="wrapBtn"></button>
-    <div class="section-title">👑 Money insights</div>
+    <div class="section-title">Money insights</div>
     <div id="insights"></div>
     <div class="section-title">Where the money went</div>
     <div class="list-panel" id="topStores"></div>
@@ -971,31 +1114,31 @@
     <div class="list-panel" id="settingsReminders"></div>
     <div class="section-title">Plan</div>
     <div class="list-panel" id="settingsPlan"></div>
-    <div class="section-title">💎 Ultra</div>
+    <div class="section-title">Ultra</div>
     <div class="list-panel" id="settingsUltra"></div>
     <div id="parentSettings">
       <div class="section-title">Backup</div>
       <div class="list-panel">
-        <button class="setting" id="exportBtn"><span>⬇️ Download backup<span class="sub">Save all cards and family members to a file</span></span><span class="go">›</span></button>
-        <button class="setting" id="importBtn"><span>⬆️ Restore from backup<span class="sub">Load a backup file you saved before</span></span><span class="go">›</span></button>
+        <button class="setting" id="exportBtn"><span><svg class="i" aria-hidden="true"><use href="#i-download"/></svg>Download backup<span class="sub">Save all cards and family members to a file</span></span><span class="go">›</span></button>
+        <button class="setting" id="importBtn"><span><svg class="i" aria-hidden="true"><use href="#i-upload"/></svg>Restore from backup<span class="sub">Load a backup file you saved before</span></span><span class="go">›</span></button>
         <input type="file" id="importFile" accept="application/json,.json" hidden>
       </div>
       <div class="section-title">Danger zone</div>
-      <div class="list-panel"><button class="setting danger" id="wipeBtn">🗑 Delete all data</button></div>
+      <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.8 · Everything is saved only on this device.
+      Gift Keeper v0.9 · Everything is saved only on this device.
     </p>
   </section>
 </div>
 
 <nav class="tabbar">
   <div class="inner">
-    <button class="tab on" data-page="wallet"><span class="ic">💳</span>Wallet</button>
-    <button class="tab" data-page="family"><span class="ic">👨‍👩‍👧</span>Family</button>
+    <button class="tab on" data-page="wallet"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-wallet"/></svg></span>Wallet</button>
+    <button class="tab" data-page="family"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></span>Family</button>
     <button class="tab-add" id="addBtn" aria-label="Add card">+</button>
-    <button class="tab" data-page="activity"><span class="ic">📊</span>Activity</button>
-    <button class="tab" data-page="settings"><span class="ic">⚙️</span>Settings</button>
+    <button class="tab" data-page="activity"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-chart"/></svg></span>Activity</button>
+    <button class="tab" data-page="settings"><span class="ic"><svg class="i" aria-hidden="true"><use href="#i-settings"/></svg></span>Settings</button>
   </div>
 </nav>
 <div class="toast" id="toast"></div>
@@ -1005,12 +1148,12 @@
   <form class="sheet" id="cardForm" autocomplete="off" novalidate>
     <div class="sheet-head">
       <h2 id="formTitle">Add Card</h2>
-      <button type="button" class="x" data-close aria-label="Close">✕</button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
 
     <div class="seg" id="typeSeg">
-      <button type="button" data-type="store" class="on">🏬 Store gift card</button>
-      <button type="button" data-type="prepaid">💳 Visa / Mastercard / Amex</button>
+      <button type="button" data-type="store" class="on"><svg class="i" aria-hidden="true"><use href="#i-store"/></svg> Store gift card</button>
+      <button type="button" data-type="prepaid"><svg class="i" aria-hidden="true"><use href="#i-card"/></svg> Visa / Mastercard / Amex</button>
     </div>
 
     <div id="ownerWrap">
@@ -1018,7 +1161,7 @@
       <div class="owner-row" id="ownerPicker"></div>
     </div>
 
-    <button type="button" class="btn scan-top" id="scanTop">📷 Scan card to fill everything</button>
+    <button type="button" class="btn scan-top" id="scanTop"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg> Scan card to fill everything</button>
 
     <div class="preview" id="formPreview"></div>
 
@@ -1031,7 +1174,7 @@
       <label for="fNumber">Card number</label>
       <div class="input-row">
         <input id="fNumber" class="mono" placeholder="6006 4912 3456 7890">
-        <button type="button" class="btn" id="scanBtn">📷 Scan</button>
+        <button type="button" class="btn" id="scanBtn"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg> Scan</button>
       </div>
       <div class="row">
         <div>
@@ -1103,7 +1246,7 @@
 <!-- Checkout mode: big bright barcode to show the cashier -->
 <div class="overlay" id="payOverlay">
   <form class="sheet pay" id="payForm" autocomplete="off">
-    <button type="button" class="x" data-close aria-label="Close" style="position:absolute;top:14px;right:14px">✕</button>
+    <button type="button" class="x" data-close aria-label="Close" style="position:absolute;top:14px;right:14px"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     <div id="payBody"></div>
     <div class="pay-spent">
       <input id="paySpent" type="number" step="0.01" min="0" inputmode="decimal" placeholder="Amount spent">
@@ -1118,7 +1261,7 @@
   <form class="sheet" id="balanceForm">
     <div class="sheet-head">
       <h2>Update Balance</h2>
-      <button type="button" class="x" data-close aria-label="Close">✕</button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="seg" id="balanceMode">
       <button type="button" data-mode="spent" class="on">I spent</button>
@@ -1139,7 +1282,7 @@
   <div class="sheet">
     <div class="sheet-head">
       <h2>Scan Gift Card</h2>
-      <button type="button" class="x" id="scanX" aria-label="Close">✕</button>
+      <button type="button" class="x" id="scanX" aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="scanner">
       <video id="scanVideo" playsinline muted></video>
@@ -1150,11 +1293,11 @@
     <p class="scan-status" id="scanStatus">Point the camera at the card and tap Take Photo.</p>
     <div class="found" id="scanFound" hidden></div>
     <div class="actions">
-      <button type="button" class="btn" id="scanCancel">⌨️ Type it in</button>
-      <button type="button" class="btn primary" id="scanShoot">📸 Take Photo</button>
+      <button type="button" class="btn" id="scanCancel"><svg class="i" aria-hidden="true"><use href="#i-keyboard"/></svg> Type it in</button>
+      <button type="button" class="btn primary" id="scanShoot"><svg class="i" aria-hidden="true"><use href="#i-camera"/></svg> Take photo</button>
     </div>
     <div class="actions" id="scanUseRow" hidden>
-      <button type="button" class="btn primary" id="scanUse">✓ Use this info</button>
+      <button type="button" class="btn primary" id="scanUse"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg> Use this info</button>
     </div>
   </div>
 </div>
@@ -1175,34 +1318,34 @@
 <!-- Premium upgrade -->
 <div class="overlay" id="premiumOverlay">
   <div class="sheet premium">
-    <button type="button" class="x" data-close aria-label="Close">✕</button>
-    <div class="pm-crown" id="pmCrown">👑</div>
+    <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
+    <div class="pm-crown" id="pmCrown"><svg class="i" aria-hidden="true"><use href="#i-crown"/></svg></div>
     <h2 id="pmTitle">Choose your plan</h2>
     <p class="pm-why" id="pmWhy"></p>
     <table class="pm-table three">
-      <tr><th></th><th>Free</th><th>Premium</th><th>💎 Ultra</th></tr>
+      <tr><th></th><th>Free</th><th>Premium</th><th>Ultra</th></tr>
       <tr class="price-row"><td></td><td>$0</td><td>$9.99<small>/month</small></td><td>$19.99<small>/month</small></td></tr>
-      <tr><td>💳 Gift cards</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
-      <tr><td>👨‍👩‍👧 Family members</td><td>Just you</td><td>Unlimited</td><td>Unlimited</td></tr>
-      <tr><td>📷 Scan to fill</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td>⬇️ Backup &amp; restore</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td class="new">🛒 Checkout mode</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td class="new">📈 Money insights</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td class="new">🎨 Card themes</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td class="new">⏰ Reminder timing</td><td>7 days</td><td>3–30 days</td><td>3–30 days</td></tr>
-      <tr><td class="new">🙈 Hide amounts</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td class="new">📅 Monthly report</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td class="new">🎯 Kids’ savings goals</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr><td class="new">🎁 Gift tracker</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
-      <tr class="ultra-start"><td>🔐 App lock (passcode)</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td>✨ Year in review</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td>👀 Kids’ spending alerts</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td>💎 Ultra card themes</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td>📊 Spreadsheet export</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td>Gift cards</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>Family members</td><td>Just you</td><td>Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>Scan to fill</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Backup &amp; restore</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Checkout mode</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Money insights</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Card themes</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Reminder timing</td><td>7 days</td><td>3–30 days</td><td>3–30 days</td></tr>
+      <tr><td>Hide amounts</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Monthly report</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Kids’ savings goals</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Gift tracker</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr class="ultra-start"><td>App lock</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Year in review</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Kids’ spending alerts</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Ultra card themes</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
+      <tr><td>Spreadsheet export</td><td class="no">—</td><td class="no">—</td><td><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></td></tr>
     </table>
     <div class="pm-buttons">
-      <button type="button" class="btn gold" id="pmBuy">👑 Premium</button>
-      <button type="button" class="btn ultra" id="pmBuyUltra">💎 Ultra</button>
+      <button type="button" class="btn gold" id="pmBuy">Premium</button>
+      <button type="button" class="btn ultra" id="pmBuyUltra">Ultra</button>
     </div>
     <p class="pm-fine" id="pmFine"></p>
   </div>
@@ -1211,7 +1354,7 @@
 <!-- App lock (Ultra) -->
 <div id="lockOverlay" aria-modal="true" role="dialog">
   <div class="lock-box">
-    <div class="pm-crown">🔐</div>
+    <div class="pm-crown"><svg class="i" aria-hidden="true"><use href="#i-lock"/></svg></div>
     <h2>Gift Keeper is locked</h2>
     <p id="lockMsg">Enter your 4-digit passcode</p>
     <div class="lock-dots" id="lockDots"><i></i><i></i><i></i><i></i></div>
@@ -1229,7 +1372,7 @@
 <div class="overlay" id="wrapOverlay">
   <div class="wrap-sheet" id="wrapSheet">
     <div class="wrap-bars" id="wrapBars"></div>
-    <button class="wrap-close" id="wrapClose" aria-label="Close">✕</button>
+    <button class="wrap-close" id="wrapClose" aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     <div id="wrapSlide"></div>
     <div class="wrap-hint">Tap to continue</div>
   </div>
@@ -1240,7 +1383,7 @@
   <form class="sheet" id="giftForm" autocomplete="off" novalidate>
     <div class="sheet-head">
       <h2>Log a gift we gave</h2>
-      <button type="button" class="x" data-close aria-label="Close">✕</button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <label for="gTo">Who got it</label>
     <input id="gTo" list="gToList" placeholder="e.g. Noah’s friend Liam, Ms. Rivera">
@@ -1283,15 +1426,15 @@
   <form class="sheet" id="memberForm" autocomplete="off" novalidate>
     <div class="sheet-head">
       <h2 id="memberTitle">Add family member</h2>
-      <button type="button" class="x" data-close aria-label="Close">✕</button>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="member-preview" id="memberPreview"></div>
     <label for="mName">Name</label>
     <input id="mName" placeholder="e.g. Emma" maxlength="20">
     <label>Role</label>
     <div class="seg" id="roleSeg">
-      <button type="button" data-role="parent">👑 Parent</button>
-      <button type="button" data-role="kid">🧒 Kid</button>
+      <button type="button" data-role="parent">Parent</button>
+      <button type="button" data-role="kid">Kid</button>
     </div>
     <div class="hint" id="roleHint"></div>
     <label>Picture</label>
@@ -1307,7 +1450,7 @@
       <div style="flex:2"><input id="mGoalName" maxlength="30" placeholder="e.g. Lego set, new bike"></div>
       <div style="flex:1"><input id="mGoalAmt" type="number" step="1" min="0" inputmode="decimal" placeholder="$ goal"></div>
     </div>
-    <button type="button" class="goal-lock" id="mGoalUpsell">🎯 Set a savings goal</button>
+    <button type="button" class="goal-lock" id="mGoalUpsell"><svg class="i" aria-hidden="true"><use href="#i-target"/></svg> Set a savings goal</button>
     <div id="mLimitWrap">
       <label for="mLimit">Alert me when one purchase is over <span class="ultra-tag" id="limitTag">ULTRA</span></label>
       <input id="mLimit" type="number" step="1" min="0" inputmode="decimal" placeholder="e.g. $20 — leave empty for no limit">
@@ -1382,7 +1525,7 @@ const SWATCHES = ['#1a1f71', '#1c6ed8', '#0b6e4f', '#00704a', '#c8102e', '#d93b4
 const URGENT_DAYS = 7;               // "Use it!" reminder starts this many days before expiration (free plan)
 const SETTINGS_KEY = 'giftKeeper.settings.v1';
 const GIVEN_KEY = 'giftKeeper.given.v1';
-const OCCASION_ICONS = { 'Birthday': '🎂', 'Holiday': '🎄', 'Teacher gift': '🍎', 'Thank you': '💌', 'Graduation': '🎓', 'Other': '🎁' };
+const OCCASION_ICONS = { 'Birthday': 'cake', 'Holiday': 'snow', 'Teacher gift': 'book', 'Thank you': 'mail', 'Graduation': 'cap', 'Other': 'gift' };
 const REMIND_CHOICES = [3, 7, 14, 30];
 const THEMES = {
   '':       { name: 'None' },
@@ -1472,6 +1615,7 @@ function savePremium() {
 
 // ---------- helpers ----------
 const $ = id => document.getElementById(id);
+const ic = (name, cls = '') => `<svg class="i ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 const money = n => '$' + (Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const today = () => new Date().toISOString().slice(0, 10);
@@ -1536,7 +1680,7 @@ function goalBar(m) {
   const have = balanceOf(cards.filter(c => c.owner === m.id));
   const pct = Math.min(100, have / m.goalAmount * 100);
   return `<div class="goal ${pct >= 100 ? 'done' : ''}">
-    <div class="goal-top"><b>🎯 ${esc(m.goalName)}</b><span>${money(Math.min(have, m.goalAmount))} of ${money(m.goalAmount)}</span></div>
+    <div class="goal-top"><b>${ic('target')} ${esc(m.goalName)}</b><span>${money(Math.min(have, m.goalAmount))} of ${money(m.goalAmount)}</span></div>
     <div class="track"><span style="width:${pct}%"></span></div></div>`;
 }
 
@@ -1639,7 +1783,6 @@ function cardVisual(c, big = false) {
   const exp = expShort(c);
   return `
     <div class="gc ${big ? 'big' : ''} ${isUrgent(c) ? 'urgent' : ''} ${themeOf(c) ? 'theme-' + themeOf(c) : ''}" style="--c:${colorFor(c)}">
-      ${themeOf(c) ? `<div class="gc-sticker">${THEMES[themeOf(c)].sticker}</div>` : ''}
       <div class="gc-top">
         <div class="gc-title">
           <div class="gc-name">${esc(displayName(c))}</div>
@@ -1724,10 +1867,10 @@ function render() {
 
 function renderHeader() {
   $('meBtn').innerHTML = `${avatar(me())}${esc(me().name)}`;
-  $('proBtn').textContent = isUltra() ? '💎 Ultra' : isPremium() ? '👑 Premium' : '👑 Go Premium';
+  $('proBtn').innerHTML = isUltra() ? `${ic('gem')} Ultra` : isPremium() ? `${ic('crown')} Premium` : `${ic('crown')} Upgrade`;
   $('proBtn').classList.toggle('on', isPremium() && !isUltra());
   $('proBtn').classList.toggle('ultra', isUltra());
-  $('scanTop').innerHTML = '📷 Scan card to fill everything' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
+  $('scanTop').innerHTML = ic('camera') + ' Scan card to fill everything' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
   $('addMemberBtn').innerHTML = '+ Add family member' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
 }
 
@@ -1778,8 +1921,8 @@ function renderAlerts() {
   $('alerts').innerHTML = `
     <section class="alert">
       <div class="alert-head">
-        <b>${live.length ? '⏰ Use it before you lose it!' : '⛔ Expired cards with money left'}</b>
-        ${canAsk ? '<button class="mini" id="notifyBtn">🔔 Remind me</button>' : ''}
+        <b>${live.length ? `${ic('clock')} Use it before you lose it` : `${ic('ban')} Expired cards with money left`}</b>
+        ${canAsk ? `<button class="mini" id="notifyBtn">${ic('bell')} Remind me</button>` : ''}
       </div>
       ${list.map(c => `
         <button class="alert-item" data-id="${c.id}">
@@ -1815,7 +1958,7 @@ $('eyeBtn').onclick = () => {
 $('alerts').onclick = e => {
   if (e.target.id === 'notifyBtn') {
     Notification.requestPermission().then(p => {
-      toast(p === 'granted' ? 'Reminders on 🔔' : 'Reminders are blocked in this browser');
+      toast(p === 'granted' ? 'Reminders on' : 'Reminders are blocked in this browser');
       renderAlerts();
       sendReminders();
     });
@@ -1827,7 +1970,7 @@ $('alerts').onclick = e => {
 
 function renderHero() {
   document.body.classList.toggle('privacy', isPremium() && settings.privacy);
-  $('eyeBtn').textContent = isPremium() && settings.privacy ? '🙈 Show' : '👁 Hide';
+  $('eyeBtn').innerHTML = isPremium() && settings.privacy ? `${ic('eye')} Show amounts` : `${ic('eye-off')} Hide amounts`;
   const cards = scopedCards();
   $('heroLabel').textContent = walletTitle();
   const total = cards.reduce((s, c) => s + Number(c.balance || 0), 0);
@@ -1878,7 +2021,7 @@ function renderList() {
   const sort = $('sort').value;
 
   if (!cards.length) {
-    $('list').innerHTML = `<div class="empty-state"><div class="big-emoji">🎁</div>
+    $('list').innerHTML = `<div class="empty-state"><div class="big-emoji">${ic('gift')}</div>
       <b>No gift cards ${walletScope !== 'all' && isParent() && walletScope !== family.current ? `for ${esc(member(walletScope).name)} ` : ''}yet</b><br>Tap the <b>+</b> button to add one.</div>`;
     return;
   }
@@ -1911,8 +2054,8 @@ function renderList() {
     const used = Number(c.balance) <= 0;
     const caption =
       used ? 'Used up' :
-      isUrgent(c) ? (daysLeft(c.expires) < 0 ? '⛔ Expired with money on it' : `⏰ Use it! ${urgentText(c)}`) :
-      expiringSoon(c) ? '⚠️ ' + expiryText(c.expires) :
+      isUrgent(c) ? (daysLeft(c.expires) < 0 ? 'Expired with money on it' : `Use it — ${urgentText(c)}`) :
+      expiringSoon(c) ? expiryText(c.expires) :
       (c.from ? `From ${c.from}` : categoryOf(c));
     const tone = isUrgent(c) ? 'urgent' : expiringSoon(c) ? 'warn' : '';
     return `
@@ -1965,7 +2108,7 @@ function updatePreview() {
     hint.classList.remove('bad');
     if (!num) hint.textContent = 'Visa, Mastercard, Amex and Discover are detected automatically.';
     else if (num.length >= 15 && !luhnOk(num)) { hint.textContent = 'Hmm, that number doesn’t look right — double-check it.'; hint.classList.add('bad'); }
-    else hint.textContent = net ? `${NETWORKS[net].name} card ✓` : 'Card type not recognized yet…';
+    else hint.textContent = net ? `${NETWORKS[net].name} card detected` : 'Card type not recognized yet…';
   }
 }
 
@@ -2026,7 +2169,7 @@ $('colorPicker').onclick = e => {
 function renderThemes() {
   $('themeLock').hidden = isPremium();
   $('themePicker').innerHTML = Object.entries(THEMES).map(([k, t]) =>
-    `<button type="button" class="theme-btn ${t.ultra ? 'ultra-theme' : ''} ${k === formTheme ? 'on' : ''}" data-theme="${k}">${t.sticker || '⬜️'} ${t.name}${t.ultra && !isUltra() ? ' 💎' : ''}</button>`).join('');
+    `<button type="button" class="theme-btn ${t.ultra ? 'ultra-theme' : ''} ${k === formTheme ? 'on' : ''}" data-theme="${k}"><i class="tdot gc theme-${k}" style="--c:#555"></i>${t.name}${t.ultra && !isUltra() ? ' · Ultra' : ''}</button>`).join('');
 }
 $('themePicker').onclick = e => {
   const b = e.target.closest('[data-theme]');
@@ -2074,7 +2217,7 @@ $('cardForm').addEventListener('submit', e => {
   save();
   close('formOverlay');
   render();
-  toast(editingId ? 'Card updated' : 'Card added 🎉');
+  toast(editingId ? 'Card updated' : 'Card added');
   if (!editingId) confetti();
   if (editingId) showDetail(editingId);
 });
@@ -2098,11 +2241,11 @@ function showDetail(id) {
   $('detail').innerHTML = `
     <div class="sheet-head">
       <h2>${esc(displayName(c))}</h2>
-      <button class="x" data-close aria-label="Close">✕</button>
+      <button class="x" data-close aria-label="Close"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     ${isUrgent(c) ? `<div class="use-it">${daysLeft(c.expires) < 0
-        ? `⛔ This card expired with ${money(c.balance)} on it. Call the store — some still honor the balance.`
-        : `⏰ Use it! This card ${esc(urgentText(c))} and still has ${money(c.balance)}.`}</div>` : ''}
+        ? `${ic('ban')} This card expired with ${money(c.balance)} on it. Call the store — some still honor the balance.`
+        : `${ic('clock')} Use it — this card ${esc(urgentText(c))} and still has ${money(c.balance)}.`}</div>` : ''}
     <div class="flip" data-act="flip">
       <div class="flip-inner">
         <div class="face">${cardVisual(c, true)}</div>
@@ -2115,7 +2258,7 @@ function showDetail(id) {
     <a class="check-link" target="_blank" rel="noopener"
        href="https://www.google.com/search?q=${encodeURIComponent(displayName(c) + ' gift card check balance')}">Check balance online ↗</a>
 
-    <button class="btn gold" data-act="pay" style="margin-top:14px">🛒 Pay at checkout${isPremium() ? '' : ' <span class="lock" style="background:#2a1a00;color:#ffd27a">PREMIUM</span>'}</button>
+    <button class="btn gold" data-act="pay" style="margin-top:14px">${ic('scan')} Pay at checkout${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</button>
     <div class="quick">
       <button class="btn primary" data-act="balance">Update Balance</button>
       <button class="btn" data-act="edit">Edit</button>
@@ -2218,7 +2361,7 @@ $('payForm').addEventListener('submit', e => {
 // A kid going over their per-purchase limit gets a gentle heads-up (parents see it in Kids' spending)
 function overLimitNote(spent) {
   const m = me();
-  if (isUltra() && m.role === 'kid' && m.limit && spent > m.limit) setTimeout(() => toast(`Heads up: that’s over your ${money(m.limit)} limit — a parent will see it 👀`), 1800);
+  if (isUltra() && m.role === 'kid' && m.limit && spent > m.limit) setTimeout(() => toast(`Heads up: that’s over your ${money(m.limit)} limit — a parent will see it.`), 1800);
 }
 
 // ---------- update balance ----------
@@ -2362,7 +2505,7 @@ let scanData = {};      // everything found so far, across front and back photos
 function resetStill() {
   scanFrozen = false;
   $('scanStill').hidden = true;
-  $('scanShoot').textContent = '📸 Take Photo';
+  $('scanShoot').innerHTML = ic('camera') + ' Take photo';
 }
 
 async function openScanner() {
@@ -2396,7 +2539,7 @@ async function startCamera() {
   }
   if (!$('scanOverlay').classList.contains('open')) return stopScanner(); // closed while waiting
   scanStatus('Fit the card inside the box and tap Take Photo.');
-  $('scanShoot').textContent = '📸 Take Photo';
+  $('scanShoot').innerHTML = ic('camera') + ' Take photo';
   const video = $('scanVideo');
   video.srcObject = scanStream;
   await video.play();
@@ -2564,12 +2707,12 @@ function renderFamily() {
           <div class="name">${esc(m.name)}<span class="role-tag ${m.role}">${m.role === 'parent' ? 'Parent' : 'Kid'}</span>
             ${m.id === family.current ? '<span class="role-tag">You</span>' : ''}</div>
           <div class="meta">${canSee
-            ? `${own.length} card${own.length === 1 ? '' : 's'}${urgent ? ` · <span class="warn">⏰ ${urgent} expiring this week</span>` : ''}`
+            ? `${own.length} card${own.length === 1 ? '' : 's'}${urgent ? ` · <span class="warn">${urgent} expiring this week</span>` : ''}`
             : 'Family member'}</div>
           ${canSee ? goalBar(m) : ''}
         </div>
         ${canSee ? `<div class="amt">${money(balanceOf(own))}</div>` : ''}
-        ${parent ? `<button class="edit" data-edit="${m.id}" aria-label="Edit ${esc(m.name)}">✎</button>` : ''}
+        ${parent ? `<button class="edit" data-edit="${m.id}" aria-label="Edit ${esc(m.name)}">${ic('pencil')}</button>` : ''}
       </div>`;
   }).join('');
 }
@@ -2599,10 +2742,10 @@ function renderGiven() {
     ? '<div class="empty-state" style="padding:18px 6px">Remember every gift card you give — who, what, and when — so you never give the same thing twice. <span class="lock">PREMIUM</span></div>'
     : list.length ? list.slice(0, 30).map(g => `
       <div class="gift-row">
-        <span class="dot">${OCCASION_ICONS[g.occasion] || '🎁'}</span>
+        <span class="dot">${ic(OCCASION_ICONS[g.occasion] || 'gift')}</span>
         <span class="info"><div class="t">${esc(g.to)}</div><div class="s">${esc(g.store)} · ${esc(g.occasion)} · ${fmtDate(g.date)}</div></span>
         <span class="amt">${money(g.amount)}</span>
-        <button class="del" data-del="${g.id}" aria-label="Delete">✕</button>
+        <button class="del" data-del="${g.id}" aria-label="Delete"><svg class="i" aria-hidden="true"><use href="#i-x"/></svg></button>
       </div>`).join('')
     : '<div class="empty-state" style="padding:18px 6px">No gifts logged yet. Gave a gift card for a birthday or to a teacher? Log it here.</div>';
 }
@@ -2645,7 +2788,7 @@ $('giftForm').addEventListener('submit', e => {
   saveGiven();
   close('giftOverlay');
   renderGiven();
-  toast(`Saved — ${g.store} for ${g.to} 🎁`);
+  toast(`Saved — ${g.store} for ${g.to}`);
 });
 
 // ---------- add / edit family member ----------
@@ -2715,7 +2858,7 @@ $('memberForm').addEventListener('submit', e => {
   saveFamily();
   close('memberOverlay');
   render();
-  toast(editingMember ? 'Saved' : `${name} joined the family 🎉`);
+  toast(editingMember ? 'Saved' : `${name} joined the family`);
   if (!editingMember) confetti();
 });
 
@@ -2740,7 +2883,7 @@ function openWho() {
   $('pinBox').hidden = true;
   $('whoGrid').innerHTML = family.members.map(m => `
     <button class="who-btn ${m.id === family.current ? 'on' : ''}" data-who="${m.id}">
-      ${avatar(m, 'xl')}${esc(m.name)}<small>${m.role === 'parent' ? 'Parent' : 'Kid'}${m.pin ? ' · 🔒' : ''}</small>
+      ${avatar(m, 'xl')}${esc(m.name)}<small>${m.role === 'parent' ? 'Parent' : 'Kid'}${m.pin ? ' · PIN' : ''}</small>
     </button>`).join('');
   open('whoOverlay');
 }
@@ -2753,7 +2896,7 @@ function switchTo(id) {
   close('whoOverlay');
   showPage('wallet');
   render();
-  toast(`Hi ${me().name}! 👋`);
+  toast(`Hi, ${me().name}`);
 }
 
 $('whoGrid').onclick = e => {
@@ -2818,7 +2961,7 @@ function renderActivity() {
   ].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 
   renderReport(list, events);
-  $('wrapBtn').innerHTML = `✨ Your ${today().slice(0, 4)} in gift cards${isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>'}`;
+  $('wrapBtn').innerHTML = `${ic('sparkles')} Your ${today().slice(0, 4)} in gift cards${isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>'}`;
   renderInsights(list, events);
 
   const byStore = {};
@@ -2866,12 +3009,12 @@ function renderReport(list, events) {
   const nextName = next.toLocaleDateString(undefined, { month: 'long' });
   const expiring = list.filter(c => c.balance > 0 && (c.expires || '').startsWith(nextKey));
   const headline = expiring.length
-    ? `⏰ ${expiring.length} card${expiring.length === 1 ? '' : 's'} with ${money(balanceOf(expiring))} expire${expiring.length === 1 ? 's' : ''} in ${nextName} — plan to use ${expiring.length === 1 ? 'it' : 'them'}.`
-    : spent > 0 ? `🎉 You put ${money(spent)} of gift cards to work this month. Nothing expires in ${nextName}.`
-    : `💡 Nothing spent yet this month — ${money(balanceOf(list))} is waiting on your cards.`;
+    ? `${expiring.length} card${expiring.length === 1 ? '' : 's'} with ${money(balanceOf(expiring))} expire${expiring.length === 1 ? 's' : ''} in ${nextName} — plan to use ${expiring.length === 1 ? 'it' : 'them'}.`
+    : spent > 0 ? `You put ${money(spent)} of gift cards to work this month. Nothing expires in ${nextName}.`
+    : `Nothing spent yet this month — ${money(balanceOf(list))} is waiting on your cards.`;
   const locked = !isPremium();
   $('report').innerHTML = `<div class="report ${locked ? 'locked' : ''}">
-    <h3>📅 ${monthName} report</h3>
+    <h3>${monthName} report</h3>
     <div class="sub">${monthName} so far${walletScope !== 'all' && isParent() ? ` · ${esc(member(walletScope).name)}` : ''}</div>
     <div class="report-grid">
       <div><div class="k">Spent from gift cards</div><div class="v">${money(spent)}</div></div>
@@ -2880,7 +3023,7 @@ function renderReport(list, events) {
       <div><div class="k">Still to use</div><div class="v">${money(balanceOf(list))}</div></div>
     </div>
     <div class="headline">${headline}</div>
-    ${locked ? '<div class="unlock"><button class="pro-btn" data-unlock>👑 Unlock monthly report</button></div>' : ''}
+    ${locked ? '<div class="unlock"><button class="pro-btn" data-unlock>' + ic('crown') + ' Unlock monthly report</button></div>' : ''}
   </div>`;
 }
 $('report').onclick = e => { if (e.target.closest('[data-unlock]')) openPremium('report'); };
@@ -2895,17 +3038,17 @@ function renderInsights(list, events) {
   const given = list.reduce((s, c) => s + Number(c.amount || 0), 0);
   const used = list.reduce((s, c) => s + Math.max(0, Number(c.amount || 0) - Number(c.balance || 0)), 0);
   const items = [
-    ['🕸 Forgotten money', money(balanceOf(forgotten)),
+    [`${ic('hourglass')} Forgotten money`, money(balanceOf(forgotten)),
       forgotten.length ? `${forgotten.length} card${forgotten.length === 1 ? '' : 's'} not used in 3+ months` : 'No forgotten cards — nice!'],
-    ['🪙 Small leftovers', money(balanceOf(leftovers)),
+    [`${ic('coins')} Small leftovers`, money(balanceOf(leftovers)),
       leftovers.length ? `Under $5 on ${leftovers.map(displayName).slice(0, 3).map(esc).join(', ')} — use it at checkout` : 'No tiny balances hiding'],
-    ['🛟 Saved from expiring', money(rescued), 'Spent in the last month before a card expired'],
-    ['📊 Gift money used', given ? Math.round(used / given * 100) + '%' : '—', `${money(used)} of ${money(given)} used so far`],
+    [`${ic('shield')} Saved from expiring`, money(rescued), 'Spent in the last month before a card expired'],
+    [`${ic('chart')} Gift money used`, given ? Math.round(used / given * 100) + '%' : '—', `${money(used)} of ${money(given)} used so far`],
   ];
   const locked = !isPremium();
   $('insights').innerHTML = `<div class="insights ${locked ? 'locked' : ''}">
     ${items.map(([k, v, sub]) => `<div class="insight"><div class="k">${k}</div><div class="v">${locked ? '$••' : v}</div><div class="s">${locked ? 'Premium shows you where money is hiding' : sub}</div></div>`).join('')}
-    ${locked ? '<div class="unlock"><button class="pro-btn" data-unlock>👑 Unlock money insights</button></div>' : ''}
+    ${locked ? '<div class="unlock"><button class="pro-btn" data-unlock>' + ic('crown') + ' Unlock money insights</button></div>' : ''}
   </div>`;
 }
 $('insights').onclick = e => { if (e.target.closest('[data-unlock]')) openPremium('insights'); };
@@ -2929,10 +3072,10 @@ function renderKidAlerts() {
   const list = isUltra() && isParent() ? kidSpends().filter(e => !seen.includes(e.key) && daysLeft(e.date) >= -30) : [];
   $('kidAlerts').innerHTML = list.length ? `
     <section class="kid-alert">
-      <div class="alert-head"><b>👀 Kids’ spending</b><button class="mini" id="kidSeenBtn">Got it</button></div>
+      <div class="alert-head"><b>${ic('eye')} Kids’ spending</b><button class="mini" id="kidSeenBtn">Got it</button></div>
       ${list.slice(0, 6).map(e => `<div class="row-item">
         <span>${esc(e.kid.avatar)} ${esc(e.kid.name)} spent at ${esc(displayName(e.card))} · ${esc(dayLabel(e.date))}</span>
-        <span class="${e.kid.limit && e.spent > e.kid.limit ? 'over' : ''}">${money(e.spent)}${e.kid.limit && e.spent > e.kid.limit ? ' ⚠️ over limit' : ''}</span></div>`).join('')}
+        <span class="${e.kid.limit && e.spent > e.kid.limit ? 'over' : ''}">${money(e.spent)}${e.kid.limit && e.spent > e.kid.limit ? ' · over limit' : ''}</span></div>`).join('')}
     </section>` : '';
 }
 $('kidAlerts').onclick = e => {
@@ -2978,7 +3121,7 @@ async function lockKey(k) {
     saveSettings();
     $('lockOverlay').classList.remove('open');
     render();
-    return toast('App lock is on 🔐');
+    return toast('App lock is on');
   }
   if (await hashPin(lockEntry) === settings.lockHash) { $('lockOverlay').classList.remove('open'); lockEntry = ''; }
   else lockFail('Wrong passcode — try again');
@@ -3022,14 +3165,14 @@ function openWrap() {
   const gave = isParent() ? given.filter(g => g.date.startsWith(year)) : [];
   const who = !isParent() ? me().name : walletScope !== 'all' ? member(walletScope).name : 'Your family';
   wrapSlides = [
-    ['🎁', `${year} wrapped`, esc(who), 'Your year in gift cards'],
-    ['💌', 'You received', `${got.length} card${got.length === 1 ? '' : 's'}`, `worth ${money(gotValue)} this year`],
-    ['🛍️', 'You put to work', money(spent), gotValue ? `That’s ${Math.round(Math.min(100, spent / gotValue * 100))}% of this year’s gift money` : 'from your gift cards'],
-    top && ['🏆', 'Your favorite place', esc(top[0]), `${money(top[1])} spent there`],
-    giver && ['🥰', 'Most generous', esc(giver[0]), `${giver[1]} gift card${giver[1] === 1 ? '' : 's'} this year`],
-    ['🛟', 'Saved from expiring', money(rescued), rescued ? 'spent in the last month before a card expired' : 'Nothing slipped close — nice planning!'],
-    gave.length && ['🎀', 'You gave', `${gave.length} gift${gave.length === 1 ? '' : 's'}`, `${money(gave.reduce((s, g) => s + g.amount, 0))} of happiness to others`],
-    ['✨', `Still to enjoy`, money(balanceOf(list)), `Here’s to ${+year + 1}! 🎉`],
+    ['gift', `${year} wrapped`, esc(who), 'Your year in gift cards'],
+    ['mail', 'You received', `${got.length} card${got.length === 1 ? '' : 's'}`, `worth ${money(gotValue)} this year`],
+    ['bag', 'You put to work', money(spent), gotValue ? `That’s ${Math.round(Math.min(100, spent / gotValue * 100))}% of this year’s gift money` : 'from your gift cards'],
+    top && ['trophy', 'Your favorite place', esc(top[0]), `${money(top[1])} spent there`],
+    giver && ['heart', 'Most generous', esc(giver[0]), `${giver[1]} gift card${giver[1] === 1 ? '' : 's'} this year`],
+    ['shield', 'Saved from expiring', money(rescued), rescued ? 'spent in the last month before a card expired' : 'Nothing slipped close — nice planning!'],
+    gave.length && ['gift', 'You gave', `${gave.length} gift${gave.length === 1 ? '' : 's'}`, `${money(gave.reduce((s, g) => s + g.amount, 0))} of happiness to others`],
+    ['sparkles', `Still to enjoy`, money(balanceOf(list)), `Here’s to ${+year + 1}.`],
   ].filter(Boolean);
   wrapIndex = 0;
   drawWrap();
@@ -3039,7 +3182,7 @@ function drawWrap() {
   const [emoji, kicker, big, text] = wrapSlides[wrapIndex];
   $('wrapSheet').style.setProperty('--wbg', WRAP_BG[wrapIndex % WRAP_BG.length]);
   $('wrapBars').innerHTML = wrapSlides.map((_, i) => `<i class="${i <= wrapIndex ? 'on' : ''}"></i>`).join('');
-  $('wrapSlide').innerHTML = `<div class="wrap-emoji">${emoji}</div><div class="wrap-kicker">${kicker}</div><div class="wrap-big">${big}</div><div class="wrap-text">${text}</div>`;
+  $('wrapSlide').innerHTML = `<div class="wrap-emoji">${ic(emoji)}</div><div class="wrap-kicker">${kicker}</div><div class="wrap-big">${big}</div><div class="wrap-text">${text}</div>`;
   if (wrapIndex === wrapSlides.length - 1) confetti();
 }
 $('wrapSheet').onclick = e => {
@@ -3066,7 +3209,7 @@ function exportCsv() {
   a.download = `gift-keeper-${today()}.csv`;
   a.click();
   URL.revokeObjectURL(a.href);
-  toast('Spreadsheet downloaded 📊');
+  toast('Spreadsheet downloaded');
 }
 
 // ---------- Settings page ----------
@@ -3074,19 +3217,19 @@ function renderSettings() {
   const m = me();
   $('settingsProfile').innerHTML = `
     <button class="setting" id="setSwitch"><span class="lead">${avatar(m, 'lg')}
-      <span><b>${esc(m.name)}</b><span class="sub">${m.role === 'parent' ? 'Parent' : 'Kid'}${m.pin ? ' · PIN on 🔒' : ''}</span></span></span>
+      <span><b>${esc(m.name)}</b><span class="sub">${m.role === 'parent' ? 'Parent' : 'Kid'}${m.pin ? ' · PIN on' : ''}</span></span></span>
       <span class="mini">Switch person</span></button>
-    ${isParent() ? `<button class="setting" id="setEdit"><span>✎ Edit my profile<span class="sub">Name, picture, color and PIN</span></span><span class="go">›</span></button>` : ''}`;
+    ${isParent() ? `<button class="setting" id="setEdit"><span>${ic('pencil')}Edit my profile<span class="sub">Name, picture, color and PIN</span></span><span class="go">›</span></button>` : ''}`;
 
   const perm = 'Notification' in window ? Notification.permission : 'unsupported';
   $('settingsReminders').innerHTML = `
-    <div class="setting static"><span>⏰ “Use it!” alerts<span class="sub">Cards are flagged ${remindDays()} days before they expire</span></span><span class="pill" style="background:var(--accent-soft);color:var(--accent)">On</span></div>
-    <div class="setting static"><span>🗓 Remind me<span class="sub">How early to start the “Use it!” alert${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
+    <div class="setting static"><span>${ic('clock')}“Use it!” alerts<span class="sub">Cards are flagged ${remindDays()} days before they expire</span></span><span class="pill" style="background:var(--accent-soft);color:var(--accent)">On</span></div>
+    <div class="setting static"><span>${ic('calendar')}Remind me<span class="sub">How early to start the “Use it!” alert${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
       <select id="setRemind" aria-label="Reminder timing">${REMIND_CHOICES.map(d =>
         `<option value="${d}" ${d === remindDays() ? 'selected' : ''}>${d} days before</option>`).join('')}</select></div>
-    <div class="setting static"><span>🙈 Hide amounts<span class="sub">Blur balances when someone’s looking${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
+    <div class="setting static"><span>${ic('eye-off')}Hide amounts<span class="sub">Blur balances when someone’s looking${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
       <button class="mini" id="setPrivacy">${isPremium() && settings.privacy ? 'On' : 'Off'}</button></div>
-    <button class="setting" id="setNotify"><span>🔔 Pop-up reminders<span class="sub">${
+    <button class="setting" id="setNotify"><span>${ic('bell')}Pop-up reminders<span class="sub">${
       perm === 'granted' ? 'On — you’ll get one a day for cards about to expire' :
       perm === 'denied' ? 'Blocked — allow notifications for this page in your browser' :
       perm === 'unsupported' ? 'Not supported in this browser' : 'Get a pop-up when a card is about to expire'}</span></span>
@@ -3094,16 +3237,16 @@ function renderSettings() {
   $('parentSettings').hidden = !isParent();
 
   $('settingsPlan').innerHTML = isPremium()
-    ? `<div class="setting static"><span>${isUltra() ? '💎 Gift Keeper Ultra' : '👑 Gift Keeper Premium'}<span class="sub">${isUltra() ? ULTRA_PRICE : PREMIUM_PRICE}/month · since ${fmtDate(premium.since)}${premium.test ? ' · test mode' : ''}</span></span><span class="pill" style="background:rgba(255,200,90,.15);color:#ffd27a">Active</span></div>
-       ${isParent() && !isUltra() ? `<button class="setting" id="setUltra"><span>💎 Upgrade to Ultra<span class="sub">App lock, Year in review, kids’ spending alerts and more</span></span><span class="go">›</span></button>` : ''}
+    ? `<div class="setting static"><span>${isUltra() ? `${ic('gem')}Gift Keeper Ultra` : `${ic('crown')}Gift Keeper Premium`}<span class="sub">${isUltra() ? ULTRA_PRICE : PREMIUM_PRICE}/month · since ${fmtDate(premium.since)}${premium.test ? ' · test mode' : ''}</span></span><span class="pill" style="background:rgba(255,200,90,.15);color:#ffd27a">Active</span></div>
+       ${isParent() && !isUltra() ? `<button class="setting" id="setUltra"><span>${ic('gem')}Upgrade to Ultra<span class="sub">App lock, Year in review, kids’ spending alerts and more</span></span><span class="go">›</span></button>` : ''}
        ${isParent() ? `<button class="setting" id="setCancel"><span>Cancel ${isUltra() ? 'Ultra' : 'Premium'}<span class="sub">Your cards stay — you just can’t add more than ${FREE_CARD_LIMIT}</span></span><span class="go">›</span></button>` : ''}`
-    : `<button class="setting" id="setUpgrade"><span>🆓 Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT} cards used · just you</span></span><span class="mini">👑 Upgrade</span></button>`;
+    : `<button class="setting" id="setUpgrade"><span>${ic('user')}Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT} cards used · just you</span></span><span class="mini">Upgrade</span></button>`;
 
   const tag = isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>';
   $('settingsUltra').innerHTML = `
-    ${isParent() ? `<button class="setting" id="setLock"><span>🔐 App lock${tag}<span class="sub">${isUltra() && settings.lockHash ? 'On — a passcode is needed to open Gift Keeper' : 'Ask for a passcode every time Gift Keeper opens'}</span></span><span class="mini">${isUltra() && settings.lockHash ? 'Turn off' : 'Set up'}</span></button>` : ''}
-    <button class="setting" id="setWrap"><span>✨ Year in review${tag}<span class="sub">Your ${today().slice(0, 4)} in gift cards, story-style</span></span><span class="go">›</span></button>
-    ${isParent() ? `<button class="setting" id="setCsv"><span>📊 Export to spreadsheet${tag}<span class="sub">Every card and every balance change, for Excel or Google Sheets</span></span><span class="go">›</span></button>` : ''}`;
+    ${isParent() ? `<button class="setting" id="setLock"><span>${ic('lock')}App lock${tag}<span class="sub">${isUltra() && settings.lockHash ? 'On — a passcode is needed to open Gift Keeper' : 'Ask for a passcode every time Gift Keeper opens'}</span></span><span class="mini">${isUltra() && settings.lockHash ? 'Turn off' : 'Set up'}</span></button>` : ''}
+    <button class="setting" id="setWrap"><span>${ic('sparkles')}Year in review${tag}<span class="sub">Your ${today().slice(0, 4)} in gift cards, story-style</span></span><span class="go">›</span></button>
+    ${isParent() ? `<button class="setting" id="setCsv"><span>${ic('table')}Export to spreadsheet${tag}<span class="sub">Every card and every balance change, for Excel or Google Sheets</span></span><span class="go">›</span></button>` : ''}`;
 }
 
 // ---------- Premium ----------
@@ -3135,14 +3278,14 @@ const PREMIUM_WHY = {
 function openPremium(reason = '') {
   const ultraAsk = ULTRA_REASONS.includes(reason) || (isPremium() && !reason);
   $('pmWhy').textContent = PREMIUM_WHY[reason] || (ultraAsk ? 'The very best of Gift Keeper — locked tight and made for the whole family.' : 'Every gift card for the whole family, in one place.');
-  $('pmCrown').textContent = ultraAsk ? '💎' : '👑';
+  $('pmCrown').innerHTML = ic(ultraAsk ? 'gem' : 'crown');
   $('pmTitle').textContent = ultraAsk ? 'Gift Keeper Ultra' : 'Choose your plan';
   document.querySelector('.premium').classList.toggle('is-ultra', ultraAsk);
   const parent = isParent();
   $('pmBuy').disabled = !parent || isPremium();
   $('pmBuyUltra').disabled = !parent || isUltra();
-  $('pmBuy').textContent = isUltra() ? 'Included 💎' : isPremium() ? 'Your plan 👑' : `👑 Premium · ${PREMIUM_PRICE}`;
-  $('pmBuyUltra').textContent = isUltra() ? 'Your plan 💎' : `💎 Ultra · ${ULTRA_PRICE}`;
+  $('pmBuy').textContent = isUltra() ? 'Included' : isPremium() ? 'Current plan' : `Premium · ${PREMIUM_PRICE}`;
+  $('pmBuyUltra').textContent = isUltra() ? 'Current plan' : `Ultra · ${ULTRA_PRICE}`;
   $('pmFine').textContent = !parent ? 'Only parents can change the plan — ask a parent!'
     : PAYMENT_LINK ? 'Billed monthly. Cancel any time.'
     : 'Test mode — payments aren’t connected yet, so this unlocks the plan for free.';
@@ -3154,7 +3297,7 @@ function activatePremium(test, tier = 'premium') {
   close('premiumOverlay');
   render();
   confetti();
-  toast(tier === 'ultra' ? 'Welcome to Ultra 💎' : 'Welcome to Premium 👑');
+  toast(tier === 'ultra' ? 'Welcome to Ultra' : 'Welcome to Premium');
 }
 $('pmBuy').onclick = () => {
   if (!PAYMENT_LINK) return activatePremium(true, 'premium');
@@ -3218,7 +3361,7 @@ $('settingsReminders').onclick = e => {
   }
   if (!e.target.closest('#setNotify') || !('Notification' in window) || Notification.permission !== 'default') return;
   Notification.requestPermission().then(p => {
-    toast(p === 'granted' ? 'Reminders on 🔔' : 'Reminders are blocked in this browser');
+    toast(p === 'granted' ? 'Reminders on' : 'Reminders are blocked in this browser');
     render();
     sendReminders();
   });
@@ -3250,7 +3393,7 @@ $('importFile').onchange = async () => {
     save(); saveFamily();
     walletScope = 'all';
     render();
-    toast('Backup restored ✓');
+    toast('Backup restored');
   } catch {
     toast('That file isn’t a Gift Keeper backup');
   }
