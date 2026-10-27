@@ -121,7 +121,11 @@
   @media (max-width: 720px) { .steps { grid-template-columns: 1fr; } }
 
   /* Pricing */
-  .plans { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 820px; margin: 0 auto; }
+  .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1080px; margin: 0 auto; }
+  .plan.ultra { border: 1px solid rgba(155,123,255,.55); background: linear-gradient(160deg, rgba(34,211,238,.12), rgba(155,123,255,.14) 50%, rgba(255,95,210,.1)); }
+  .plan.ultra li::before { color: #c9b8ff; }
+  .btn.ultra { color: #fff; background: linear-gradient(120deg, #22d3ee, #9b7bff 45%, #ff5fd2); box-shadow: 0 12px 30px rgba(155,123,255,.4); }
+  @media (max-width: 900px) { .plans { grid-template-columns: 1fr; max-width: 460px; } }
   .plan { padding: 30px; border-radius: 28px; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; }
   .plan.pro { position: relative; border: 1px solid rgba(255,200,90,.45); background: linear-gradient(160deg, rgba(255,200,90,.12), rgba(255,255,255,.03));
     box-shadow: 0 30px 70px rgba(255,160,60,.15); }
@@ -307,6 +311,20 @@
         </ul>
         <a class="btn gold" href="app.html">Get Premium</a>
       </div>
+      <div class="plan ultra reveal">
+        <h3>💎 Ultra</h3>
+        <div class="price">$19.99<small> / month</small></div>
+        <div class="for">Everything, locked tight</div>
+        <ul>
+          <li>Everything in Premium</li>
+          <li>🔐 App lock with a passcode</li>
+          <li>✨ Year in review, story-style</li>
+          <li>👀 Kids’ spending alerts &amp; limits</li>
+          <li>💎 Animated Ultra card themes</li>
+          <li>📊 Export to a spreadsheet</li>
+        </ul>
+        <a class="btn ultra" href="app.html">Get Ultra</a>
+      </div>
     </div>
   </div>
 </section>
@@ -319,7 +337,7 @@
       <details class="reveal"><summary>Do I need to download an app?</summary><p>No. Gift Keeper works in your browser. On iPhone, tap Share → “Add to Home Screen”; on Android, tap “Install app”. It then opens full screen like any other app, even offline.</p></details>
       <details class="reveal"><summary>Can it check my balance automatically?</summary><p>Stores don’t share balances with outside apps, so you update it yourself — Checkout mode makes that one tap. Each card also has a “Check balance online” link.</p></details>
       <details class="reveal"><summary>Can my kids use it?</summary><p>Yes. Kids get their own profile and only see their own cards. Parents can set a PIN so kids can’t open a parent’s profile.</p></details>
-      <details class="reveal"><summary>Can I cancel Premium?</summary><p>Any time, in Settings. You keep all your cards — you just can’t add more than 5 on the free plan.</p></details>
+      <details class="reveal"><summary>Can I cancel Premium?</summary><p>Any time, in Settings — Premium or Ultra. You keep all your cards — you just can’t add more than 5 on the free plan.</p></details>
     </div>
   </div>
 </section>

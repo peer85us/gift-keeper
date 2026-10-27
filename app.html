@@ -772,6 +772,82 @@
   .report .unlock { position: absolute; inset: 0; display: grid; place-items: center; }
   body.privacy .report-grid .v, body.privacy .gift-row .amt, body.privacy .goal-top span { filter: blur(9px); }
 
+  /* Ultra */
+  .pro-btn.ultra { color: #fff; background: linear-gradient(120deg, #22d3ee, #9b7bff, #ff5fd2, #ffcf5c, #22d3ee); background-size: 300% 100%;
+    animation: shimmer 6s linear infinite; box-shadow: 0 6px 22px rgba(155,123,255,.5); border: 0; }
+  @keyframes shimmer { to { background-position: 300% 0; } }
+  .ultra-tag { font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 99px; margin-left: 6px; vertical-align: 1px; color: #fff;
+    background: linear-gradient(120deg, #22d3ee, #9b7bff, #ff5fd2); }
+  .pm-table.three th:not(:first-child), .pm-table.three td:not(:first-child) { width: 70px; font-size: 13px; }
+  .pm-table.three td { padding: 8px 4px; font-size: 13.5px; }
+  .pm-table.three td:nth-child(3) { color: #ffd27a; font-weight: 700; }
+  .pm-table.three td:last-child { color: #c9b8ff; font-weight: 700; }
+  .pm-table .price-row td { border-top: 0; font: 800 15px var(--round); color: var(--ink) !important; padding-top: 0; }
+  .pm-table .price-row small { display: block; font: 600 10.5px var(--round); color: var(--muted); }
+  .pm-table tr.ultra-start td { border-top: 1px solid rgba(155,123,255,.5); }
+  .pm-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pm-buttons .btn { padding: 14px 8px; font-size: 15px; }
+  .btn.ultra { border: 0; color: #fff; font-weight: 800; background: linear-gradient(120deg, #22d3ee, #9b7bff 40%, #ff5fd2 75%, #ffcf5c);
+    background-size: 200% 100%; animation: shimmer 5s linear infinite; box-shadow: 0 12px 30px rgba(155,123,255,.45); }
+  .btn.ultra:disabled, .btn.gold:disabled { opacity: .45; animation: none; }
+  .premium.is-ultra h2 { background: linear-gradient(90deg, #7cf5ff, #c9b8ff, #ff9ce4); -webkit-background-clip: text; background-clip: text; }
+
+  /* Ultra card themes: animated */
+  .gc.theme-diamond { background-image: linear-gradient(115deg, rgba(255,255,255,.0) 30%, rgba(255,255,255,.45) 45%, rgba(255,255,255,0) 60%),
+    conic-gradient(from 30deg, #b9f3ff, #e5d9ff, #ffffff, #c8f0ff, #f3d9ff, #b9f3ff); color: #1b1446; background-size: 250% 100%, 100% 100%; animation: sheen 4s linear infinite; }
+  .gc.theme-neon { background-image: linear-gradient(120deg, #ff2bd6, #7c5cff, #22d3ee, #39ff88, #ff2bd6); background-size: 300% 300%; animation: neonflow 6s linear infinite; }
+  .gc.theme-lava { background-image: radial-gradient(circle at 20% 80%, #ffcf5c, transparent 40%), radial-gradient(circle at 80% 20%, #ff3d2e, transparent 45%), linear-gradient(135deg, #ff7a18, #8a0e0e);
+    background-size: 160% 160%; animation: neonflow 8s ease-in-out infinite alternate; }
+  .gc.theme-aurora { background-image: radial-gradient(60% 80% at 20% 20%, rgba(57,255,136,.7), transparent), radial-gradient(60% 80% at 80% 60%, rgba(124,92,255,.8), transparent), linear-gradient(160deg, #04122b, #0a2a3a);
+    background-size: 180% 180%; animation: neonflow 9s ease-in-out infinite alternate; }
+  @keyframes sheen { to { background-position: -250% 0, 0 0; } }
+  @keyframes neonflow { 50% { background-position: 100% 50%; } }
+  .theme-btn.ultra-theme { border-color: rgba(155,123,255,.5); }
+
+  /* App lock (Ultra) */
+  #lockOverlay { position: fixed; inset: 0; z-index: 60; display: none; place-items: center; text-align: center; padding: 24px;
+    background: radial-gradient(60% 50% at 50% 30%, rgba(124,92,255,.35), transparent), #08070f; }
+  #lockOverlay.open { display: grid; }
+  .lock-box { width: 100%; max-width: 320px; }
+  .lock-box .pm-crown { font-size: 60px; }
+  .lock-box h2 { font: 800 24px var(--round); margin: 6px 0 4px; }
+  .lock-box p { color: var(--muted); margin: 0 0 18px; }
+  .lock-dots { display: flex; justify-content: center; gap: 14px; margin: 10px 0 18px; }
+  .lock-dots i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid rgba(255,255,255,.4); }
+  .lock-dots i.on { background: linear-gradient(120deg, #22d3ee, #9b7bff, #ff5fd2); border-color: transparent; }
+  .lock-dots.shake { animation: shake .4s; }
+  @keyframes shake { 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+  .keypad { display: grid; grid-template-columns: repeat(3, 72px); gap: 14px; justify-content: center; }
+  .keypad button { width: 72px; height: 72px; border-radius: 50%; border: 1px solid var(--line); background: rgba(255,255,255,.07); color: var(--ink);
+    font: 600 26px var(--round); cursor: pointer; }
+  .keypad button:active { background: rgba(155,123,255,.35); }
+  .keypad .blank { visibility: hidden; }
+  .lock-forgot { margin-top: 18px; background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 13px; text-decoration: underline; }
+
+  /* Kids' spending alerts (Ultra) */
+  .kid-alert { border: 1px solid rgba(155,123,255,.45); background: linear-gradient(135deg, rgba(34,211,238,.1), rgba(155,123,255,.14)); border-radius: 18px; padding: 12px 14px; margin-bottom: 14px; }
+  .kid-alert .alert-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-bottom: 4px; }
+  .kid-alert .row-item { display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 14px; }
+  .kid-alert .over { color: var(--warn); font-weight: 700; }
+
+  /* Year in review (Ultra) */
+  #wrapOverlay { z-index: 40; }
+  .wrap-sheet { position: relative; width: 100%; max-width: 420px; height: min(720px, 92vh); border-radius: 30px; overflow: hidden; cursor: pointer;
+    display: flex; flex-direction: column; justify-content: center; padding: 34px 28px; text-align: center; user-select: none;
+    background: var(--wbg, linear-gradient(160deg, #7c5cff, #d14dff 55%, #ff7a59)); transition: background .5s; box-shadow: 0 40px 90px rgba(0,0,0,.6); }
+  .wrap-bars { position: absolute; top: 14px; left: 16px; right: 16px; display: flex; gap: 5px; }
+  .wrap-bars i { flex: 1; height: 4px; border-radius: 99px; background: rgba(255,255,255,.3); }
+  .wrap-bars i.on { background: #fff; }
+  .wrap-close { position: absolute; top: 28px; right: 16px; border: 0; background: rgba(0,0,0,.2); color: #fff; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; }
+  .wrap-emoji { font-size: 74px; margin-bottom: 10px; animation: pop .6s cubic-bezier(.2,1.6,.4,1); }
+  .wrap-kicker { font: 700 15px var(--round); opacity: .85; text-transform: uppercase; letter-spacing: .1em; }
+  .wrap-big { font: 900 clamp(44px, 13vw, 64px) var(--round); letter-spacing: -2px; line-height: 1.02; margin: 8px 0; animation: rise .6s ease-out; }
+  .wrap-text { font: 600 19px var(--round); opacity: .95; line-height: 1.4; }
+  .wrap-hint { position: absolute; bottom: 18px; left: 0; right: 0; font-size: 12.5px; opacity: .7; }
+  @keyframes pop { from { transform: scale(.3); opacity: 0; } }
+  .wrap-btn { width: 100%; padding: 16px; margin-top: 14px; border-radius: 18px; border: 1px solid rgba(155,123,255,.5); cursor: pointer; font: 800 16px var(--round); color: #fff;
+    background: linear-gradient(120deg, rgba(34,211,238,.25), rgba(155,123,255,.3), rgba(255,95,210,.25)); }
+
   .pm-fine { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -827,6 +903,7 @@
 
   <section class="page" id="page-wallet">
   <div id="alerts"></div>
+  <div id="kidAlerts"></div>
 
   <section class="hero">
     <div class="hero-stack" id="heroStack"></div>
@@ -877,6 +954,7 @@
     <p class="page-sub" id="activitySub"></p>
     <div class="stat-grid" id="activityStats"></div>
     <div id="report"></div>
+    <button class="wrap-btn" id="wrapBtn"></button>
     <div class="section-title">👑 Money insights</div>
     <div id="insights"></div>
     <div class="section-title">Where the money went</div>
@@ -893,6 +971,8 @@
     <div class="list-panel" id="settingsReminders"></div>
     <div class="section-title">Plan</div>
     <div class="list-panel" id="settingsPlan"></div>
+    <div class="section-title">💎 Ultra</div>
+    <div class="list-panel" id="settingsUltra"></div>
     <div id="parentSettings">
       <div class="section-title">Backup</div>
       <div class="list-panel">
@@ -904,7 +984,7 @@
       <div class="list-panel"><button class="setting danger" id="wipeBtn">🗑 Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.7 · Everything is saved only on this device.
+      Gift Keeper v0.8 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1096,27 +1176,62 @@
 <div class="overlay" id="premiumOverlay">
   <div class="sheet premium">
     <button type="button" class="x" data-close aria-label="Close">✕</button>
-    <div class="pm-crown">👑</div>
-    <h2>Gift Keeper Premium</h2>
+    <div class="pm-crown" id="pmCrown">👑</div>
+    <h2 id="pmTitle">Choose your plan</h2>
     <p class="pm-why" id="pmWhy"></p>
-    <div class="pm-price"><b>$9.99</b> / month</div>
-    <table class="pm-table">
-      <tr><th></th><th>Free</th><th>Premium</th></tr>
-      <tr><td>💳 Gift cards</td><td>5</td><td>Unlimited</td></tr>
-      <tr><td>👨‍👩‍👧 Family members</td><td>Just you</td><td>Unlimited</td></tr>
-      <tr><td>📷 Scan to fill</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td>⬇️ Backup &amp; restore</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">🛒 Checkout mode</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">📈 Money insights</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">🎨 Card themes</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">⏰ Reminder timing</td><td>7 days</td><td>3–30 days</td></tr>
-      <tr><td class="new">🙈 Hide amounts</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">📅 Monthly report</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">🎯 Kids’ savings goals</td><td class="no">—</td><td>✓</td></tr>
-      <tr><td class="new">🎁 Gift tracker</td><td class="no">—</td><td>✓</td></tr>
+    <table class="pm-table three">
+      <tr><th></th><th>Free</th><th>Premium</th><th>💎 Ultra</th></tr>
+      <tr class="price-row"><td></td><td>$0</td><td>$9.99<small>/month</small></td><td>$19.99<small>/month</small></td></tr>
+      <tr><td>💳 Gift cards</td><td>5</td><td>Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>👨‍👩‍👧 Family members</td><td>Just you</td><td>Unlimited</td><td>Unlimited</td></tr>
+      <tr><td>📷 Scan to fill</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td>⬇️ Backup &amp; restore</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="new">🛒 Checkout mode</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="new">📈 Money insights</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="new">🎨 Card themes</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="new">⏰ Reminder timing</td><td>7 days</td><td>3–30 days</td><td>3–30 days</td></tr>
+      <tr><td class="new">🙈 Hide amounts</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="new">📅 Monthly report</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="new">🎯 Kids’ savings goals</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr><td class="new">🎁 Gift tracker</td><td class="no">—</td><td>✓</td><td>✓</td></tr>
+      <tr class="ultra-start"><td>🔐 App lock (passcode)</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td>✨ Year in review</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td>👀 Kids’ spending alerts</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td>💎 Ultra card themes</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td>📊 Spreadsheet export</td><td class="no">—</td><td class="no">—</td><td>✓</td></tr>
     </table>
-    <button type="button" class="btn gold" id="pmBuy">Start Premium · $9.99/mo</button>
+    <div class="pm-buttons">
+      <button type="button" class="btn gold" id="pmBuy">👑 Premium</button>
+      <button type="button" class="btn ultra" id="pmBuyUltra">💎 Ultra</button>
+    </div>
     <p class="pm-fine" id="pmFine"></p>
+  </div>
+</div>
+
+<!-- App lock (Ultra) -->
+<div id="lockOverlay" aria-modal="true" role="dialog">
+  <div class="lock-box">
+    <div class="pm-crown">🔐</div>
+    <h2>Gift Keeper is locked</h2>
+    <p id="lockMsg">Enter your 4-digit passcode</p>
+    <div class="lock-dots" id="lockDots"><i></i><i></i><i></i><i></i></div>
+    <div class="keypad" id="keypad">
+      <button data-k="1">1</button><button data-k="2">2</button><button data-k="3">3</button>
+      <button data-k="4">4</button><button data-k="5">5</button><button data-k="6">6</button>
+      <button data-k="7">7</button><button data-k="8">8</button><button data-k="9">9</button>
+      <button class="blank" tabindex="-1"></button><button data-k="0">0</button><button data-k="back" aria-label="Delete">⌫</button>
+    </div>
+    <button class="lock-forgot" id="lockForgot">Forgot passcode?</button>
+  </div>
+</div>
+
+<!-- Year in review (Ultra) -->
+<div class="overlay" id="wrapOverlay">
+  <div class="wrap-sheet" id="wrapSheet">
+    <div class="wrap-bars" id="wrapBars"></div>
+    <button class="wrap-close" id="wrapClose" aria-label="Close">✕</button>
+    <div id="wrapSlide"></div>
+    <div class="wrap-hint">Tap to continue</div>
   </div>
 </div>
 
@@ -1193,6 +1308,10 @@
       <div style="flex:1"><input id="mGoalAmt" type="number" step="1" min="0" inputmode="decimal" placeholder="$ goal"></div>
     </div>
     <button type="button" class="goal-lock" id="mGoalUpsell">🎯 Set a savings goal</button>
+    <div id="mLimitWrap">
+      <label for="mLimit">Alert me when one purchase is over <span class="ultra-tag" id="limitTag">ULTRA</span></label>
+      <input id="mLimit" type="number" step="1" min="0" inputmode="decimal" placeholder="e.g. $20 — leave empty for no limit">
+    </div>
     <div class="hint bad" id="memberError"></div>
     <div class="actions">
       <button type="button" class="btn danger" id="mDelete">Remove</button>
@@ -1273,11 +1392,17 @@ const THEMES = {
   galaxy:   { name: 'Galaxy',   sticker: '🪐' },
   gold:     { name: 'Gold',     sticker: '🏆' },
   sports:   { name: 'Sports',   sticker: '⚽️' },
+  diamond:  { name: 'Diamond',  sticker: '💎', ultra: true },
+  neon:     { name: 'Neon',     sticker: '🌈', ultra: true },
+  lava:     { name: 'Lava',     sticker: '🔥', ultra: true },
+  aurora:   { name: 'Aurora',   sticker: '🌌', ultra: true },
 };
 const NOTIFY_KEY = 'giftKeeper.notified.v1';
 const FAMILY_KEY = 'giftKeeper.family.v1';
 const PREMIUM_KEY = 'giftKeeper.premium.v1';
 const PREMIUM_PRICE = '$9.99';
+const ULTRA_PRICE = '$19.99';
+const PAYMENT_LINK_ULTRA = '';   // Stripe Payment Link for Ultra (redirect: app.html?premium=success&tier=ultra)
 const FREE_CARD_LIMIT = 5;
 // Paste a Stripe Payment Link here to take real money. Set its "after payment" redirect to
 // https://peer85us.github.io/gift-keeper/app.html?premium=success so the upgrade switches on when the customer comes back.
@@ -1508,7 +1633,7 @@ function expToDate(exp) {
 }
 
 // ---------- card visual ----------
-const themeOf = c => isPremium() && THEMES[c.theme] ? c.theme : '';
+const themeOf = c => THEMES[c.theme] && (THEMES[c.theme].ultra ? isUltra() : isPremium()) ? c.theme : '';
 function cardVisual(c, big = false) {
   const prepaid = isPrepaid(c);
   const exp = expShort(c);
@@ -1588,6 +1713,7 @@ function render() {
   renderHeader();
   renderScope();
   renderAlerts();
+  renderKidAlerts();
   renderHero();
   renderFilters();
   renderList();
@@ -1598,8 +1724,9 @@ function render() {
 
 function renderHeader() {
   $('meBtn').innerHTML = `${avatar(me())}${esc(me().name)}`;
-  $('proBtn').textContent = isPremium() ? '👑 Premium' : '👑 Go Premium';
-  $('proBtn').classList.toggle('on', isPremium());
+  $('proBtn').textContent = isUltra() ? '💎 Ultra' : isPremium() ? '👑 Premium' : '👑 Go Premium';
+  $('proBtn').classList.toggle('on', isPremium() && !isUltra());
+  $('proBtn').classList.toggle('ultra', isUltra());
   $('scanTop').innerHTML = '📷 Scan card to fill everything' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
   $('addMemberBtn').innerHTML = '+ Add family member' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
 }
@@ -1899,12 +2026,13 @@ $('colorPicker').onclick = e => {
 function renderThemes() {
   $('themeLock').hidden = isPremium();
   $('themePicker').innerHTML = Object.entries(THEMES).map(([k, t]) =>
-    `<button type="button" class="theme-btn ${k === formTheme ? 'on' : ''}" data-theme="${k}">${t.sticker || '⬜️'} ${t.name}</button>`).join('');
+    `<button type="button" class="theme-btn ${t.ultra ? 'ultra-theme' : ''} ${k === formTheme ? 'on' : ''}" data-theme="${k}">${t.sticker || '⬜️'} ${t.name}${t.ultra && !isUltra() ? ' 💎' : ''}</button>`).join('');
 }
 $('themePicker').onclick = e => {
   const b = e.target.closest('[data-theme]');
   if (!b) return;
   if (!isPremium()) return openPremium('themes');
+  if (THEMES[b.dataset.theme].ultra && !isUltra()) return openPremium('ultrathemes');
   formTheme = b.dataset.theme;
   renderThemes();
   updatePreview();
@@ -2080,11 +2208,18 @@ $('payForm').addEventListener('submit', e => {
     c.balance = balance;
     save();
     toast(`${money(balance)} left on ${displayName(c)}`);
+    overLimitNote(spent);
   }
   closePay();
   render();
   if (c) showDetail(c.id);
 });
+
+// A kid going over their per-purchase limit gets a gentle heads-up (parents see it in Kids' spending)
+function overLimitNote(spent) {
+  const m = me();
+  if (isUltra() && m.role === 'kid' && m.limit && spent > m.limit) setTimeout(() => toast(`Heads up: that’s over your ${money(m.limit)} limit — a parent will see it 👀`), 1800);
+}
 
 // ---------- update balance ----------
 function openBalance(id) {
@@ -2122,6 +2257,7 @@ $('balanceForm').addEventListener('submit', e => {
   render();
   showDetail(c.id);
   toast('Balance updated');
+  if (balanceMode === 'spent') overLimitNote(value);
 });
 
 // ---------- barcode scanner ----------
@@ -2530,6 +2666,8 @@ function openMember(id = null) {
   $('mGoalWrap').hidden = !isPremium();
   $('goalLock').hidden = isPremium();
   $('mGoalUpsell').hidden = isPremium();
+  $('mLimit').value = m.limit || '';
+  $('limitTag').hidden = isUltra();
   $('mDelete').hidden = !id || id === family.current;
   $('memberError').textContent = '';
   renderMemberForm();
@@ -2547,6 +2685,7 @@ function renderMemberForm() {
   $('memberColors').innerHTML = SWATCHES.map(s =>
     `<button type="button" class="swatch ${s === mColor ? 'on' : ''}" data-color="${s}" style="background:${s}"></button>`).join('');
   $('mPinWrap').hidden = mRole !== 'parent';
+  $('mLimitWrap').hidden = mRole !== 'kid';
 }
 
 $('roleSeg').onclick = e => { const b = e.target.closest('[data-role]'); if (b) { mRole = b.dataset.role; renderMemberForm(); } };
@@ -2554,6 +2693,7 @@ $('emojiGrid').onclick = e => { const b = e.target.closest('[data-emoji]'); if (
 $('memberColors').onclick = e => { const b = e.target.closest('[data-color]'); if (b) { mColor = b.dataset.color; renderMemberForm(); } };
 $('mName').oninput = renderMemberForm;
 $('mGoalUpsell').onclick = () => openPremium('goals');
+$('mLimit').onfocus = () => { if (!isUltra()) { $('mLimit').blur(); openPremium('kidspend'); } };
 $('mPin').oninput = () => { $('mPin').value = digits($('mPin').value).slice(0, 4); };
 
 $('memberForm').addEventListener('submit', e => {
@@ -2569,6 +2709,7 @@ $('memberForm').addEventListener('submit', e => {
   if (error) return;
   const fields = { name, role: mRole, avatar: mAvatar, color: mColor, pin };
   if (isPremium()) Object.assign(fields, { goalName: $('mGoalName').value.trim(), goalAmount: Number($('mGoalAmt').value) || 0 });
+  if (isUltra()) fields.limit = mRole === 'kid' ? Number($('mLimit').value) || 0 : 0;
   if (editingMember) Object.assign(member(editingMember), fields);
   else family.members.push({ id: crypto.randomUUID(), ...fields });
   saveFamily();
@@ -2677,6 +2818,7 @@ function renderActivity() {
   ].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 
   renderReport(list, events);
+  $('wrapBtn').innerHTML = `✨ Your ${today().slice(0, 4)} in gift cards${isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>'}`;
   renderInsights(list, events);
 
   const byStore = {};
@@ -2770,6 +2912,163 @@ $('insights').onclick = e => { if (e.target.closest('[data-unlock]')) openPremiu
 
 $('eventList').onclick = e => { const b = e.target.closest('.event'); if (b) showDetail(b.dataset.id); };
 
+// ---------- Ultra: kids' spending alerts ----------
+// Every time a kid spends from a card, parents on Ultra see it here until they tap "Got it".
+function kidSpends() {
+  const out = [];
+  cards.forEach(c => (c.history || []).forEach((h, i) => {
+    const kid = member(h.by);
+    if (i === 0 || kid?.role !== 'kid') return;
+    const spent = c.history[i - 1].balance - h.balance;
+    if (spent > 0) out.push({ key: `${c.id}:${i}`, card: c, kid, spent, date: h.date });
+  }));
+  return out.sort((a, b) => b.date.localeCompare(a.date));
+}
+function renderKidAlerts() {
+  const seen = settings.kidSeen || [];
+  const list = isUltra() && isParent() ? kidSpends().filter(e => !seen.includes(e.key) && daysLeft(e.date) >= -30) : [];
+  $('kidAlerts').innerHTML = list.length ? `
+    <section class="kid-alert">
+      <div class="alert-head"><b>👀 Kids’ spending</b><button class="mini" id="kidSeenBtn">Got it</button></div>
+      ${list.slice(0, 6).map(e => `<div class="row-item">
+        <span>${esc(e.kid.avatar)} ${esc(e.kid.name)} spent at ${esc(displayName(e.card))} · ${esc(dayLabel(e.date))}</span>
+        <span class="${e.kid.limit && e.spent > e.kid.limit ? 'over' : ''}">${money(e.spent)}${e.kid.limit && e.spent > e.kid.limit ? ' ⚠️ over limit' : ''}</span></div>`).join('')}
+    </section>` : '';
+}
+$('kidAlerts').onclick = e => {
+  if (e.target.id !== 'kidSeenBtn') return;
+  settings.kidSeen = [...(settings.kidSeen || []), ...kidSpends().map(x => x.key)].slice(-500);
+  saveSettings();
+  renderKidAlerts();
+};
+
+// ---------- Ultra: app lock ----------
+let lockEntry = '';
+let hiddenAt = 0;
+const hashPin = async pin => [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('gift-keeper:' + pin)))]
+  .map(b => b.toString(16).padStart(2, '0')).join('');
+let lockMode = 'unlock';   // 'unlock' | 'set' | 'confirm'
+let lockFirst = '';
+
+function showLock(mode = 'unlock') {
+  lockMode = mode;
+  lockEntry = '';
+  $('lockMsg').textContent = mode === 'set' ? 'Choose a 4-digit passcode' : mode === 'confirm' ? 'Type it again to confirm' : 'Enter your 4-digit passcode';
+  $('lockForgot').hidden = mode !== 'unlock';
+  document.querySelector('.lock-box h2').textContent = mode === 'unlock' ? 'Gift Keeper is locked' : 'Set up App lock';
+  drawDots();
+  $('lockOverlay').classList.add('open');
+}
+function drawDots() { [...$('lockDots').children].forEach((d, i) => d.classList.toggle('on', i < lockEntry.length)); }
+function lockFail(msg) {
+  $('lockMsg').textContent = msg;
+  $('lockDots').classList.remove('shake'); void $('lockDots').offsetWidth; $('lockDots').classList.add('shake');
+  lockEntry = '';
+  drawDots();
+}
+async function lockKey(k) {
+  if (k === 'back') lockEntry = lockEntry.slice(0, -1);
+  else if (lockEntry.length < 4) lockEntry += k;
+  drawDots();
+  if (lockEntry.length < 4) return;
+  if (lockMode === 'set') { lockFirst = lockEntry; return setTimeout(() => showLock('confirm'), 150); }
+  if (lockMode === 'confirm') {
+    if (lockEntry !== lockFirst) return lockFail('Those didn’t match — try again'), setTimeout(() => showLock('set'), 700);
+    settings.lockHash = await hashPin(lockEntry);
+    saveSettings();
+    $('lockOverlay').classList.remove('open');
+    render();
+    return toast('App lock is on 🔐');
+  }
+  if (await hashPin(lockEntry) === settings.lockHash) { $('lockOverlay').classList.remove('open'); lockEntry = ''; }
+  else lockFail('Wrong passcode — try again');
+}
+$('keypad').onclick = e => { const b = e.target.closest('[data-k]'); if (b) lockKey(b.dataset.k); };
+document.addEventListener('keydown', e => {
+  if (!$('lockOverlay').classList.contains('open')) return;
+  if (/^[0-9]$/.test(e.key)) lockKey(e.key);
+  else if (e.key === 'Backspace') lockKey('back');
+  else if (e.key === 'Escape' && lockMode !== 'unlock') $('lockOverlay').classList.remove('open');
+  e.stopPropagation();
+}, true);
+$('lockForgot').onclick = () => {
+  if (!confirm('The passcode can’t be recovered. To get back in, all gift cards and family data on this device will be deleted (restore them from a backup file). Continue?')) return;
+  localStorage.clear();
+  location.reload();
+};
+const needsLock = () => isUltra() && !!settings.lockHash;
+// Lock again if the app was in the background for over a minute
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) hiddenAt = Date.now();
+  else if (needsLock() && hiddenAt && Date.now() - hiddenAt > 60 * 1000) showLock('unlock');
+});
+
+// ---------- Ultra: Year in review ----------
+let wrapSlides = [], wrapIndex = 0;
+const WRAP_BG = ['linear-gradient(160deg, #7c5cff, #d14dff 55%, #ff7a59)', 'linear-gradient(160deg, #0ea5e9, #6366f1)',
+  'linear-gradient(160deg, #f43f5e, #f59e0b)', 'linear-gradient(160deg, #10b981, #0e7490)', 'linear-gradient(160deg, #a855f7, #ec4899)',
+  'linear-gradient(160deg, #f59e0b, #ef4444)', 'linear-gradient(160deg, #22d3ee, #9b7bff 50%, #ff5fd2)', 'linear-gradient(160deg, #1e1b4b, #7c3aed)'];
+function openWrap() {
+  if (!isUltra()) return openPremium('wrapped');
+  const list = scopedCards(), events = cardEvents(list), year = today().slice(0, 4);
+  const yr = events.filter(e => e.date.startsWith(year));
+  const got = yr.filter(e => e.first), spentEv = yr.filter(e => !e.first && e.delta < 0);
+  const gotValue = got.reduce((s, e) => s + e.delta, 0), spent = spentEv.reduce((s, e) => s - e.delta, 0);
+  const byStore = {}; spentEv.forEach(e => { byStore[displayName(e.card)] = (byStore[displayName(e.card)] || 0) - e.delta; });
+  const top = Object.entries(byStore).sort((a, b) => b[1] - a[1])[0];
+  const givers = {}; got.forEach(e => { if (e.card.from) givers[e.card.from] = (givers[e.card.from] || 0) + 1; });
+  const giver = Object.entries(givers).sort((a, b) => b[1] - a[1])[0];
+  const rescued = spentEv.filter(e => e.card.expires && e.date <= e.card.expires && daysLeft(e.card.expires) - daysLeft(e.date) <= 30).reduce((s, e) => s - e.delta, 0);
+  const gave = isParent() ? given.filter(g => g.date.startsWith(year)) : [];
+  const who = !isParent() ? me().name : walletScope !== 'all' ? member(walletScope).name : 'Your family';
+  wrapSlides = [
+    ['🎁', `${year} wrapped`, esc(who), 'Your year in gift cards'],
+    ['💌', 'You received', `${got.length} card${got.length === 1 ? '' : 's'}`, `worth ${money(gotValue)} this year`],
+    ['🛍️', 'You put to work', money(spent), gotValue ? `That’s ${Math.round(Math.min(100, spent / gotValue * 100))}% of this year’s gift money` : 'from your gift cards'],
+    top && ['🏆', 'Your favorite place', esc(top[0]), `${money(top[1])} spent there`],
+    giver && ['🥰', 'Most generous', esc(giver[0]), `${giver[1]} gift card${giver[1] === 1 ? '' : 's'} this year`],
+    ['🛟', 'Saved from expiring', money(rescued), rescued ? 'spent in the last month before a card expired' : 'Nothing slipped close — nice planning!'],
+    gave.length && ['🎀', 'You gave', `${gave.length} gift${gave.length === 1 ? '' : 's'}`, `${money(gave.reduce((s, g) => s + g.amount, 0))} of happiness to others`],
+    ['✨', `Still to enjoy`, money(balanceOf(list)), `Here’s to ${+year + 1}! 🎉`],
+  ].filter(Boolean);
+  wrapIndex = 0;
+  drawWrap();
+  open('wrapOverlay');
+}
+function drawWrap() {
+  const [emoji, kicker, big, text] = wrapSlides[wrapIndex];
+  $('wrapSheet').style.setProperty('--wbg', WRAP_BG[wrapIndex % WRAP_BG.length]);
+  $('wrapBars').innerHTML = wrapSlides.map((_, i) => `<i class="${i <= wrapIndex ? 'on' : ''}"></i>`).join('');
+  $('wrapSlide').innerHTML = `<div class="wrap-emoji">${emoji}</div><div class="wrap-kicker">${kicker}</div><div class="wrap-big">${big}</div><div class="wrap-text">${text}</div>`;
+  if (wrapIndex === wrapSlides.length - 1) confetti();
+}
+$('wrapSheet').onclick = e => {
+  if (e.target.closest('#wrapClose')) return close('wrapOverlay');
+  if (wrapIndex < wrapSlides.length - 1) { wrapIndex++; drawWrap(); } else close('wrapOverlay');
+};
+$('wrapBtn').onclick = openWrap;
+
+// ---------- Ultra: spreadsheet export ----------
+function exportCsv() {
+  if (!isUltra()) return openPremium('csv');
+  const cell = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const lines = [['Card', 'Type', 'Owner', 'Category', 'Value', 'Balance', 'Expires', 'From', 'Added', 'Date', 'Change', 'Balance after', 'By'].map(cell).join(',')];
+  cards.forEach(c => {
+    let prev = null;
+    (c.history || []).forEach(h => {
+      lines.push([displayName(c), isPrepaid(c) ? 'Prepaid' : 'Store', member(c.owner)?.name, categoryOf(c), c.amount, c.balance,
+        c.expires || c.exp || '', c.from, c.added, h.date, prev === null ? h.balance : (h.balance - prev).toFixed(2), h.balance, member(h.by)?.name || ''].map(cell).join(','));
+      prev = h.balance;
+    });
+  });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }));
+  a.download = `gift-keeper-${today()}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Spreadsheet downloaded 📊');
+}
+
 // ---------- Settings page ----------
 function renderSettings() {
   const m = me();
@@ -2795,13 +3094,22 @@ function renderSettings() {
   $('parentSettings').hidden = !isParent();
 
   $('settingsPlan').innerHTML = isPremium()
-    ? `<div class="setting static"><span>👑 Gift Keeper Premium<span class="sub">${PREMIUM_PRICE}/month · since ${fmtDate(premium.since)}${premium.test ? ' · test mode' : ''}</span></span><span class="pill" style="background:rgba(255,200,90,.15);color:#ffd27a">Active</span></div>
-       ${isParent() ? `<button class="setting" id="setCancel"><span>Cancel Premium<span class="sub">Your cards stay — you just can’t add more than ${FREE_CARD_LIMIT}</span></span><span class="go">›</span></button>` : ''}`
+    ? `<div class="setting static"><span>${isUltra() ? '💎 Gift Keeper Ultra' : '👑 Gift Keeper Premium'}<span class="sub">${isUltra() ? ULTRA_PRICE : PREMIUM_PRICE}/month · since ${fmtDate(premium.since)}${premium.test ? ' · test mode' : ''}</span></span><span class="pill" style="background:rgba(255,200,90,.15);color:#ffd27a">Active</span></div>
+       ${isParent() && !isUltra() ? `<button class="setting" id="setUltra"><span>💎 Upgrade to Ultra<span class="sub">App lock, Year in review, kids’ spending alerts and more</span></span><span class="go">›</span></button>` : ''}
+       ${isParent() ? `<button class="setting" id="setCancel"><span>Cancel ${isUltra() ? 'Ultra' : 'Premium'}<span class="sub">Your cards stay — you just can’t add more than ${FREE_CARD_LIMIT}</span></span><span class="go">›</span></button>` : ''}`
     : `<button class="setting" id="setUpgrade"><span>🆓 Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT} cards used · just you</span></span><span class="mini">👑 Upgrade</span></button>`;
+
+  const tag = isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>';
+  $('settingsUltra').innerHTML = `
+    ${isParent() ? `<button class="setting" id="setLock"><span>🔐 App lock${tag}<span class="sub">${isUltra() && settings.lockHash ? 'On — a passcode is needed to open Gift Keeper' : 'Ask for a passcode every time Gift Keeper opens'}</span></span><span class="mini">${isUltra() && settings.lockHash ? 'Turn off' : 'Set up'}</span></button>` : ''}
+    <button class="setting" id="setWrap"><span>✨ Year in review${tag}<span class="sub">Your ${today().slice(0, 4)} in gift cards, story-style</span></span><span class="go">›</span></button>
+    ${isParent() ? `<button class="setting" id="setCsv"><span>📊 Export to spreadsheet${tag}<span class="sub">Every card and every balance change, for Excel or Google Sheets</span></span><span class="go">›</span></button>` : ''}`;
 }
 
 // ---------- Premium ----------
 const isPremium = () => !!premium;
+const isUltra = () => premium?.tier === 'ultra';
+const ULTRA_REASONS = ['lock', 'wrapped', 'kidspend', 'ultrathemes', 'csv'];
 const canAddCard = () => isPremium() || cards.length < FREE_CARD_LIMIT;
 
 const PREMIUM_WHY = {
@@ -2817,32 +3125,49 @@ const PREMIUM_WHY = {
   report: 'A report every month: what you spent, new cards, your top store, and what expires next.',
   goals: 'Give each kid a savings goal — their gift card money fills the bar as it grows.',
   given: 'Remember every gift card you give — who, what and when — so you never repeat a gift.',
+  ultra: 'The very best of Gift Keeper — locked tight and made for the whole family.',
+  lock: 'Lock Gift Keeper with a passcode so only you can open your card numbers and PINs.',
+  wrapped: 'Your whole year in gift cards — story-style, with confetti at the end.',
+  kidspend: 'Get an alert every time a kid spends from a card, and a warning if it’s over their limit.',
+  ultrathemes: 'Animated Diamond, Neon, Lava and Aurora cards — only on Ultra.',
+  csv: 'Download every card and balance change as a spreadsheet for Excel or Google Sheets.',
 };
 function openPremium(reason = '') {
-  $('pmWhy').textContent = PREMIUM_WHY[reason] || 'Every gift card for the whole family, in one place.';
+  const ultraAsk = ULTRA_REASONS.includes(reason) || (isPremium() && !reason);
+  $('pmWhy').textContent = PREMIUM_WHY[reason] || (ultraAsk ? 'The very best of Gift Keeper — locked tight and made for the whole family.' : 'Every gift card for the whole family, in one place.');
+  $('pmCrown').textContent = ultraAsk ? '💎' : '👑';
+  $('pmTitle').textContent = ultraAsk ? 'Gift Keeper Ultra' : 'Choose your plan';
+  document.querySelector('.premium').classList.toggle('is-ultra', ultraAsk);
   const parent = isParent();
   $('pmBuy').disabled = !parent || isPremium();
-  $('pmBuy').textContent = isPremium() ? 'You’re Premium 👑' : parent ? `Start Premium · ${PREMIUM_PRICE}/mo` : 'Ask a parent to upgrade';
-  $('pmFine').textContent = !parent ? 'Only parents can buy Premium.'
+  $('pmBuyUltra').disabled = !parent || isUltra();
+  $('pmBuy').textContent = isUltra() ? 'Included 💎' : isPremium() ? 'Your plan 👑' : `👑 Premium · ${PREMIUM_PRICE}`;
+  $('pmBuyUltra').textContent = isUltra() ? 'Your plan 💎' : `💎 Ultra · ${ULTRA_PRICE}`;
+  $('pmFine').textContent = !parent ? 'Only parents can change the plan — ask a parent!'
     : PAYMENT_LINK ? 'Billed monthly. Cancel any time.'
-    : 'Test mode — payments aren’t connected yet, so this unlocks Premium for free.';
+    : 'Test mode — payments aren’t connected yet, so this unlocks the plan for free.';
   open('premiumOverlay');
 }
-function activatePremium(test) {
-  premium = { since: today(), plan: 'monthly', test };
+function activatePremium(test, tier = 'premium') {
+  premium = { since: isPremium() ? premium.since : today(), plan: 'monthly', tier, test };
   savePremium();
   close('premiumOverlay');
   render();
   confetti();
-  toast('Welcome to Premium 👑');
+  toast(tier === 'ultra' ? 'Welcome to Ultra 💎' : 'Welcome to Premium 👑');
 }
 $('pmBuy').onclick = () => {
-  if (!PAYMENT_LINK) return activatePremium(true);
+  if (!PAYMENT_LINK) return activatePremium(true, 'premium');
   location.href = PAYMENT_LINK;
+};
+$('pmBuyUltra').onclick = () => {
+  if (!PAYMENT_LINK_ULTRA) return activatePremium(true, 'ultra');
+  location.href = PAYMENT_LINK_ULTRA;
 };
 $('settingsPlan').onclick = e => {
   if (e.target.closest('#setUpgrade')) openPremium();
-  if (e.target.closest('#setCancel') && confirm('Cancel Premium? You’ll keep all your cards.')) {
+  if (e.target.closest('#setUltra')) openPremium('ultra');
+  if (e.target.closest('#setCancel') && confirm(`Cancel ${isUltra() ? 'Ultra' : 'Premium'}? You’ll keep all your cards.`)) {
     premium = null;
     savePremium();
     render();
@@ -2851,9 +3176,26 @@ $('settingsPlan').onclick = e => {
 };
 // Coming back from a successful Stripe checkout
 if (new URLSearchParams(location.search).get('premium') === 'success') {
+  const tier = new URLSearchParams(location.search).get('tier') === 'ultra' ? 'ultra' : 'premium';
   history.replaceState(null, '', location.pathname);
-  if (!isPremium()) setTimeout(() => activatePremium(false), 300);
+  if (!isPremium() || (tier === 'ultra' && !isUltra())) setTimeout(() => activatePremium(false, tier), 300);
 }
+
+$('settingsUltra').onclick = e => {
+  if (e.target.closest('#setWrap')) return openWrap();
+  if (e.target.closest('#setCsv')) return exportCsv();
+  if (e.target.closest('#setLock')) {
+    if (!isUltra()) return openPremium('lock');
+    if (settings.lockHash) {
+      if (!confirm('Turn off App lock?')) return;
+      delete settings.lockHash;
+      saveSettings();
+      render();
+      return toast('App lock is off');
+    }
+    showLock('set');
+  }
+};
 
 $('settingsProfile').onclick = e => {
   if (e.target.closest('#setSwitch')) openWho();
@@ -2993,6 +3335,7 @@ saveFamily();
 render();
 sendReminders();
 if (hasFamily()) openWho();   // shared device: ask who's here
+if (needsLock()) showLock('unlock');
 // Re-check every hour in case the app stays open past midnight
 setInterval(() => { render(); sendReminders(); }, 60 * 60 * 1000);
 // Install as a phone app + work offline (needs a real web address, not a file on disk)
