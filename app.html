@@ -733,6 +733,45 @@
   .insights.locked .insight { filter: blur(5px); opacity: .6; }
   .insights.locked .unlock { position: absolute; inset: 0; display: grid; place-items: center; }
 
+  /* Savings goals (Premium) */
+  .goal { margin-top: 8px; }
+  .goal .goal-top { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; color: var(--muted); margin-bottom: 5px; }
+  .goal .goal-top > * { white-space: nowrap; }
+  .member .goal .goal-top { flex-wrap: wrap; gap: 0 8px; }
+  .goal .goal-top b { color: var(--ink); font-weight: 650; }
+  .goal .track { height: 8px; border-radius: 99px; background: rgba(255,255,255,.08); overflow: hidden; }
+  .goal .track span { display: block; height: 100%; border-radius: 99px; background: linear-gradient(90deg, #ffe08a, #ffb84d, #ff8a5c); box-shadow: 0 0 12px rgba(255,180,80,.5); }
+  .goal.done .goal-top b::after { content: " · Reached! 🎉"; color: #ffd27a; }
+  .hero .goal { margin-top: 14px; max-width: 420px; }
+  .goal-lock { width: 100%; margin-top: 6px; border: 1px dashed rgba(255,200,90,.45); background: rgba(255,200,90,.06); color: #ffd27a;
+    border-radius: 12px; padding: 12px; cursor: pointer; font-weight: 650; }
+
+  /* Gift tracker (Premium) */
+  .given-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+  .given-head .sub { color: var(--muted); font-size: 13px; }
+  .gift-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .gift-row:last-child { border-bottom: 0; }
+  .gift-row .dot { width: 38px; height: 38px; border-radius: 11px; flex: none; display: grid; place-items: center; font-size: 19px; background: rgba(255,255,255,.07); }
+  .gift-row .info { flex: 1; min-width: 0; }
+  .gift-row .t { font-weight: 650; }
+  .gift-row .s { font-size: 13px; color: var(--muted); }
+  .gift-row .amt { font-weight: 750; }
+  .gift-row .del { border: 0; background: none; color: var(--muted); cursor: pointer; font-size: 16px; padding: 4px 6px; }
+  .last-gift { font-size: 13px; color: #ffd27a; min-height: 18px; margin-top: 6px; }
+
+  /* Monthly report (Premium) */
+  .report { position: relative; border-radius: 22px; padding: 18px; margin-top: 14px; overflow: hidden;
+    background: linear-gradient(140deg, rgba(124,92,255,.28), rgba(209,77,255,.16) 50%, rgba(255,122,89,.16)); border: 1px solid var(--line); }
+  .report h3 { margin: 0 0 2px; font: 800 19px var(--round); }
+  .report .sub { color: var(--muted); font-size: 13px; margin-bottom: 12px; }
+  .report-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
+  .report-grid .k { font-size: 12px; color: var(--muted); }
+  .report-grid .v { font: 800 20px var(--round); }
+  .report .headline { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; }
+  .report.locked > :not(.unlock) { filter: blur(6px); opacity: .6; }
+  .report .unlock { position: absolute; inset: 0; display: grid; place-items: center; }
+  body.privacy .report-grid .v, body.privacy .gift-row .amt, body.privacy .goal-top span { filter: blur(9px); }
+
   .pm-fine { font-size: 12.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -794,6 +833,7 @@
     <div class="label" id="heroLabel">My Wallet</div>
     <div class="amount" id="total">$0.00</div>
     <div class="stats" id="stats"></div>
+ <div id="heroGoal"></div>
     <div id="breakdown"></div>
     <button class="eye-btn" id="eyeBtn" aria-label="Hide amounts"></button>
   </section>
@@ -821,6 +861,11 @@
     </section>
     <div id="memberList"></div>
     <button class="add-row" id="addMemberBtn">+ Add family member</button>
+    <div id="givenSection">
+      <div class="section-title given-head"><span>🎁 Gifts we gave</span><span class="sub" id="givenSub"></span></div>
+      <div class="list-panel" id="givenList"></div>
+      <button class="add-row" id="addGiftBtn" style="margin-top:10px">+ Log a gift card we gave</button>
+    </div>
     <div class="note-box">
       👨‍👩‍👧 <b>How family works:</b> parents see everyone’s gift cards and can add cards for the kids.
       Kids only see their own cards. Give parents a PIN so kids can’t open a parent’s profile.
@@ -831,6 +876,7 @@
     <h1 class="page-title">Activity</h1>
     <p class="page-sub" id="activitySub"></p>
     <div class="stat-grid" id="activityStats"></div>
+    <div id="report"></div>
     <div class="section-title">👑 Money insights</div>
     <div id="insights"></div>
     <div class="section-title">Where the money went</div>
@@ -858,7 +904,7 @@
       <div class="list-panel"><button class="setting danger" id="wipeBtn">🗑 Delete all data</button></div>
     </div>
     <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.6 · Everything is saved only on this device.
+      Gift Keeper v0.7 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1065,10 +1111,56 @@
       <tr><td class="new">🎨 Card themes</td><td class="no">—</td><td>✓</td></tr>
       <tr><td class="new">⏰ Reminder timing</td><td>7 days</td><td>3–30 days</td></tr>
       <tr><td class="new">🙈 Hide amounts</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td class="new">📅 Monthly report</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td class="new">🎯 Kids’ savings goals</td><td class="no">—</td><td>✓</td></tr>
+      <tr><td class="new">🎁 Gift tracker</td><td class="no">—</td><td>✓</td></tr>
     </table>
     <button type="button" class="btn gold" id="pmBuy">Start Premium · $9.99/mo</button>
     <p class="pm-fine" id="pmFine"></p>
   </div>
+</div>
+
+<!-- Log a gift card we gave -->
+<div class="overlay" id="giftOverlay">
+  <form class="sheet" id="giftForm" autocomplete="off" novalidate>
+    <div class="sheet-head">
+      <h2>Log a gift we gave</h2>
+      <button type="button" class="x" data-close aria-label="Close">✕</button>
+    </div>
+    <label for="gTo">Who got it</label>
+    <input id="gTo" list="gToList" placeholder="e.g. Noah’s friend Liam, Ms. Rivera">
+    <datalist id="gToList"></datalist>
+    <div class="last-gift" id="gLast"></div>
+    <div class="row">
+      <div style="flex:2">
+        <label for="gStore">Gift card</label>
+        <input id="gStore" list="gStoreList" placeholder="e.g. Target">
+        <datalist id="gStoreList"></datalist>
+      </div>
+      <div style="flex:1">
+        <label for="gAmount">Amount</label>
+        <input id="gAmount" type="number" step="0.01" min="0" inputmode="decimal" placeholder="$25">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <label for="gOccasion">Occasion</label>
+        <select id="gOccasion">
+          <option>Birthday</option><option>Holiday</option><option>Teacher gift</option>
+          <option>Thank you</option><option>Graduation</option><option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label for="gDate">Date</label>
+        <input id="gDate" type="date">
+      </div>
+    </div>
+    <div class="hint bad" id="giftError"></div>
+    <div class="actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn primary">Save</button>
+    </div>
+  </form>
 </div>
 
 <!-- Add / edit family member -->
@@ -1095,6 +1187,12 @@
       <label for="mPin">Parent PIN (4 digits)</label>
       <input id="mPin" class="mono" inputmode="numeric" maxlength="4" placeholder="Optional — stops kids opening this profile">
     </div>
+    <label>Saving for <span class="lock" id="goalLock">PREMIUM</span></label>
+    <div class="row" id="mGoalWrap">
+      <div style="flex:2"><input id="mGoalName" maxlength="30" placeholder="e.g. Lego set, new bike"></div>
+      <div style="flex:1"><input id="mGoalAmt" type="number" step="1" min="0" inputmode="decimal" placeholder="$ goal"></div>
+    </div>
+    <button type="button" class="goal-lock" id="mGoalUpsell">🎯 Set a savings goal</button>
     <div class="hint bad" id="memberError"></div>
     <div class="actions">
       <button type="button" class="btn danger" id="mDelete">Remove</button>
@@ -1164,6 +1262,8 @@ const SWATCHES = ['#1a1f71', '#1c6ed8', '#0b6e4f', '#00704a', '#c8102e', '#d93b4
                   '#b8860b', '#5b2bb3', '#7f187f', '#3a3a3c', '#111111'];
 const URGENT_DAYS = 7;               // "Use it!" reminder starts this many days before expiration (free plan)
 const SETTINGS_KEY = 'giftKeeper.settings.v1';
+const GIVEN_KEY = 'giftKeeper.given.v1';
+const OCCASION_ICONS = { 'Birthday': '🎂', 'Holiday': '🎄', 'Teacher gift': '🍎', 'Thank you': '💌', 'Graduation': '🎓', 'Other': '🎁' };
 const REMIND_CHOICES = [3, 7, 14, 30];
 const THEMES = {
   '':       { name: 'None' },
@@ -1197,6 +1297,7 @@ let page = 'wallet';
 let formOwner = null;
 let premium = loadPremium();
 let settings = loadSettings();
+let given = loadGiven();
 let formTheme = '';
 let payId = null;
 let wakeLock = null;
@@ -1228,6 +1329,11 @@ function loadSettings() {
   try { s = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}; } catch {}
   return { remindDays: URGENT_DAYS, privacy: false, ...s };
 }
+function loadGiven() {
+  try { return JSON.parse(localStorage.getItem(GIVEN_KEY)) || []; }
+  catch { return []; }
+}
+function saveGiven() { localStorage.setItem(GIVEN_KEY, JSON.stringify(given)); }
 function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
 
 function loadPremium() {
@@ -1298,6 +1404,16 @@ const myCards = () => isParent() ? cards : cards.filter(c => c.owner === family.
 const scopedCards = () => isParent() && walletScope !== 'all' ? cards.filter(c => c.owner === walletScope) : myCards();
 const showOwners = () => isParent() && hasFamily() && walletScope === 'all';
 const balanceOf = list => list.reduce((s, c) => s + Number(c.balance || 0), 0);
+
+// Progress toward a member's savings goal, counting all the money on their cards
+function goalBar(m) {
+  if (!isPremium() || !m?.goalName || !(m.goalAmount > 0)) return '';
+  const have = balanceOf(cards.filter(c => c.owner === m.id));
+  const pct = Math.min(100, have / m.goalAmount * 100);
+  return `<div class="goal ${pct >= 100 ? 'done' : ''}">
+    <div class="goal-top"><b>🎯 ${esc(m.goalName)}</b><span>${money(Math.min(have, m.goalAmount))} of ${money(m.goalAmount)}</span></div>
+    <div class="track"><span style="width:${pct}%"></span></div></div>`;
+}
 
 function avatar(m, size = '') {
   return `<span class="avatar ${size}" style="--av:${m?.color || '#888'}">${esc(m?.avatar || '🙂')}</span>`;
@@ -1598,6 +1714,9 @@ function renderHero() {
   $('heroStack').innerHTML = top.map((c, i) => ({ c, i })).reverse().map(({ c, i }) =>
     `<div class="slot" style="--r:${fan[i].r}deg;--x:${fan[i].x}px;--y:${fan[i].y}px;--d:${i * -1.4}s">${cardVisual(c)}</div>`).join('');
   $('heroStack').parentElement.classList.toggle('has-stack', top.length > 0);
+  // A kid's own wallet (or a parent looking at one person) shows that person's savings goal
+  const goalOwner = !isParent() ? me() : walletScope !== 'all' ? member(walletScope) : null;
+  $('heroGoal').innerHTML = goalOwner ? goalBar(goalOwner) : '';
   $('stats').innerHTML = `
     <span><b>${cards.length}</b> card${cards.length === 1 ? '' : 's'}</span>
     <span><b>${active}</b> with money left</span>
@@ -2297,6 +2416,7 @@ function renderFamily() {
     <span><b>${cards.length}</b> card${cards.length === 1 ? '' : 's'}</span>
     ${soon ? `<span class="warn"><b>${soon}</b> need using this week</span>` : ''}`;
 
+  renderGiven();
   $('memberList').innerHTML = ordered.map(m => {
     const own = cards.filter(c => c.owner === m.id);
     const urgent = own.filter(isUrgent).length;
@@ -2310,6 +2430,7 @@ function renderFamily() {
           <div class="meta">${canSee
             ? `${own.length} card${own.length === 1 ? '' : 's'}${urgent ? ` · <span class="warn">⏰ ${urgent} expiring this week</span>` : ''}`
             : 'Family member'}</div>
+          ${canSee ? goalBar(m) : ''}
         </div>
         ${canSee ? `<div class="amt">${money(balanceOf(own))}</div>` : ''}
         ${parent ? `<button class="edit" data-edit="${m.id}" aria-label="Edit ${esc(m.name)}">✎</button>` : ''}
@@ -2329,6 +2450,68 @@ $('memberList').onclick = e => {
 };
 $('addMemberBtn').onclick = () => isPremium() ? openMember() : openPremium('family');
 
+// ---------- gifts we gave (Premium) ----------
+function renderGiven() {
+  $('givenSection').hidden = !isParent();
+  if (!isParent()) return;
+  const year = today().slice(0, 4);
+  const thisYear = given.filter(g => g.date.startsWith(year));
+  $('givenSub').textContent = isPremium() && thisYear.length
+    ? `${money(thisYear.reduce((s, g) => s + g.amount, 0))} in ${year}` : '';
+  const list = [...given].sort((a, b) => b.date.localeCompare(a.date));
+  $('givenList').innerHTML = !isPremium()
+    ? '<div class="empty-state" style="padding:18px 6px">Remember every gift card you give — who, what, and when — so you never give the same thing twice. <span class="lock">PREMIUM</span></div>'
+    : list.length ? list.slice(0, 30).map(g => `
+      <div class="gift-row">
+        <span class="dot">${OCCASION_ICONS[g.occasion] || '🎁'}</span>
+        <span class="info"><div class="t">${esc(g.to)}</div><div class="s">${esc(g.store)} · ${esc(g.occasion)} · ${fmtDate(g.date)}</div></span>
+        <span class="amt">${money(g.amount)}</span>
+        <button class="del" data-del="${g.id}" aria-label="Delete">✕</button>
+      </div>`).join('')
+    : '<div class="empty-state" style="padding:18px 6px">No gifts logged yet. Gave a gift card for a birthday or to a teacher? Log it here.</div>';
+}
+$('givenList').onclick = e => {
+  const b = e.target.closest('[data-del]');
+  if (!b || !confirm('Delete this gift from the list?')) return;
+  given = given.filter(g => g.id !== b.dataset.del);
+  saveGiven();
+  renderGiven();
+};
+function lastGiftTo(name) {
+  const n = name.trim().toLowerCase();
+  return n ? [...given].sort((a, b) => b.date.localeCompare(a.date)).find(g => g.to.toLowerCase() === n) : null;
+}
+$('addGiftBtn').onclick = () => {
+  if (!isPremium()) return openPremium('given');
+  ['gTo', 'gStore', 'gAmount'].forEach(id => { $(id).value = ''; });
+  $('gOccasion').value = 'Birthday';
+  $('gDate').value = today();
+  $('gLast').textContent = '';
+  $('giftError').textContent = '';
+  $('gToList').innerHTML = [...new Set(given.map(g => g.to))].map(n => `<option value="${esc(n)}">`).join('');
+  $('gStoreList').innerHTML = BRANDS.map(b => `<option value="${esc(b.name)}">`).join('');
+  open('giftOverlay');
+  setTimeout(() => $('gTo').focus(), 50);
+};
+$('gTo').oninput = () => {
+  const g = lastGiftTo($('gTo').value);
+  $('gLast').textContent = g ? `Last time: ${g.store} ${money(g.amount)} for ${g.occasion.toLowerCase()}, ${fmtDate(g.date)}` : '';
+};
+$('giftForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const g = { id: crypto.randomUUID(), to: $('gTo').value.trim(), store: $('gStore').value.trim(),
+              amount: Math.round((Number($('gAmount').value) || 0) * 100) / 100,
+              occasion: $('gOccasion').value, date: $('gDate').value || today(), by: family.current };
+  const error = !g.to ? 'Who got the gift card?' : !g.store ? 'Which gift card was it?' : !(g.amount > 0) ? 'How much was it?' : '';
+  $('giftError').textContent = error;
+  if (error) return;
+  given.push(g);
+  saveGiven();
+  close('giftOverlay');
+  renderGiven();
+  toast(`Saved — ${g.store} for ${g.to} 🎁`);
+});
+
 // ---------- add / edit family member ----------
 let editingMember = null;
 let mRole = 'kid', mAvatar = '👧', mColor = '#5b2bb3';
@@ -2342,6 +2525,11 @@ function openMember(id = null) {
   mRole = m.role || 'kid';
   mAvatar = m.avatar || '👧';
   mColor = m.color || '#5b2bb3';
+  $('mGoalName').value = m.goalName || '';
+  $('mGoalAmt').value = m.goalAmount || '';
+  $('mGoalWrap').hidden = !isPremium();
+  $('goalLock').hidden = isPremium();
+  $('mGoalUpsell').hidden = isPremium();
   $('mDelete').hidden = !id || id === family.current;
   $('memberError').textContent = '';
   renderMemberForm();
@@ -2365,6 +2553,7 @@ $('roleSeg').onclick = e => { const b = e.target.closest('[data-role]'); if (b) 
 $('emojiGrid').onclick = e => { const b = e.target.closest('[data-emoji]'); if (b) { mAvatar = b.dataset.emoji; renderMemberForm(); } };
 $('memberColors').onclick = e => { const b = e.target.closest('[data-color]'); if (b) { mColor = b.dataset.color; renderMemberForm(); } };
 $('mName').oninput = renderMemberForm;
+$('mGoalUpsell').onclick = () => openPremium('goals');
 $('mPin').oninput = () => { $('mPin').value = digits($('mPin').value).slice(0, 4); };
 
 $('memberForm').addEventListener('submit', e => {
@@ -2379,6 +2568,7 @@ $('memberForm').addEventListener('submit', e => {
   $('memberError').textContent = error;
   if (error) return;
   const fields = { name, role: mRole, avatar: mAvatar, color: mColor, pin };
+  if (isPremium()) Object.assign(fields, { goalName: $('mGoalName').value.trim(), goalAmount: Number($('mGoalAmt').value) || 0 });
   if (editingMember) Object.assign(member(editingMember), fields);
   else family.members.push({ id: crypto.randomUUID(), ...fields });
   saveFamily();
@@ -2486,6 +2676,7 @@ function renderActivity() {
     [`Gift value in ${year}`, money(received.reduce((s, e) => s + e.delta, 0))],
   ].map(([k, v]) => `<div class="stat"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
 
+  renderReport(list, events);
   renderInsights(list, events);
 
   const byStore = {};
@@ -2519,6 +2710,39 @@ function renderActivity() {
       </button>`;
   }).join('') : '<div class="empty-state" style="padding:22px 6px">Nothing yet — add a gift card to get started.</div>';
 }
+function renderReport(list, events) {
+  const month = today().slice(0, 7);
+  const monthName = new Date(today() + 'T00:00').toLocaleDateString(undefined, { month: 'long' });
+  const inMonth = events.filter(e => e.date.startsWith(month));
+  const spent = inMonth.filter(e => !e.first && e.delta < 0).reduce((s, e) => s - e.delta, 0);
+  const added = inMonth.filter(e => e.first);
+  const byStore = {};
+  inMonth.filter(e => !e.first && e.delta < 0).forEach(e => { byStore[displayName(e.card)] = (byStore[displayName(e.card)] || 0) - e.delta; });
+  const top = Object.entries(byStore).sort((a, b) => b[1] - a[1])[0];
+  const next = new Date(); next.setMonth(next.getMonth() + 1, 1);
+  const nextKey = next.toISOString().slice(0, 7);
+  const nextName = next.toLocaleDateString(undefined, { month: 'long' });
+  const expiring = list.filter(c => c.balance > 0 && (c.expires || '').startsWith(nextKey));
+  const headline = expiring.length
+    ? `⏰ ${expiring.length} card${expiring.length === 1 ? '' : 's'} with ${money(balanceOf(expiring))} expire${expiring.length === 1 ? 's' : ''} in ${nextName} — plan to use ${expiring.length === 1 ? 'it' : 'them'}.`
+    : spent > 0 ? `🎉 You put ${money(spent)} of gift cards to work this month. Nothing expires in ${nextName}.`
+    : `💡 Nothing spent yet this month — ${money(balanceOf(list))} is waiting on your cards.`;
+  const locked = !isPremium();
+  $('report').innerHTML = `<div class="report ${locked ? 'locked' : ''}">
+    <h3>📅 ${monthName} report</h3>
+    <div class="sub">${monthName} so far${walletScope !== 'all' && isParent() ? ` · ${esc(member(walletScope).name)}` : ''}</div>
+    <div class="report-grid">
+      <div><div class="k">Spent from gift cards</div><div class="v">${money(spent)}</div></div>
+      <div><div class="k">New cards</div><div class="v">${added.length} · ${money(added.reduce((s, e) => s + e.delta, 0))}</div></div>
+      <div><div class="k">Top store</div><div class="v">${top ? esc(top[0]) : '—'}</div></div>
+      <div><div class="k">Still to use</div><div class="v">${money(balanceOf(list))}</div></div>
+    </div>
+    <div class="headline">${headline}</div>
+    ${locked ? '<div class="unlock"><button class="pro-btn" data-unlock>👑 Unlock monthly report</button></div>' : ''}
+  </div>`;
+}
+$('report').onclick = e => { if (e.target.closest('[data-unlock]')) openPremium('report'); };
+
 function renderInsights(list, events) {
   const lastUsed = c => (c.history || []).reduce((d, h) => h.date > d ? h.date : d, c.added || '');
   const forgotten = list.filter(c => c.balance > 0 && daysLeft(lastUsed(c)) <= -90);
@@ -2590,6 +2814,9 @@ const PREMIUM_WHY = {
   themes: 'Dress up your cards with Birthday, Holiday, Galaxy, Gold and more.',
   reminders: 'Choose when the “Use it!” alert starts — from 3 days to a whole month early.',
   privacy: 'Blur your balances with one tap when someone’s looking over your shoulder.',
+  report: 'A report every month: what you spent, new cards, your top store, and what expires next.',
+  goals: 'Give each kid a savings goal — their gift card money fills the bar as it grows.',
+  given: 'Remember every gift card you give — who, what and when — so you never repeat a gift.',
 };
 function openPremium(reason = '') {
   $('pmWhy').textContent = PREMIUM_WHY[reason] || 'Every gift card for the whole family, in one place.';
@@ -2657,7 +2884,7 @@ $('settingsReminders').onclick = e => {
 
 $('exportBtn').onclick = () => {
   if (!isPremium()) return openPremium('backup');
-  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family };
+  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family, given };
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
   a.download = `gift-keeper-backup-${today()}.json`;
@@ -2675,6 +2902,8 @@ $('importFile').onchange = async () => {
     if (!Array.isArray(data.cards) || !data.family?.members?.length) throw new Error('not a backup');
     if (!confirm(`Replace everything on this device with the backup (${data.cards.length} cards, ${data.family.members.length} people)?`)) return;
     cards = data.cards;
+    given = Array.isArray(data.given) ? data.given : [];
+    saveGiven();
     family = data.family;
     save(); saveFamily();
     walletScope = 'all';
@@ -2686,7 +2915,7 @@ $('importFile').onchange = async () => {
 };
 $('wipeBtn').onclick = () => {
   if (!confirm('Delete ALL gift cards and family members from this device? This can’t be undone.')) return;
-  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY].forEach(k => localStorage.removeItem(k));
+  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY].forEach(k => localStorage.removeItem(k));
   location.reload();
 };
 
