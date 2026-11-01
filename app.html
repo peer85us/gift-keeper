@@ -1770,6 +1770,9 @@
 
 <script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
 <script>
+// crypto.randomUUID only exists on https pages; this keeps ids working when the app is opened over home Wi-Fi
+if (!crypto.randomUUID) crypto.randomUUID = () => '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
+  (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
 const STORAGE_KEY = 'giftKeeper.cards.v1';
 
 const CATEGORIES = {
