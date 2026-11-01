@@ -949,6 +949,20 @@
   .chore .del { border: 0; background: none; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
   body.privacy .kc-bal, body.privacy .kb-bals b, body.privacy .kc-under { filter: blur(9px); }
 
+  /* Welcome tour + account */
+  .welcome { text-align: center; }
+  .wl-icon { width: 76px; height: 76px; margin: 10px auto 16px; border-radius: 24px; display: grid; place-items: center; background: var(--grad); box-shadow: 0 12px 30px rgba(124,92,255,.35); }
+  .wl-icon .i { width: 36px; height: 36px; --ic: #fff; color: #fff; }
+  .welcome h2 { margin: 0 0 8px; font-size: 23px; }
+  .welcome p { color: var(--muted); margin: 0 auto; max-width: 330px; line-height: 1.5; }
+  .wl-dots { display: flex; justify-content: center; gap: 6px; margin: 18px 0 4px; }
+  .wl-dots i { width: 7px; height: 7px; border-radius: 4px; background: var(--line); transition: width .2s; }
+  .wl-dots i.on { width: 20px; background: var(--ink); }
+  .invite-code { font-size: 17px; letter-spacing: 2px; }
+  #accountForm .page-sub { margin: 0 0 10px; font-size: 14.5px; }
+  #accountForm a, .setting a { color: var(--accent); }
+  a.setting { text-decoration: none; color: inherit; }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -1077,6 +1091,8 @@
     <h1 class="page-title">Settings</h1>
     <div class="section-title">Profile</div>
     <div class="list-panel" id="settingsProfile"></div>
+    <div class="section-title" id="acctTitle" hidden>Account</div>
+    <div class="list-panel" id="settingsAccount" hidden></div>
     <div class="section-title">Reminders</div>
     <div class="list-panel" id="settingsReminders"></div>
     <div class="section-title">Plan</div>
@@ -1093,8 +1109,15 @@
       <div class="section-title">Danger zone</div>
       <div class="list-panel"><button class="setting danger" id="wipeBtn"><svg class="i i-trash" aria-hidden="true"><use href="#i-trash"/></svg>Delete all data</button></div>
     </div>
-    <p class="page-sub" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.15 · Everything is saved only on this device.
+    <div class="section-title">About</div>
+    <div class="list-panel">
+      <a class="setting" href="privacy.html" target="_blank"><span><svg class="i i-shield" aria-hidden="true"><use href="#i-shield"/></svg>Privacy Policy</span><span class="go">›</span></a>
+      <a class="setting" href="terms.html" target="_blank"><span><svg class="i i-book" aria-hidden="true"><use href="#i-book"/></svg>Terms of Use</span><span class="go">›</span></a>
+      <a class="setting" href="https://github.com/peer85us/gift-keeper/issues" target="_blank"><span><svg class="i i-mail" aria-hidden="true"><use href="#i-mail"/></svg>Send feedback<span class="sub">Found a problem or have an idea? Tell us</span></span><span class="go">›</span></a>
+      <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
+    </div>
+    <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
+      Gift Keeper v0.16 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1362,6 +1385,44 @@
   </div>
 </div>
 
+<!-- Sign in with an emailed code -->
+<div class="overlay" id="accountOverlay">
+  <form class="sheet" id="accountForm" novalidate>
+    <div class="sheet-head">
+      <h2>Sign in to Gift Keeper</h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="acctStep1">
+      <p class="page-sub">We’ll email you a code — no password to remember. New here? This creates your account.</p>
+      <label for="acctEmail">Email</label>
+      <input id="acctEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com">
+    </div>
+    <div id="acctStep2" hidden>
+      <p class="page-sub">We sent a code to <b id="acctSent"></b>. It can take a minute — check spam too.</p>
+      <label for="acctCode">Code from the email</label>
+      <input id="acctCode" class="pin-input" inputmode="numeric" autocomplete="one-time-code" maxlength="10">
+      <button type="button" class="mini" id="acctBack" style="margin-top:10px">Use a different email</button>
+    </div>
+    <div class="hint bad" id="acctError"></div>
+    <p class="hint">By continuing you agree to the <a href="terms.html" target="_blank">Terms</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>.</p>
+    <div class="actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn primary" id="acctGo">Continue</button>
+    </div>
+  </form>
+</div>
+
+<!-- First-time welcome tour -->
+<div class="overlay" id="welcomeOverlay">
+  <div class="sheet welcome">
+    <div id="welcomeBody"></div>
+    <div class="actions">
+      <button type="button" class="btn" id="welcomeSkip">Skip</button>
+      <button type="button" class="btn primary" id="welcomeNext">Next</button>
+    </div>
+  </div>
+</div>
+
 <!-- Log a gift card we gave -->
 <div class="overlay" id="giftOverlay">
   <form class="sheet" id="giftForm" autocomplete="off" novalidate>
@@ -1553,13 +1614,71 @@ let given = loadGiven();
 let formTheme = '';
 let payId = null;
 let wakeLock = null;
+let sb = null, user = null, cloudFamily = null, syncTimer = null, applying = false, syncState = '', pendingUpgrade = false;
 
 // ---------- storage ----------
 function load() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
   catch { return []; }
 }
-function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(cards)); }
+function save() {
+  const copy = cards.map(c => ({ ...c }));
+  saving = saving.then(() => sealCards(copy)).then(list => localStorage.setItem(STORAGE_KEY, JSON.stringify(list))).catch(console.error);
+  cloudSoon();
+}
+
+// ---------- Card secrets: numbers, PINs and security codes are encrypted on this device ----------
+// The browser makes a key that can't be copied out and keeps it in IndexedDB, so what's saved
+// in localStorage (or in a copy of it) is scrambled text. Backup files stay readable on purpose.
+const SECRET_FIELDS = ['number', 'pin', 'cvv'];
+let vaultKey = null;
+let saving = Promise.resolve();
+const b64e = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+const b64d = s => Uint8Array.from(atob(s), ch => ch.charCodeAt(0));
+function keyStore(mode, fn) {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open('giftKeeper', 1);
+    req.onupgradeneeded = () => req.result.createObjectStore('keys');
+    req.onerror = () => reject(req.error);
+    req.onsuccess = () => {
+      const tx = req.result.transaction('keys', mode), q = fn(tx.objectStore('keys'));
+      tx.oncomplete = () => resolve(q.result);
+      tx.onerror = () => reject(tx.error);
+    };
+  });
+}
+async function openVault() {
+  try {
+    vaultKey = await keyStore('readonly', s => s.get('vault'));
+    if (!vaultKey) {
+      vaultKey = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']);
+      await keyStore('readwrite', s => s.put(vaultKey, 'vault'));
+    }
+  } catch { vaultKey = null; }   // no IndexedDB (some private windows): secrets are saved as before
+}
+async function unlockCards() {
+  await openVault();
+  if (!vaultKey) return;
+  for (const c of cards) {
+    if (!c.sealed) continue;
+    try {
+      const plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64d(c.sealed.iv) }, vaultKey, b64d(c.sealed.data));
+      Object.assign(c, JSON.parse(new TextDecoder().decode(plain)));
+      delete c.sealed;
+    } catch {}   // made on another device or browser: keep it sealed rather than lose it
+  }
+}
+async function sealCards(list) {
+  if (!vaultKey) return list;
+  return Promise.all(list.map(async c => {
+    const secret = {};
+    SECRET_FIELDS.forEach(f => { if (c[f]) secret[f] = c[f]; delete c[f]; });
+    if (!Object.keys(secret).length) return c;
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const data = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, vaultKey, new TextEncoder().encode(JSON.stringify(secret)));
+    return { ...c, sealed: { iv: b64e(iv), data: b64e(data) } };
+  }));
+}
 
 function loadFamily() {
   let f = null;
@@ -1574,7 +1693,7 @@ function loadFamily() {
   cards.forEach(c => { if (!f.members.some(m => m.id === c.owner)) c.owner = firstParent.id; });
   return f;
 }
-function saveFamily() { localStorage.setItem(FAMILY_KEY, JSON.stringify(family)); }
+function saveFamily() { localStorage.setItem(FAMILY_KEY, JSON.stringify(family)); cloudSoon(); }
 
 function loadSettings() {
   let s = {};
@@ -1585,7 +1704,7 @@ function loadGiven() {
   try { return JSON.parse(localStorage.getItem(GIVEN_KEY)) || []; }
   catch { return []; }
 }
-function saveGiven() { localStorage.setItem(GIVEN_KEY, JSON.stringify(given)); }
+function saveGiven() { localStorage.setItem(GIVEN_KEY, JSON.stringify(given)); cloudSoon(); }
 function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
 
 function loadPremium() {
@@ -3209,7 +3328,7 @@ const SPEND_CATS = ['Shopping', 'Food & Drink', 'Gaming', 'Entertainment', 'Onli
 
 let kidbank = {};
 try { kidbank = JSON.parse(localStorage.getItem(KIDBANK_KEY)) || {}; } catch {}
-const saveKidbank = () => localStorage.setItem(KIDBANK_KEY, JSON.stringify(kidbank));
+const saveKidbank = () => { localStorage.setItem(KIDBANK_KEY, JSON.stringify(kidbank)); cloudSoon(); };
 const kb = id => (kidbank[id] ??= {
   spending: 0, savings: 0, frozen: false, limit: 0, blocked: [],
   allowance: { amount: 0, day: 5, since: today() }, interest: 0, interestMonth: today().slice(0, 7),
@@ -3451,11 +3570,239 @@ function renderSettings() {
     : `<button class="setting" id="setUpgrade"><span>${ic('user')}Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT} cards used · just you</span></span><span class="mini">Upgrade</span></button>`;
 
   const tag = isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>';
+  renderAccount();
   $('settingsUltra').innerHTML = `
     ${isParent() ? `<button class="setting" id="setLock"><span>${ic('lock')}App lock${tag}<span class="sub">${isUltra() && settings.lockHash ? 'On — a passcode is needed to open Gift Keeper' : 'Ask for a passcode every time Gift Keeper opens'}</span></span><span class="mini">${isUltra() && settings.lockHash ? 'Turn off' : 'Set up'}</span></button>` : ''}
     <button class="setting" id="setWrap"><span>${ic('sparkles')}Year in review${tag}<span class="sub">Your ${today().slice(0, 4)} in gift cards, story-style</span></span><span class="go">›</span></button>
     ${isParent() ? `<button class="setting" id="setCsv"><span>${ic('table')}Export to spreadsheet${tag}<span class="sub">Every card and every balance change, for Excel or Google Sheets</span></span><span class="go">›</span></button>` : ''}`;
 }
+
+// ---------- Accounts & sync (Supabase) ----------
+// Paste your Supabase project's URL and anon key (Project Settings → API) to switch on sign-in,
+// cloud backup and family sync across phones. Run supabase/schema.sql in the project first.
+const SUPABASE_URL = '';
+const SUPABASE_ANON_KEY = '';
+// Stripe customer portal login link (Stripe → Settings → Billing → Customer portal), where people change or cancel a plan
+const BILLING_PORTAL = '';
+const cloudOn = () => !!(SUPABASE_URL && SUPABASE_ANON_KEY);
+let otpEmail = '';
+
+async function cloudInit() {
+  if (!cloudOn()) return;
+  try {
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
+    sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    sb.auth.onAuthStateChange((event, session) => {
+      const was = user?.id;
+      user = session?.user || null;
+      if (user && user.id !== was) setTimeout(cloudStart);   // Supabase asks not to await its calls inside this callback
+      if (!user && was) { cloudFamily = null; render(); }
+    });
+  } catch { sb = null; }
+}
+
+// What gets shared with the family. Who is holding this phone (family.current) and device settings stay local.
+const snapshot = () => ({ cards, members: family.members, given, kidbank });
+function applyCloud(d, merge) {
+  const mix = (local, remote) => merge ? [...remote, ...local.filter(x => !remote.some(r => r.id === x.id))] : remote;
+  applying = true;
+  cards = mix(cards, d.cards || []);
+  if (d.members?.length) family.members = mix(family.members, d.members);
+  if (!family.members.some(m => m.id === family.current)) family.current = (family.members.find(m => m.role === 'parent') || family.members[0]).id;
+  given = mix(given, d.given || []);
+  kidbank = merge ? { ...kidbank, ...(d.kidbank || {}) } : (d.kidbank || {});
+  save(); saveFamily(); saveGiven(); saveKidbank();
+  applying = false;
+}
+// A brand-new device only has the starter "Me" profile — nothing worth merging
+const localIsEmpty = () => !cards.length && !given.length && family.members.length === 1;
+
+async function cloudStart() {
+  syncState = 'Syncing…'; render();
+  try {
+    const { data: rows, error } = await sb.from('family_members').select('family_id').eq('user_id', user.id).limit(1);
+    if (error) throw error;
+    if (rows.length) {
+      const { data: fam, error: e2 } = await sb.from('families').select('*').eq('id', rows[0].family_id).single();
+      if (e2) throw e2;
+      cloudFamily = fam;
+      applyCloud(fam.data, !localIsEmpty());
+      await cloudPush();
+    } else {
+      const { data: fam, error: e2 } = await sb.rpc('create_family', { initial: snapshot() });
+      if (e2) throw e2;
+      cloudFamily = fam;
+      markSynced(fam.updated_at);
+    }
+    listenCloud();
+    await refreshPlan();
+    if (pendingUpgrade) { pendingUpgrade = false; waitForPlan(); }
+  } catch (e) {
+    console.error(e);
+    syncState = 'Couldn’t reach the cloud — your cards are still saved on this phone';
+  }
+  render();
+}
+function markSynced(at) {
+  settings.lastSync = at; saveSettings();
+  syncState = 'Synced';
+}
+function cloudSoon() {
+  if (!user || !cloudFamily || applying) return;
+  clearTimeout(syncTimer);
+  syncTimer = setTimeout(cloudPush, 1200);
+}
+async function cloudPush() {
+  clearTimeout(syncTimer); syncTimer = null;
+  if (!user || !cloudFamily) return;
+  const at = new Date().toISOString();
+  const { error } = await sb.from('families').update({ data: snapshot(), updated_at: at, updated_by: user.id }).eq('id', cloudFamily.id);
+  if (error) { syncState = 'Not synced yet — will try again'; syncTimer = setTimeout(cloudPush, 15000); }
+  else markSynced(at);
+  if (page === 'settings') renderAccount();
+}
+async function cloudPull() {
+  if (!user || !cloudFamily || syncTimer) return;   // our own changes go up first
+  const { data: fam } = await sb.from('families').select('*').eq('id', cloudFamily.id).single();
+  if (fam && fam.updated_at > (settings.lastSync || '')) { applyCloud(fam.data, false); markSynced(fam.updated_at); render(); }
+}
+let channel = null;
+function listenCloud() {
+  if (channel) sb.removeChannel(channel);
+  channel = sb.channel('family-' + cloudFamily.id)
+    .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'families', filter: `id=eq.${cloudFamily.id}` }, p => {
+      if (syncTimer || p.new.updated_at <= (settings.lastSync || '')) return;
+      applyCloud(p.new.data, false); markSynced(p.new.updated_at); render();
+    })
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'subscriptions', filter: `family_id=eq.${cloudFamily.id}` }, () => refreshPlan().then(render))
+    .subscribe();
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) cloudPull(); });
+
+// Paid plans come from the server (Stripe tells it), so they can't be switched on by hand
+async function refreshPlan() {
+  if (!user || !cloudFamily) return;
+  const { data } = await sb.from('subscriptions').select('tier,status,since').eq('family_id', cloudFamily.id).maybeSingle();
+  if (data && ['active', 'trialing', 'past_due'].includes(data.status)) {
+    const was = premium?.tier;
+    premium = { since: data.since || today(), plan: 'monthly', tier: data.tier, test: false, cloud: true };
+    if (was !== data.tier) { confetti(); toast(data.tier === 'ultra' ? 'Welcome to Ultra' : 'Welcome to Premium'); }
+  } else if (PAYMENT_LINK || premium?.cloud) premium = null;
+  savePremium();
+}
+// Stripe sends people back here after paying; the webhook may take a few seconds
+async function waitForPlan() {
+  toast('Finishing your upgrade…');
+  for (let i = 0; i < 8 && !premium?.cloud; i++) { await new Promise(r => setTimeout(r, 2500)); await refreshPlan(); }
+  render();
+}
+function checkout(link) {
+  if (!cloudOn()) return void (location.href = link);
+  if (!user) { toast('Sign in first so your plan follows you to every phone'); close('premiumOverlay'); return openAccount(); }
+  const u = new URL(link);
+  u.searchParams.set('client_reference_id', cloudFamily.id);
+  u.searchParams.set('prefilled_email', user.email);
+  location.href = u;
+}
+
+// ----- Settings → Account -----
+function renderAccount() {
+  $('footNote').textContent = `Gift Keeper v0.16 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
+  if (!cloudOn()) return;
+  $('settingsAccount').innerHTML = !user
+    ? `<button class="setting" id="acctSignIn"><span>${ic('user')}Sign in or create an account<span class="sub">Back up your cards and share the wallet with your family’s phones</span></span><span class="mini">Sign in</span></button>`
+    : `<div class="setting static"><span>${ic('shield')}${esc(user.email)}<span class="sub">${esc(syncState || 'Connecting…')}${settings.lastSync ? ' · ' + new Date(settings.lastSync).toLocaleString() : ''}</span></span></div>
+       ${cloudFamily && isParent() ? `<div class="setting static"><span>${ic('users')}Family invite code<span class="sub">On another phone: sign in, then tap “Join a family” and type this code</span></span><b class="mono invite-code">${esc(cloudFamily.invite_code)}</b></div>` : ''}
+       <button class="setting" id="acctJoin"><span>${ic('mail')}Join a family<span class="sub">Use the invite code from someone’s Gift Keeper</span></span><span class="go">›</span></button>
+       <button class="setting" id="acctOut"><span>Sign out<span class="sub">Your cards stay on this phone</span></span><span class="go">›</span></button>
+       ${isParent() ? `<button class="setting danger" id="acctDelete"><span>${ic('trash')}Delete my account<span class="sub">Removes your sign-in and cloud copy</span></span></button>` : ''}`;
+}
+$('settingsAccount').onclick = async e => {
+  if (e.target.closest('#acctSignIn')) openAccount();
+  if (e.target.closest('#acctOut')) { await sb.auth.signOut(); syncState = ''; toast('Signed out'); render(); }
+  if (e.target.closest('#acctJoin')) {
+    const code = (prompt('Family invite code') || '').trim().toUpperCase();
+    if (!code) return;
+    if (!confirm('Join that family? This phone will show their family wallet instead of what’s on it now.')) return;
+    const { data: fam, error } = await sb.rpc('join_family', { code });
+    if (error || !fam) return toast('That code didn’t work — check it and try again');
+    cloudFamily = fam;
+    applyCloud(fam.data, false); markSynced(fam.updated_at);
+    listenCloud(); await refreshPlan();
+    openWho();
+    render(); toast('You’re in the family');
+  }
+  if (e.target.closest('#acctDelete')) {
+    if (!confirm('Delete your account? Your sign-in is removed, and the family’s cloud copy too if nobody else is in it. Cards on this phone stay. Cancel any paid plan in billing first.')) return;
+    const { error } = await sb.rpc('delete_me');
+    if (error) return toast('Couldn’t delete the account — try again');
+    await sb.auth.signOut(); cloudFamily = null; syncState = '';
+    render(); toast('Account deleted');
+  }
+};
+
+// ----- Sign-in sheet: email code (works inside the installed phone app, where links open the browser) -----
+function openAccount() {
+  if (!sb) return toast('Can’t reach the sign-in service — check your internet');
+  $('acctStep1').hidden = false; $('acctStep2').hidden = true;
+  $('acctEmail').value = otpEmail; $('acctError').textContent = '';
+  open('accountOverlay');
+  setTimeout(() => $('acctEmail').focus(), 200);
+}
+$('accountForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  $('acctError').textContent = '';
+  if (!$('acctStep1').hidden) {
+    otpEmail = $('acctEmail').value.trim();
+    if (!/^\S+@\S+\.\S+$/.test(otpEmail)) return void ($('acctError').textContent = 'Please enter your email address.');
+    $('acctGo').disabled = true;
+    const { error } = await sb.auth.signInWithOtp({ email: otpEmail, options: { emailRedirectTo: location.origin + location.pathname } });
+    $('acctGo').disabled = false;
+    if (error) return void ($('acctError').textContent = error.message);
+    $('acctSent').textContent = otpEmail;
+    $('acctStep1').hidden = true; $('acctStep2').hidden = false;
+    $('acctCode').value = ''; setTimeout(() => $('acctCode').focus(), 100);
+  } else {
+    const token = digits($('acctCode').value);
+    if (token.length < 6) return void ($('acctError').textContent = 'Type the code from the email.');
+    $('acctGo').disabled = true;
+    const { error } = await sb.auth.verifyOtp({ email: otpEmail, token, type: 'email' });
+    $('acctGo').disabled = false;
+    if (error) return void ($('acctError').textContent = 'That code didn’t work. Check it, or tap Back to send a new one.');
+    close('accountOverlay');
+    toast('Signed in');
+  }
+});
+$('acctBack').onclick = () => { $('acctStep1').hidden = false; $('acctStep2').hidden = true; $('acctError').textContent = ''; };
+
+// ---------- Welcome: a short tour the first time someone opens Gift Keeper ----------
+const WELCOME = [
+  { icon: 'wallet', title: 'Every gift card, in one place', text: 'Add the cards in your drawer, wallet and email. Gift Keeper keeps the balance, number and PIN ready for checkout.' },
+  { icon: 'users',  title: 'One wallet for the whole family', text: 'Add your partner and kids. Everyone sees their own cards, and kids can save toward goals.' },
+  { icon: 'bell',   title: 'Never let one expire', text: 'Gift Keeper warns you before a card runs out, so the money gets spent — not lost.' },
+];
+let welcomeStep = 0;
+function showWelcome() {
+  if (settings.welcomed || cards.length) return;
+  welcomeStep = 0; drawWelcome(); open('welcomeOverlay');
+}
+function drawWelcome() {
+  const s = WELCOME[welcomeStep], last = welcomeStep === WELCOME.length - 1;
+  $('welcomeBody').innerHTML = `<div class="wl-icon">${ic(s.icon)}</div><h2>${s.title}</h2><p>${s.text}</p>
+    <div class="wl-dots">${WELCOME.map((_, i) => `<i class="${i === welcomeStep ? 'on' : ''}"></i>`).join('')}</div>`;
+  $('welcomeNext').textContent = last ? 'Add my first card' : 'Next';
+  $('welcomeSkip').textContent = last ? 'Maybe later' : 'Skip';
+}
+function endWelcome() { settings.welcomed = true; saveSettings(); close('welcomeOverlay'); }
+$('welcomeNext').onclick = () => {
+  if (welcomeStep < WELCOME.length - 1) { welcomeStep++; return drawWelcome(); }
+  endWelcome();
+  openForm();
+  if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission().then(() => render());
+};
+$('welcomeSkip').onclick = endWelcome;
+$('setTour').onclick = () => { settings.welcomed = false; welcomeStep = 0; drawWelcome(); open('welcomeOverlay'); };
 
 // ---------- Premium ----------
 const isPremium = () => !!premium;
@@ -3510,15 +3857,16 @@ function activatePremium(test, tier = 'premium') {
 }
 $('pmBuy').onclick = () => {
   if (!PAYMENT_LINK) return activatePremium(true, 'premium');
-  location.href = PAYMENT_LINK;
+  checkout(PAYMENT_LINK);
 };
 $('pmBuyUltra').onclick = () => {
   if (!PAYMENT_LINK_ULTRA) return activatePremium(true, 'ultra');
-  location.href = PAYMENT_LINK_ULTRA;
+  checkout(PAYMENT_LINK_ULTRA);
 };
 $('settingsPlan').onclick = e => {
   if (e.target.closest('#setUpgrade')) openPremium();
   if (e.target.closest('#setUltra')) openPremium('ultra');
+  if (e.target.closest('#setCancel') && premium?.cloud) return BILLING_PORTAL ? void (location.href = BILLING_PORTAL) : toast('Open the receipt email from Stripe to manage your plan');
   if (e.target.closest('#setCancel') && confirm(`Cancel ${isUltra() ? 'Ultra' : 'Premium'}? You’ll keep all your cards.`)) {
     premium = null;
     savePremium();
@@ -3530,7 +3878,8 @@ $('settingsPlan').onclick = e => {
 if (new URLSearchParams(location.search).get('premium') === 'success') {
   const tier = new URLSearchParams(location.search).get('tier') === 'ultra' ? 'ultra' : 'premium';
   history.replaceState(null, '', location.pathname);
-  if (!isPremium() || (tier === 'ultra' && !isUltra())) setTimeout(() => activatePremium(false, tier), 300);
+  if (cloudOn()) pendingUpgrade = true;   // the server confirms the payment once we're signed in
+  else if (!isPremium() || (tier === 'ultra' && !isUltra())) setTimeout(() => activatePremium(false, tier), 300);
 }
 
 $('settingsUltra').onclick = e => {
@@ -3611,6 +3960,7 @@ $('importFile').onchange = async () => {
 $('wipeBtn').onclick = () => {
   if (!confirm('Delete ALL gift cards and family members from this device? This can’t be undone.')) return;
   [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, KIDBANK_KEY].forEach(k => localStorage.removeItem(k));
+  indexedDB.deleteDatabase('giftKeeper');
   location.reload();
 };
 
@@ -3683,12 +4033,17 @@ $('scope').onclick = e => {
 };
 document.querySelectorAll('.tab').forEach(t => t.onclick = () => { showPage(t.dataset.page); render(); });
 
-save();
-saveFamily();
-render();
-sendReminders();
-if (hasFamily()) openWho();   // shared device: ask who's here
 if (needsLock()) showLock('unlock');
+(async () => {
+  await unlockCards();
+  save();
+  saveFamily();
+  render();
+  sendReminders();
+  if (hasFamily()) openWho();   // shared device: ask who's here
+  else showWelcome();
+  cloudInit();
+})();
 // Re-check every hour in case the app stays open past midnight
 setInterval(() => { render(); sendReminders(); }, 60 * 60 * 1000);
 // Install as a phone app + work offline (needs a real web address, not a file on disk)

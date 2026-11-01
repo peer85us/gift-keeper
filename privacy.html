@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08070f">
+<title>Privacy Policy — Gift Keeper</title>
+<link rel="icon" href="brand/logo-icon.svg" type="image/svg+xml">
+<style>
+  :root { color-scheme: dark; --bg: #08070f; --ink: #f6f4ff; --muted: #a39fbb; --line: rgba(255,255,255,.11);
+    --round: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body::before { content: ""; position: fixed; inset: -20%; z-index: -1; pointer-events: none;
+    background: radial-gradient(40% 35% at 15% 10%, rgba(124,92,255,.3), transparent 70%), radial-gradient(35% 30% at 90% 20%, rgba(209,77,255,.2), transparent 70%); }
+  main { max-width: 720px; margin: 0 auto; padding: 28px 22px 70px; }
+  .brand { display: inline-flex; align-items: center; gap: 10px; font: 700 18px var(--round); color: inherit; text-decoration: none; }
+  .brand img { width: 32px; height: 32px; }
+  h1 { font: 800 38px/1.15 var(--round); letter-spacing: -.02em; margin: 34px 0 6px; }
+  h2 { font: 700 21px var(--round); margin: 34px 0 6px; }
+  p, li { color: #d6d2ea; }
+  .muted { color: var(--muted); }
+  a { color: #b9a8ff; }
+  footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <a class="brand" href="index.html"><img src="brand/logo-icon.svg" alt="">Gift Keeper</a>
+  <h1>Privacy Policy</h1>
+  <p class="muted">Last updated November 1, 2026</p>
+  <p>Gift Keeper helps families keep track of gift cards. This policy explains what we store, where it goes and the choices you have. In short: your cards are yours, we don’t sell anything about you, and you can delete it all at any time.</p>
+
+  <h2>What Gift Keeper stores</h2>
+  <ul>
+    <li><b>Gift cards</b> you add: store, balance, expiration date, card number, PIN or security code, notes and balance history.</li>
+    <li><b>Family profiles</b> you create: name, emoji picture, color, role (parent or kid), savings goals and optional profile PINs.</li>
+    <li><b>Kids’ money</b> records: allowance, chores, spending rules and activity you enter. No real money moves through Gift Keeper.</li>
+    <li><b>Your email address</b>, only if you create an account.</li>
+  </ul>
+
+  <h2>Where it’s kept</h2>
+  <p><b>Without an account</b>, everything stays on your device, in your browser’s storage. We never see it. Card numbers, PINs and security codes are encrypted with a key that never leaves the device.</p>
+  <p><b>With an account</b>, a copy of your family wallet is saved in our cloud database (hosted by Supabase) so it can be backed up and shared with the phones in your family. It is protected by your sign-in, sent over encrypted connections and encrypted at rest by our host. Only people who join your family with your invite code can see it.</p>
+  <p>Photos you take to scan a card are read on your device and are not uploaded or kept.</p>
+
+  <h2>Payments</h2>
+  <p>Premium and Ultra are paid through Stripe. Your payment details go straight to Stripe and are never seen or stored by Gift Keeper. Stripe tells us only whether your family’s plan is active.</p>
+
+  <h2>What we don’t do</h2>
+  <ul>
+    <li>We don’t sell or rent your information, and we don’t show ads.</li>
+    <li>We don’t use trackers or analytics that follow you across other sites.</li>
+    <li>We don’t use your gift card data for anything except showing it to you and your family.</li>
+  </ul>
+
+  <h2>Children</h2>
+  <p>Accounts are for adults. Kids use Gift Keeper through profiles that a parent creates and manages inside the parent’s family wallet; kids don’t sign up or give us an email address. A parent can edit or delete a kid’s profile and everything in it at any time. If you believe a child gave us personal information without a parent, contact us and we’ll delete it.</p>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li><b>Download</b> a copy of your data from Settings → Backup.</li>
+    <li><b>Delete</b> everything on a device from Settings → Delete all data.</li>
+    <li><b>Delete your account</b> from Settings → Account. Your cloud copy is removed (unless other family members are still using it), and your sign-in is erased.</li>
+  </ul>
+
+  <h2>Changes</h2>
+  <p>If we change this policy we’ll update the date above, and tell you in the app for anything important.</p>
+
+  <h2>Contact</h2>
+  <p>Questions or requests: <a href="https://github.com/peer85us/gift-keeper/issues">github.com/peer85us/gift-keeper/issues</a></p>
+  <footer><a href="index.html">Home</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a> · <a href="app.html">Open the app</a></footer>
+</main>
+</body>
+</html>
