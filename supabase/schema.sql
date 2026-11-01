@@ -76,5 +76,63 @@ end $$;
 
 revoke all on function create_family(jsonb), join_family(text), delete_me() from anon;
 
+-- Keeper Coins: every change is a ledger line. Purchases are added by the Stripe webhook;
+-- spending and the daily bonus go through the functions below, which check the price and balance.
+create table if not exists coin_ledger (
+  id         bigserial primary key,
+  family_id  uuid not null references families on delete cascade,
+  member     text not null,               -- the family profile the coins belong to
+  delta      integer not null,
+  reason     text not null,               -- buy:<pack> · daily:<date> · item:<item>
+  ref        text unique,                 -- Stripe checkout session, so a payment is only counted once
+  created_at timestamptz not null default now()
+);
+create table if not exists shop_items (
+  id     text primary key,
+  price  integer not null,
+  repeat boolean not null default false
+);
+insert into shop_items (id, price, repeat) values
+  ('theme:birthday', 100, false), ('theme:holiday', 100, false), ('theme:love', 100, false),
+  ('theme:galaxy', 100, false), ('theme:gold', 100, false), ('theme:sports', 100, false),
+  ('theme:diamond', 250, false), ('theme:neon', 250, false), ('theme:lava', 250, false), ('theme:aurora', 250, false),
+  ('kid:galaxy', 150, false), ('kid:rainbow', 150, false), ('kid:dino', 150, false),
+  ('kid:unicorn', 150, false), ('kid:camo', 150, false), ('kid:gold', 300, false),
+  ('frame:gold', 100, false), ('frame:ice', 150, false), ('frame:fire', 200, false), ('frame:rainbow', 200, false),
+  ('slots5', 400, true)
+on conflict (id) do update set price = excluded.price, repeat = excluded.repeat;
+
+alter table coin_ledger enable row level security;
+alter table shop_items  enable row level security;
+create policy "members see family coins" on coin_ledger for select using (is_member(family_id));
+create policy "anyone sees prices"       on shop_items  for select using (true);
+
+create or replace function buy_item(fid uuid, member text, item text) returns void
+language plpgsql security definer set search_path = public as $$
+declare it shop_items; bal integer;
+begin
+  if not is_member(fid) then raise exception 'not in this family'; end if;
+  perform pg_advisory_xact_lock(hashtext(fid::text || member));   -- one purchase at a time per person
+  select * into it from shop_items where id = item;
+  if it.id is null then raise exception 'no such item'; end if;
+  if not it.repeat and exists (select 1 from coin_ledger l where l.family_id = fid and l.member = buy_item.member and l.reason = 'item:' || item)
+    then raise exception 'already owned'; end if;
+  select coalesce(sum(delta), 0) into bal from coin_ledger l where l.family_id = fid and l.member = buy_item.member;
+  if bal < it.price then raise exception 'not enough coins'; end if;
+  insert into coin_ledger (family_id, member, delta, reason) values (fid, member, -it.price, 'item:' || item);
+end $$;
+
+create or replace function claim_daily(fid uuid, member text) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not is_member(fid) then raise exception 'not in this family'; end if;
+  perform pg_advisory_xact_lock(hashtext(fid::text || member));
+  if exists (select 1 from coin_ledger l where l.family_id = fid and l.member = claim_daily.member and l.reason = 'daily:' || current_date)
+    then raise exception 'already claimed'; end if;
+  insert into coin_ledger (family_id, member, delta, reason) values (fid, member, 5, 'daily:' || current_date);
+end $$;
+
+revoke all on function buy_item(uuid, text, text), claim_daily(uuid, text) from anon;
+
 -- Live updates: phones in the same family see changes right away
-alter publication supabase_realtime add table families, subscriptions;
+alter publication supabase_realtime add table families, subscriptions, coin_ledger;

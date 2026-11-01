@@ -19,19 +19,33 @@ Site: https://peer85us.github.io/gift-keeper/  ·  App: …/gift-keeper/app.html
 6. Before real launch: Authentication → SMTP — connect a real email sender (Resend, Postmark…);
    Supabase's built-in sender only allows a few emails an hour.
 
-## 3. Real payments (Stripe)
-1. Stripe → Products: "Gift Keeper Premium" $9.99/month and "Gift Keeper Ultra" $19.99/month.
-2. Create a Payment Link for each. After payment → redirect to
-   `…/app.html?premium=success` (Premium) and `…/app.html?premium=success&tier=ultra` (Ultra).
-3. Paste the links into `app.html` (`PAYMENT_LINK`, `PAYMENT_LINK_ULTRA`).
-4. Settings → Billing → Customer portal → turn on, copy the login link into `BILLING_PORTAL`.
-5. Deploy the webhook (needs the Supabase CLI):
+## 3. Real payments by card, inside the app (Stripe)
+Needs step 2 (accounts) first. You need a Stripe account (stripe.com, an adult with a bank account).
+1. Stripe → Developers → API keys: copy the **publishable key** (pk_...) into `app.html` (`STRIPE_KEY`).
+2. Deploy the two server functions (Supabase CLI: `brew install supabase/tap/supabase`, then `supabase login` and `supabase link`):
+       supabase functions deploy checkout
        supabase functions deploy stripe-webhook --no-verify-jwt
-       supabase secrets set STRIPE_SECRET_KEY=sk_live_... STRIPE_WEBHOOK_SECRET=whsec_... ULTRA_PAYMENT_LINK_ID=plink_...
-   In Stripe → Developers → Webhooks, add
+       supabase secrets set STRIPE_SECRET_KEY=sk_live_... STRIPE_WEBHOOK_SECRET=whsec_... APP_URL=https://peer85us.github.io/gift-keeper/app.html
+3. Stripe → Developers → Webhooks → add endpoint
    `https://<project>.supabase.co/functions/v1/stripe-webhook` with events
-   checkout.session.completed, customer.subscription.updated, customer.subscription.deleted.
-With accounts on, people must sign in before paying, and the plan is checked on the server.
+   checkout.session.completed, customer.subscription.updated, customer.subscription.deleted
+   (that page shows the whsec_ secret for step 2).
+4. Stripe → Settings → Billing → Customer portal: turn on, copy the login link into `BILLING_PORTAL`
+   so people can cancel plans.
+5. Try it in **test mode** first (pk_test_/sk_test_ keys, card 4242 4242 4242 4242, any future date, any CVC),
+   then switch to the live keys.
+
+What people can buy: Keeper Coins packs ($0.99 / $4.99 / $9.99 / $19.99, one-time) and the
+Premium ($9.99) and Ultra ($19.99) monthly plans. Prices are set in `supabase/functions/checkout/index.ts`.
+Coins are kept on the server, so they can't be faked.
+
+Simpler option without the server functions: make Stripe Payment Links and paste them into
+`PAYMENT_LINK`, `PAYMENT_LINK_ULTRA` and the `link` fields of `COIN_PACKS` (these open Stripe's page
+instead of a form inside the app).
+
+**App stores:** Apple and Google require their own in-app purchase system (they keep 15–30%)
+for coins and plans sold inside an App Store / Play Store app. Card payments are fine on the website
+and the installed web app.
 
 ## 4. Test with real families
 Share the link with 5–10 families. Feedback goes to the GitHub Issues page

@@ -963,6 +963,71 @@
   #accountForm a, .setting a { color: var(--accent); }
   a.setting { text-decoration: none; color: inherit; }
 
+  /* Keeper Coins shop */
+  .coin-btn { display: inline-flex; align-items: center; gap: 5px; position: relative; border: 1px solid rgba(255,210,122,.35); border-radius: 99px;
+    padding: 7px 11px; background: rgba(255,210,122,.1); color: #ffd27a; font: 800 13px var(--round); cursor: pointer; white-space: nowrap; }
+  .coin-btn .i { width: 16px; height: 16px; }
+  .coin-btn .dot { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; border-radius: 50%; background: #ff5f7a; box-shadow: 0 0 0 2px var(--bg); }
+  .shop-bal { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; margin-bottom: 12px; border-radius: 18px;
+    background: linear-gradient(135deg, rgba(255,210,122,.16), rgba(255,138,92,.08)); border: 1px solid rgba(255,210,122,.25); }
+  .shop-bal small { display: block; color: var(--muted); font-size: 12.5px; }
+  .shop-bal b { display: inline-flex; align-items: center; gap: 6px; font: 800 28px var(--round); color: #ffd27a; }
+  .shop-bal b .i { width: 24px; height: 24px; }
+  #shopWho, #shopTabs { margin-bottom: 10px; }
+  #shopTabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  #shopWho .chip-btn { display: inline-flex; align-items: center; gap: 6px; }
+  .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .shop-item { position: relative; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 10px 12px; border-radius: 18px;
+    border: 1px solid var(--line); background: var(--surface); color: var(--ink); font: inherit; cursor: pointer; text-align: center; }
+  .shop-item:disabled { opacity: .45; cursor: not-allowed; }
+  .shop-item.equipped { border-color: #34e3a6; box-shadow: 0 0 0 1px #34e3a6 inset; }
+  .shop-item b { font-size: 14.5px; }
+  .shop-item .s { font-size: 12px; color: var(--muted); line-height: 1.35; }
+  .shop-item .price { display: inline-flex; align-items: center; gap: 4px; margin-top: 2px; padding: 6px 12px; border-radius: 99px; font: 800 13px var(--round);
+    background: rgba(255,210,122,.14); color: #ffd27a; }
+  .shop-item .price .i { width: 14px; height: 14px; }
+  .shop-item .price.owned, .shop-item.equipped .price { background: rgba(52,227,166,.14); color: #4ef0b0; }
+  .shop-item .pv { height: 74px; display: grid; place-items: center; }
+  .shop-item .tag { position: absolute; top: -8px; left: 50%; translate: -50% 0; padding: 2px 9px; border-radius: 99px; font: 800 10.5px var(--round);
+    letter-spacing: .04em; text-transform: uppercase; background: var(--grad); color: #fff; white-space: nowrap; }
+  .shop-gc { display: block; width: 104px; aspect-ratio: 1.586; border-radius: 10px; box-shadow: 0 8px 18px rgba(0,0,0,.4); }
+  .shop-kc { width: 112px; padding: 0; border-radius: 10px; }
+  .shop-kc::after { display: none; }
+  .shop-kc .kc-sticker { font-size: 26px; right: 10px; }
+  .boost-ic { display: inline-flex; align-items: center; gap: 2px; font: 800 30px var(--round); color: #4ef0b0; }
+  .boost-ic .i { width: 26px; height: 26px; stroke-width: 2.6; }
+  .pack-pile { display: flex; justify-content: center; height: 46px; align-items: flex-end; }
+  .pack-pile i { width: 30px; height: 30px; margin: 0 -7px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6c8, #ffd27a 40%, #e09a2a);
+    box-shadow: 0 3px 8px rgba(0,0,0,.4), inset 0 -2px 0 rgba(0,0,0,.15); }
+  .pack-pile i:nth-child(even) { margin-bottom: 12px; }
+  .pack-n { display: inline-flex; align-items: center; gap: 5px; font: 800 20px var(--round); color: #ffd27a; }
+  .pack-n .i { width: 18px; height: 18px; }
+  .pack .price { background: var(--grad); color: #fff; }
+  .shop-fine { font-size: 12.5px; color: var(--muted); text-align: center; line-height: 1.5; margin: 14px 4px 4px; }
+  .ask-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-bottom: 10px; border-radius: 14px;
+    background: rgba(255,95,122,.08); border: 1px solid rgba(255,95,122,.25); }
+  .ask-row .info { flex: 1; min-width: 0; font-size: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+  .ask-row .info .i { width: 14px; height: 14px; }
+  .ask-row .s { color: var(--muted); font-size: 12.5px; }
+  #cardMount { min-height: 200px; border-radius: 14px; overflow: hidden; }
+  /* Kids' card designs */
+  .kc-sticker { position: absolute; right: 16px; top: 36%; font-size: 34px; filter: drop-shadow(0 4px 8px rgba(0,0,0,.35)); pointer-events: none; }
+  .kcard.d-galaxy { background: radial-gradient(1px 1px at 20% 30%, #fff, transparent), radial-gradient(1.5px 1.5px at 70% 60%, #fff, transparent),
+    radial-gradient(1px 1px at 45% 80%, #fff, transparent), radial-gradient(circle at 30% 20%, rgba(155,93,229,.85), transparent 55%), linear-gradient(135deg, #1b1446, #050314); }
+  .kcard.d-rainbow { background: linear-gradient(135deg, #ff5f6d, #ffc371 25%, #47e891 50%, #3fa9f5 75%, #a66cff); }
+  .kcard.d-dino { background: radial-gradient(circle at 80% 20%, rgba(255,255,255,.25), transparent 40%), linear-gradient(135deg, #3fbf5f, #0f5a2a); }
+  .kcard.d-unicorn { background: linear-gradient(135deg, #ffb3e6, #c39bff 50%, #8fd3ff); }
+  .kcard.d-camo { background: radial-gradient(circle at 20% 30%, #5a6b3a 18%, transparent 19%), radial-gradient(circle at 70% 70%, #3e4a26 20%, transparent 21%),
+    radial-gradient(circle at 85% 25%, #8a7a4a 14%, transparent 15%), radial-gradient(circle at 40% 85%, #2f3a1d 16%, transparent 17%), #6b7d45; }
+  .kcard.d-gold { color: #2a1a00; background: linear-gradient(120deg, #fff1b8, #e8b84a 35%, #fff3c4 55%, #c8902a); }
+  /* Avatar frames */
+  .avatar.fr-gold { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #f3c64d, 0 0 14px rgba(243,198,77,.6); }
+  .avatar.fr-ice { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #8fe3ff, 0 0 16px rgba(143,227,255,.7); }
+  .avatar.fr-fire { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #ff7a18, 0 0 18px #ff3d2e; animation: firepulse 1.6s ease-in-out infinite; }
+  .avatar.fr-rainbow { box-shadow: 0 0 0 2px #ff5fd2, 0 0 0 4px #7c5cff, 0 0 0 6px #22d3ee, 0 0 14px rgba(124,92,255,.6); }
+  @keyframes firepulse { 50% { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #ffb347, 0 0 26px #ff5a1f; } }
+  @media (max-width: 420px) { .coin-btn { padding: 7px 9px; font-size: 12px; } }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -1014,6 +1079,7 @@
   </g>
     </svg><span class="logo-text">Gift Keeper</span></div>
     <div class="header-right">
+      <button class="coin-btn" id="coinBtn" aria-label="Keeper Coins shop"></button>
       <button class="pro-btn" id="proBtn"></button>
       <button class="me-btn" id="meBtn" aria-label="Switch person"></button>
     </div>
@@ -1117,7 +1183,7 @@
       <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
     </div>
     <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.17 · Everything is saved only on this device.
+      Gift Keeper v0.18 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1412,6 +1478,32 @@
   </form>
 </div>
 
+<!-- Keeper Coins shop -->
+<div class="overlay" id="shopOverlay">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2>Keeper Coins shop</h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="shop-bal" id="shopBal"></div>
+    <div class="chips" id="shopWho"></div>
+    <div class="chips" id="shopTabs"></div>
+    <div id="shopBody"></div>
+  </div>
+</div>
+
+<!-- Pay by card, inside the app -->
+<div class="overlay" id="cardOverlay">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2 id="cardTitle">Checkout</h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="cardMount"></div>
+    <p class="shop-fine">Payments are handled securely by Stripe. Gift Keeper never sees your card number.</p>
+  </div>
+</div>
+
 <!-- First-time welcome tour -->
 <div class="overlay" id="welcomeOverlay">
   <div class="sheet welcome">
@@ -1617,7 +1709,7 @@ let given = loadGiven();
 let formTheme = '';
 let payId = null;
 let wakeLock = null;
-let sb = null, user = null, cloudFamily = null, syncTimer = null, applying = false, syncState = '', pendingUpgrade = false;
+let sb = null, user = null, cloudFamily = null, syncTimer = null, applying = false, syncState = '', pendingUpgrade = false, pendingCoins = false;
 
 // ---------- storage ----------
 function load() {
@@ -1792,7 +1884,8 @@ function goalBar(m) {
 }
 
 function avatar(m, size = '') {
-  return `<span class="avatar ${size}" style="--av:${m?.color || '#888'}">${esc(m?.avatar || '🙂')}</span>`;
+  const frame = m?.frame && owns(m.id, 'frame:' + m.frame) ? 'fr-' + m.frame : '';
+  return `<span class="avatar ${size} ${frame}" style="--av:${m?.color || '#888'}">${esc(m?.avatar || '🙂')}</span>`;
 }
 
 const findBrand = name => BRANDS.find(b => b.name.toLowerCase() === String(name || '').trim().toLowerCase());
@@ -1884,7 +1977,8 @@ function expToDate(exp) {
 }
 
 // ---------- card visual ----------
-const themeOf = c => THEMES[c.theme] && (THEMES[c.theme].ultra ? isUltra() : isPremium()) ? c.theme : '';
+const themeOk = (k, ownerId) => !k || (THEMES[k].ultra ? isUltra() : isPremium()) || owns(ownerId, 'theme:' + k);
+const themeOf = c => THEMES[c.theme] && themeOk(c.theme, c.owner) ? c.theme : '';
 function cardVisual(c, big = false) {
   const prepaid = isPrepaid(c);
   const exp = expShort(c);
@@ -1974,6 +2068,7 @@ function render() {
 }
 
 function renderHeader() {
+  $('coinBtn').innerHTML = coin(coinsOf(family.current)) + (isParent() && shop.asks.length ? '<i class="dot"></i>' : '');
   $('meBtn').innerHTML = `${avatar(me())}${esc(me().name)}`;
   $('proBtn').innerHTML = isUltra() ? `${ic('gem')}<span class="pl">Ultra</span>` : isPremium() ? `${ic('crown')}<span class="pl">Premium</span>` : `${ic('crown')}<span class="pl">Upgrade</span>`;
   $('proBtn').classList.toggle('on', isPremium() && !isUltra());
@@ -2277,13 +2372,12 @@ $('colorPicker').onclick = e => {
 function renderThemes() {
   $('themeLock').hidden = isPremium();
   $('themePicker').innerHTML = Object.entries(THEMES).map(([k, t]) =>
-    `<button type="button" class="theme-btn ${t.ultra ? 'ultra-theme' : ''} ${k === formTheme ? 'on' : ''}" data-theme="${k}"><i class="tdot gc theme-${k}" style="--c:#555"></i>${t.name}${t.ultra && !isUltra() ? ' · Ultra' : ''}</button>`).join('');
+    `<button type="button" class="theme-btn ${t.ultra ? 'ultra-theme' : ''} ${k === formTheme ? 'on' : ''}" data-theme="${k}"><i class="tdot gc theme-${k}" style="--c:#555"></i>${t.name}${themeOk(k, formOwner) ? '' : ` · ${coin(t.ultra ? 250 : 100)}`}</button>`).join('');
 }
 $('themePicker').onclick = e => {
   const b = e.target.closest('[data-theme]');
   if (!b) return;
-  if (!isPremium()) return openPremium('themes');
-  if (THEMES[b.dataset.theme].ultra && !isUltra()) return openPremium('ultrathemes');
+  if (!themeOk(b.dataset.theme, formOwner)) { shopFor = formOwner; return openShop('styles'); }   // buy it with coins, or get them all with a plan
   formTheme = b.dataset.theme;
   renderThemes();
   updatePreview();
@@ -3375,7 +3469,9 @@ function processKidbank() {
 }
 
 function kidCard(m, a, big = false) {
-  return `<div class="kcard ${big ? 'big' : ''} ${a.frozen ? 'frozen' : ''}" style="--c:${m.color || '#7c5cff'}">
+  const d = a.design && owns(m.id, 'kid:' + a.design) ? a.design : '';
+  return `<div class="kcard ${big ? 'big' : ''} ${a.frozen ? 'frozen' : ''} ${d ? 'd-' + d : ''}" style="--c:${m.color || '#7c5cff'}">
+    ${d ? `<span class="kc-sticker">${KID_DESIGNS[d].sticker}</span>` : ''}
     <div class="kc-top"><span class="kc-brand">Gift Keeper <b>Kids</b></span><span class="kc-chip"></span></div>
     <div class="kc-bal"><small>Spending</small>${money(a.spending)}</div>
     <div class="kc-bottom"><span>${esc(m.name)}</span><span class="mono">•••• ${a.last4}</span></div>
@@ -3571,7 +3667,7 @@ function renderSettings() {
     ? `<div class="setting static"><span>${isUltra() ? `${ic('gem')}Gift Keeper Ultra` : `${ic('crown')}Gift Keeper Premium`}<span class="sub">${isUltra() ? ULTRA_PRICE : PREMIUM_PRICE}/month · since ${fmtDate(premium.since)}${premium.test ? ' · test mode' : ''}</span></span><span class="pill" style="background:rgba(255,200,90,.15);color:#ffd27a">Active</span></div>
        ${isParent() && !isUltra() ? `<button class="setting" id="setUltra"><span>${ic('gem')}Upgrade to Ultra<span class="sub">App lock, Year in review, kids’ spending alerts and more</span></span><span class="go">›</span></button>` : ''}
        ${isParent() ? `<button class="setting" id="setCancel"><span>Cancel ${isUltra() ? 'Ultra' : 'Premium'}<span class="sub">Your cards stay — you just can’t add more than ${FREE_CARD_LIMIT}</span></span><span class="go">›</span></button>` : ''}`
-    : `<button class="setting" id="setUpgrade"><span>${ic('user')}Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT} cards used · just you</span></span><span class="mini">Upgrade</span></button>`;
+    : `<button class="setting" id="setUpgrade"><span>${ic('user')}Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT + extraSlots()} cards used · just you</span></span><span class="mini">Upgrade</span></button>`;
 
   const tag = isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>';
   renderAccount();
@@ -3606,7 +3702,7 @@ async function cloudInit() {
 }
 
 // What gets shared with the family. Who is holding this phone (family.current) and device settings stay local.
-const snapshot = () => ({ cards, members: family.members, given, kidbank });
+const snapshot = () => ({ cards, members: family.members, given, kidbank, asks: shop.asks });
 function applyCloud(d, merge) {
   const mix = (local, remote) => merge ? [...remote, ...local.filter(x => !remote.some(r => r.id === x.id))] : remote;
   applying = true;
@@ -3615,6 +3711,8 @@ function applyCloud(d, merge) {
   if (!family.members.some(m => m.id === family.current)) family.current = (family.members.find(m => m.role === 'parent') || family.members[0]).id;
   given = mix(given, d.given || []);
   kidbank = merge ? { ...kidbank, ...(d.kidbank || {}) } : (d.kidbank || {});
+  shop.asks = mix(shop.asks, d.asks || []);
+  saveShop();
   save(); saveFamily(); saveGiven(); saveKidbank();
   applying = false;
 }
@@ -3641,6 +3739,8 @@ async function cloudStart() {
     listenCloud();
     await refreshPlan();
     if (pendingUpgrade) { pendingUpgrade = false; waitForPlan(); }
+    await loadLedger();
+    if (pendingCoins) { pendingCoins = false; waitForCoins(); }
   } catch (e) {
     console.error(e);
     syncState = 'Couldn’t reach the cloud — your cards are still saved on this phone';
@@ -3678,6 +3778,7 @@ function listenCloud() {
       if (syncTimer || p.new.updated_at <= (settings.lastSync || '')) return;
       applyCloud(p.new.data, false); markSynced(p.new.updated_at); render();
     })
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'coin_ledger', filter: `family_id=eq.${cloudFamily.id}` }, () => loadLedger().then(render))
     .on('postgres_changes', { event: '*', schema: 'public', table: 'subscriptions', filter: `family_id=eq.${cloudFamily.id}` }, () => refreshPlan().then(render))
     .subscribe();
 }
@@ -3691,7 +3792,7 @@ async function refreshPlan() {
     const was = premium?.tier;
     premium = { since: data.since || today(), plan: 'monthly', tier: data.tier, test: false, cloud: true };
     if (was !== data.tier) { confetti(); toast(data.tier === 'ultra' ? 'Welcome to Ultra' : 'Welcome to Premium'); }
-  } else if (PAYMENT_LINK || premium?.cloud) premium = null;
+  } else if (PAYMENT_LINK || STRIPE_KEY || premium?.cloud) premium = null;
   savePremium();
 }
 // Stripe sends people back here after paying; the webhook may take a few seconds
@@ -3711,7 +3812,7 @@ function checkout(link) {
 
 // ----- Settings → Account -----
 function renderAccount() {
-  $('footNote').textContent = `Gift Keeper v0.17 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('footNote').textContent = `Gift Keeper v0.18 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
   $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
   if (!cloudOn()) return;
   $('settingsAccount').innerHTML = !user
@@ -3808,11 +3909,251 @@ $('welcomeNext').onclick = () => {
 $('welcomeSkip').onclick = endWelcome;
 $('setTour').onclick = () => { settings.welcomed = false; welcomeStep = 0; drawWelcome(); open('welcomeOverlay'); };
 
+// ---------- Keeper Coins: an in-app currency, bought with real money and spent on styles and boosts ----------
+// Every coin change is a line in a ledger (bought, daily bonus, spent on an item). Balances and what someone
+// owns are added up from it. With accounts on, the ledger lives on the server so coins can't be faked.
+const COINS_KEY = 'giftKeeper.coins.v1';
+// One Stripe Payment Link per pack (one-time payment). After payment, redirect to app.html?coins=success
+const COIN_PACKS = [
+  { id: 'c100',  coins: 100,  bonus: 0,   price: '$0.99',  link: '' },
+  { id: 'c500',  coins: 500,  bonus: 50,  price: '$4.99',  link: '' },
+  { id: 'c1000', coins: 1000, bonus: 200, price: '$9.99',  link: '', tag: 'Popular' },
+  { id: 'c2000', coins: 2000, bonus: 600, price: '$19.99', link: '', tag: 'Best value' },
+];
+const DAILY_COINS = 5;
+const KID_DESIGNS = {
+  galaxy:  { name: 'Galaxy',  sticker: '🪐', price: 150 },
+  rainbow: { name: 'Rainbow', sticker: '🌈', price: 150 },
+  dino:    { name: 'Dino',    sticker: '🦖', price: 150 },
+  unicorn: { name: 'Unicorn', sticker: '🦄', price: 150 },
+  camo:    { name: 'Camo',    sticker: '🎯', price: 150 },
+  gold:    { name: 'Gold',    sticker: '👑', price: 300 },
+};
+const FRAMES = {
+  gold:    { name: 'Gold ring',    price: 100 },
+  ice:     { name: 'Ice ring',     price: 150 },
+  fire:    { name: 'Fire ring',    price: 200 },
+  rainbow: { name: 'Rainbow ring', price: 200 },
+};
+// Keep prices in step with shop_items in supabase/schema.sql
+const SHOP = [
+  ...Object.entries(THEMES).filter(([k]) => k).map(([k, t]) => ({ id: 'theme:' + k, tab: 'styles', name: t.name, price: t.ultra ? 250 : 100 })),
+  ...Object.entries(KID_DESIGNS).map(([k, d]) => ({ id: 'kid:' + k, tab: 'kids', name: d.name, price: d.price })),
+  ...Object.entries(FRAMES).map(([k, f]) => ({ id: 'frame:' + k, tab: 'frames', name: f.name, price: f.price })),
+  { id: 'slots5', tab: 'boosts', name: '+5 card slots', price: 400, repeat: true, about: 'Room for 5 more gift cards on the free plan. Buy as many as you like.' },
+];
+const SHOP_TABS = { coins: 'Get coins', styles: 'Card styles', kids: 'Kids’ cards', frames: 'Frames', boosts: 'Boosts' };
+
+let shop = { ledger: [], asks: [], pending: null };
+try { shop = { ...shop, ...JSON.parse(localStorage.getItem(COINS_KEY)) }; } catch {}
+const saveShop = () => { localStorage.setItem(COINS_KEY, JSON.stringify(shop)); cloudSoon(); };
+const coinsOf = id => shop.ledger.filter(e => e.member === id).reduce((s, e) => s + e.delta, 0);
+const owns = (id, item) => shop.ledger.some(e => e.member === id && e.reason === 'item:' + item);
+const extraSlots = () => shop.ledger.filter(e => e.reason === 'item:slots5').length * 5;
+const coinsOnServer = () => !!(user && cloudFamily);
+const coin = n => `${ic('coins')}${Number(n).toLocaleString()}`;
+let shopTab = 'coins', shopFor = null;
+
+async function loadLedger() {
+  if (!coinsOnServer()) return;
+  const { data } = await sb.from('coin_ledger').select('member,delta,reason,created_at').eq('family_id', cloudFamily.id);
+  if (!data) return;
+  shop.ledger = data.map(e => ({ member: e.member, delta: e.delta, reason: e.reason, date: e.created_at.slice(0, 10) }));
+  localStorage.setItem(COINS_KEY, JSON.stringify(shop));
+}
+function addCoins(member, delta, reason) {
+  shop.ledger.push({ member, delta, reason, date: today() });
+  saveShop();
+}
+
+function openShop(tab = 'coins') {
+  shopTab = tab;
+  shopFor = isParent() ? (shopFor && member(shopFor) ? shopFor : family.current) : family.current;
+  renderShop();
+  open('shopOverlay');
+}
+function renderShop() {
+  const who = member(shopFor) || me(), parent = isParent(), mine = who.id === family.current;
+  const claimed = shop.ledger.some(e => e.member === who.id && e.reason === 'daily:' + today());
+  $('shopBal').innerHTML = `<div><small>${mine ? 'Your coins' : `${esc(possessive(who.name))} coins`}</small><b>${coin(coinsOf(who.id))}</b></div>
+    <button class="mini ${claimed ? '' : 'ok'}" data-act="daily" ${claimed ? 'disabled' : ''}>${claimed ? 'Come back tomorrow' : `Free daily +${DAILY_COINS}`}</button>`;
+  $('shopWho').hidden = !parent || !hasFamily();
+  $('shopWho').innerHTML = family.members.map(m =>
+    `<button class="chip-btn ${m.id === who.id ? 'on' : ''}" data-who="${m.id}">${avatar(m, 'sm')}${esc(m.name)}</button>`).join('');
+  $('shopTabs').innerHTML = Object.entries(SHOP_TABS).map(([k, n]) =>
+    `<button class="chip-btn ${k === shopTab ? 'on' : ''}" data-tab="${k}">${n}</button>`).join('');
+
+  let html = '';
+  if (shopTab === 'coins') {
+    const asks = parent ? shop.asks : shop.asks.filter(a => a.member === who.id);
+    html += asks.map(a => {
+      const p = COIN_PACKS.find(x => x.id === a.pack), m = member(a.member);
+      if (!p || !m) return '';
+      return `<div class="ask-row">${avatar(m)}<span class="info"><b>${esc(m.name)}</b> asked for ${coin(p.coins + p.bonus)} <span class="s">(${p.price})</span></span>
+        ${parent ? `<button class="mini ok" data-act="askYes" data-id="${a.id}">Buy</button><button class="mini" data-act="askNo" data-id="${a.id}">No</button>` : '<span class="s">Waiting for a parent</span>'}</div>`;
+    }).join('');
+    html += `<div class="shop-grid">${COIN_PACKS.map(p => `
+      <button class="shop-item pack" data-act="pack" data-id="${p.id}">
+        ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
+        <span class="pack-pile">${'<i></i>'.repeat(Math.min(5, 1 + COIN_PACKS.indexOf(p) + (p.tag ? 1 : 0)))}</span>
+        <b class="pack-n">${coin(p.coins + p.bonus)}</b>
+        <span class="s">${p.bonus ? `${p.coins.toLocaleString()} + ${p.bonus} bonus` : 'Starter pack'}</span>
+        <span class="price">${parent ? p.price : 'Ask a parent'}</span>
+      </button>`).join('')}</div>
+      <p class="shop-fine">${parent ? `Coins are for ${mine ? 'you' : esc(who.name)}. ` : ''}Coins can only be spent in Gift Keeper and can’t be turned back into money. Only parents can buy coins.
+      ${!COIN_PACKS[0].link && TEST_MODE ? '<br><b>Test mode</b> — payments aren’t connected, so packs are free on this computer.' : ''}</p>`;
+  } else {
+    const items = SHOP.filter(i => i.tab === shopTab);
+    if (shopTab === 'kids' && who.role !== 'kid') html += `<p class="shop-fine" style="margin-top:0">Designs for the Gift Keeper Kids card. ${parent && hasFamily() ? 'Pick a kid above to shop for them.' : ''}</p>`;
+    if (shopTab === 'styles') html += `<p class="shop-fine" style="margin-top:0">Use a style on any of ${mine ? 'your' : esc(possessive(who.name))} gift cards. ${isUltra() ? 'You already have all of them with Ultra.' : isPremium() ? 'Premium includes the first six.' : 'Premium includes the first six, Ultra all of them.'}</p>`;
+    html += `<div class="shop-grid">${items.map(i => {
+      const k = i.id.split(':')[1], have = !i.repeat && owns(who.id, i.id);
+      const on = (i.tab === 'kids' && kidbank[who.id]?.design === k) || (i.tab === 'frames' && who.frame === k);
+      const preview = i.tab === 'styles' ? `<i class="gc shop-gc theme-${k}" style="--c:${who.color || '#7c5cff'}"></i>`
+        : i.tab === 'kids' ? `<span class="shop-kc kcard d-${k}" style="--c:${who.color || '#7c5cff'}"><span class="kc-sticker">${KID_DESIGNS[k].sticker}</span></span>`
+        : i.tab === 'frames' ? `<span class="avatar xl fr-${k}" style="--av:${who.color || '#888'}">${esc(who.avatar || '🙂')}</span>`
+        : `<span class="boost-ic">${ic('plus')}5</span>`;
+      const disabled = i.tab === 'kids' && who.role !== 'kid';
+      return `<button class="shop-item ${on ? 'equipped' : ''}" data-act="item" data-id="${i.id}" ${disabled ? 'disabled' : ''}>
+        <span class="pv">${preview}</span><b>${i.name}</b>${i.about ? `<span class="s">${i.about}</span>` : ''}
+        <span class="price ${have ? 'owned' : ''}">${on ? 'Using' : have ? (i.tab === 'styles' ? 'Owned' : 'Use') : coin(i.price)}</span></button>`;
+    }).join('')}</div>`;
+    if (shopTab === 'boosts') html += `<p class="shop-fine">You have ${FREE_CARD_LIMIT + extraSlots()} card slots on the free plan${isPremium() ? ' — Premium already gives you unlimited cards' : ''}.</p>`;
+  }
+  $('shopBody').innerHTML = html;
+}
+
+function equip(who, item) {
+  const [kind, k] = item.split(':');
+  if (kind === 'kid') { const a = kb(who.id); a.design = a.design === k ? '' : k; saveKidbank(); }
+  if (kind === 'frame') { who.frame = who.frame === k ? '' : k; saveFamily(); }
+}
+async function buyItem(who, item) {
+  const it = SHOP.find(x => x.id === item);
+  if (coinsOf(who.id) < it.price) { toast(`Not enough coins — ${it.name} costs ${it.price}`); shopTab = 'coins'; return renderShop(); }
+  if (coinsOnServer()) {
+    const { error } = await sb.rpc('buy_item', { fid: cloudFamily.id, member: who.id, item });
+    if (error) return toast('Couldn’t buy that — try again');
+    await loadLedger();
+  } else addCoins(who.id, -it.price, 'item:' + item);
+  if (!it.repeat) equip(who, item);
+  confetti();
+  toast(`You got ${it.name}!`);
+}
+async function claimDaily(who) {
+  if (coinsOnServer()) {
+    const { error } = await sb.rpc('claim_daily', { fid: cloudFamily.id, member: who.id });
+    if (error) return toast('Already claimed today');
+    await loadLedger();
+  } else addCoins(who.id, DAILY_COINS, 'daily:' + today());
+  toast(`+${DAILY_COINS} coins`);
+}
+function buyPack(p, forId) {
+  if (inAppPay()) return payInApp({ kind: 'coins', pack: p.id, member: forId }, `${(p.coins + p.bonus).toLocaleString()} Keeper Coins · ${p.price}`, waitForCoins);
+  if (!p.link) {
+    if (!TEST_MODE) return toast('Coin packs are coming very soon');
+    addCoins(forId, p.coins + p.bonus, 'buy:' + p.id);
+    confetti();
+    return toast(`+${(p.coins + p.bonus).toLocaleString()} coins`);
+  }
+  if (cloudOn() && !user) { toast('Sign in first so your coins are safe on every phone'); close('shopOverlay'); return openAccount(); }
+  const u = new URL(p.link);
+  if (coinsOnServer()) { u.searchParams.set('client_reference_id', `${cloudFamily.id}__${forId}`); u.searchParams.set('prefilled_email', user.email); }
+  shop.pending = { pack: p.id, member: forId }; saveShop();
+  location.href = u;
+}
+
+$('shopOverlay').onclick = async e => {
+  const b = e.target.closest('[data-act], [data-who], [data-tab]');
+  if (!b || b.disabled) return;
+  const who = member(shopFor) || me();
+  if (b.dataset.who) shopFor = b.dataset.who;
+  if (b.dataset.tab) shopTab = b.dataset.tab;
+  const act = b.dataset.act;
+  if (act === 'daily') await claimDaily(who);
+  if (act === 'pack') {
+    const p = COIN_PACKS.find(x => x.id === b.dataset.id);
+    if (isParent()) buyPack(p, who.id);
+    else if (shop.asks.some(a => a.member === who.id && a.pack === p.id)) toast('You already asked — a parent will see it');
+    else { shop.asks.push({ id: crypto.randomUUID(), member: who.id, pack: p.id, date: today() }); saveShop(); toast('Asked a parent'); }
+  }
+  if (act === 'askYes' || act === 'askNo') {
+    const a = shop.asks.find(x => x.id === b.dataset.id);
+    shop.asks = shop.asks.filter(x => x !== a); saveShop();
+    if (act === 'askYes' && a) buyPack(COIN_PACKS.find(x => x.id === a.pack), a.member);
+  }
+  if (act === 'item') {
+    const it = SHOP.find(x => x.id === b.dataset.id);
+    if (!it.repeat && owns(who.id, it.id)) { if (it.tab !== 'styles') equip(who, it.id); }
+    else await buyItem(who, it.id);
+  }
+  renderShop();
+  render();
+};
+$('coinBtn').onclick = () => openShop();
+
+// Coming back from paying for a coin pack
+if (new URLSearchParams(location.search).get('coins') === 'success') {
+  history.replaceState(null, '', location.pathname);
+  const pend = shop.pending;
+  shop.pending = null; saveShop();
+  if (cloudOn()) pendingCoins = true;   // the server adds them once we're signed in
+  else if (pend) { const p = COIN_PACKS.find(x => x.id === pend.pack); if (p?.link) { addCoins(pend.member, p.coins + p.bonus, 'buy:' + p.id); setTimeout(() => { confetti(); toast(`+${(p.coins + p.bonus).toLocaleString()} coins`); }, 600); } }
+}
+async function waitForCoins() {
+  toast('Adding your coins…');
+  const before = shop.ledger.length;
+  for (let i = 0; i < 8 && shop.ledger.length === before; i++) { await new Promise(r => setTimeout(r, 2500)); await loadLedger(); }
+  render();
+  if (shop.ledger.length > before) { confetti(); toast('Coins added'); }
+}
+
+// ----- Paying by card inside the app (Stripe Embedded Checkout) -----
+// Stripe publishable key (Developers → API keys, starts with pk_). With accounts on, purchases open a
+// secure card form right here — card, Apple Pay or Google Pay — instead of leaving the app.
+const STRIPE_KEY = '';
+const inAppPay = () => cloudOn() && !!STRIPE_KEY;
+let stripeJs = null, embedded = null;
+async function payInApp(body, title, after) {
+  if (!user) {
+    document.querySelectorAll('.overlay.open').forEach(o => close(o.id));
+    toast('Sign in first so your purchase is safe on every phone');
+    return openAccount();
+  }
+  $('cardTitle').textContent = title;
+  $('cardMount').innerHTML = '<div class="empty-state">Opening secure checkout…</div>';
+  open('cardOverlay');
+  try {
+    stripeJs ??= await new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = 'https://js.stripe.com/v3/';
+      s.onload = () => resolve(Stripe(STRIPE_KEY));
+      s.onerror = reject;
+      document.head.appendChild(s);
+    });
+    const { data, error } = await sb.functions.invoke('checkout', { body: { ...body, family: cloudFamily.id } });
+    if (error || !data?.clientSecret) throw error || new Error('no checkout session');
+    embedded?.destroy();
+    $('cardMount').innerHTML = '';
+    embedded = await stripeJs.initEmbeddedCheckout({ fetchClientSecret: async () => data.clientSecret, onComplete: () => { closeCard(); after(); } });
+    embedded.mount('#cardMount');
+  } catch (e) {
+    console.error(e);
+    $('cardMount').innerHTML = '<div class="empty-state">Couldn’t open checkout. Check your internet and try again.</div>';
+  }
+}
+function closeCard() { embedded?.destroy(); embedded = null; close('cardOverlay'); }
+// A few payment methods leave the app and come back with ?paid=
+if (new URLSearchParams(location.search).has('paid')) {
+  history.replaceState(null, '', location.pathname);
+  pendingCoins = true;
+}
+
 // ---------- Premium ----------
 const isPremium = () => !!premium;
 const isUltra = () => premium?.tier === 'ultra';
 const ULTRA_REASONS = ['lock', 'wrapped', 'kidspend', 'ultrathemes', 'csv'];
-const canAddCard = () => isPremium() || cards.length < FREE_CARD_LIMIT;
+const canAddCard = () => isPremium() || cards.length < FREE_CARD_LIMIT + extraSlots();
 
 const PREMIUM_WHY = {
   cards:  `The free plan holds ${FREE_CARD_LIMIT} gift cards. Go Premium to keep them all.`,
@@ -3847,7 +4188,7 @@ function openPremium(reason = '') {
   $('pmBuy').textContent = isUltra() ? 'Included' : isPremium() ? 'Current plan' : `Premium · ${PREMIUM_PRICE}`;
   $('pmBuyUltra').textContent = isUltra() ? 'Current plan' : `Ultra · ${ULTRA_PRICE}`;
   $('pmFine').textContent = !parent ? 'Only parents can change the plan — ask a parent!'
-    : PAYMENT_LINK ? 'Billed monthly. Cancel any time.'
+    : inAppPay() || PAYMENT_LINK ? 'Billed monthly. Cancel any time.'
     : TEST_MODE ? 'Test mode — payments aren’t connected yet, so this unlocks the plan for free.'
     : 'Paid plans are coming very soon.';
   open('premiumOverlay');
@@ -3861,10 +4202,12 @@ function activatePremium(test, tier = 'premium') {
   toast(tier === 'ultra' ? 'Welcome to Ultra' : 'Welcome to Premium');
 }
 $('pmBuy').onclick = () => {
+  if (inAppPay()) return payInApp({ kind: 'plan', tier: 'premium' }, `Gift Keeper Premium · ${PREMIUM_PRICE}/month`, waitForPlan);
   if (!PAYMENT_LINK) return TEST_MODE ? activatePremium(true, 'premium') : toast('Premium is coming very soon');
   checkout(PAYMENT_LINK);
 };
 $('pmBuyUltra').onclick = () => {
+  if (inAppPay()) return payInApp({ kind: 'plan', tier: 'ultra' }, `Gift Keeper Ultra · ${ULTRA_PRICE}/month`, waitForPlan);
   if (!PAYMENT_LINK_ULTRA) return TEST_MODE ? activatePremium(true, 'ultra') : toast('Ultra is coming very soon');
   checkout(PAYMENT_LINK_ULTRA);
 };
@@ -3932,7 +4275,7 @@ $('settingsReminders').onclick = e => {
 
 $('exportBtn').onclick = () => {
   if (!isPremium()) return openPremium('backup');
-  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family, given, kidbank };
+  const data = { app: 'gift-keeper', version: 1, exported: new Date().toISOString(), cards, family, given, kidbank, coins: shop };
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
   a.download = `gift-keeper-backup-${today()}.json`;
@@ -3953,6 +4296,7 @@ $('importFile').onchange = async () => {
     given = Array.isArray(data.given) ? data.given : [];
     saveGiven();
     if (data.kidbank) { kidbank = data.kidbank; saveKidbank(); }
+    if (data.coins?.ledger) { shop = { ledger: [], asks: [], pending: null, ...data.coins }; saveShop(); }
     family = data.family;
     save(); saveFamily();
     walletScope = 'all';
@@ -3964,7 +4308,7 @@ $('importFile').onchange = async () => {
 };
 $('wipeBtn').onclick = () => {
   if (!confirm('Delete ALL gift cards and family members from this device? This can’t be undone.')) return;
-  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, KIDBANK_KEY].forEach(k => localStorage.removeItem(k));
+  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, KIDBANK_KEY, COINS_KEY].forEach(k => localStorage.removeItem(k));
   indexedDB.deleteDatabase('giftKeeper');
   location.reload();
 };
@@ -4000,6 +4344,7 @@ document.querySelectorAll('.overlay').forEach(o => {
   o.addEventListener('click', e => {
     if (e.target !== o && !e.target.closest('[data-close]')) return;
     if (o.id === 'scanOverlay') stopScanner();
+    else if (o.id === 'cardOverlay') closeCard();
     else if (o.id === 'payOverlay') closePay();
     else close(o.id);
   });
@@ -4009,6 +4354,7 @@ document.addEventListener('keydown', e => {
   const top = [...document.querySelectorAll('.overlay.open')].pop();
   if (!top) return;
   if (top.id === 'scanOverlay') stopScanner();
+  else if (top.id === 'cardOverlay') closeCard();
   else if (top.id === 'payOverlay') closePay();
   else close(top.id);
 });
