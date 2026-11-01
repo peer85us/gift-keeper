@@ -949,15 +949,7 @@
   .chore .del { border: 0; background: none; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
   body.privacy .kc-bal, body.privacy .kb-bals b, body.privacy .kc-under { filter: blur(9px); }
 
-  /* Welcome tour + account */
-  .welcome { text-align: center; }
-  .wl-icon { width: 76px; height: 76px; margin: 10px auto 16px; border-radius: 24px; display: grid; place-items: center; background: var(--grad); box-shadow: 0 12px 30px rgba(124,92,255,.35); }
-  .wl-icon .i { width: 36px; height: 36px; --ic: #fff; color: #fff; }
-  .welcome h2 { margin: 0 0 8px; font-size: 23px; }
-  .welcome p { color: var(--muted); margin: 0 auto; max-width: 330px; line-height: 1.5; }
-  .wl-dots { display: flex; justify-content: center; gap: 6px; margin: 18px 0 4px; }
-  .wl-dots i { width: 7px; height: 7px; border-radius: 4px; background: var(--line); transition: width .2s; }
-  .wl-dots i.on { width: 20px; background: var(--ink); }
+  /* Account */
   .invite-code { font-size: 17px; letter-spacing: 2px; }
   #accountForm .page-sub { margin: 0 0 10px; font-size: 14.5px; }
   #accountForm a, .setting a { color: var(--accent); }
@@ -1042,6 +1034,101 @@
   .more-opts[open] summary::after { rotate: 45deg; }
   .more-opts summary span { font-weight: 400; font-size: 13px; color: var(--muted); }
 
+  /* ===== Enter screen: splash on every launch + first-time welcome ===== */
+  #splash { position: fixed; inset: 0; z-index: 90; display: grid; place-items: center; background: #08070f; transition: opacity .35s, visibility .35s; }
+  #splash.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+  #splash::before { content: ""; position: absolute; width: 340px; height: 340px; border-radius: 50%; filter: blur(60px);
+    background: radial-gradient(circle, rgba(124,92,255,.55), rgba(209,77,255,.25) 50%, transparent 70%); animation: spGlow 1.6s ease-in-out infinite alternate; }
+  #splash .sp-in { position: relative; text-align: center; animation: spPop .6s cubic-bezier(.2,1.4,.4,1) both; }
+  #splash img { width: 96px; height: 96px; border-radius: 26px; box-shadow: 0 18px 50px rgba(124,92,255,.5); }
+  #splash b { display: block; margin-top: 16px; font: 800 26px var(--round); letter-spacing: -.02em; color: #fff; }
+  @keyframes spPop { from { transform: scale(.6); opacity: 0; } }
+  @keyframes spGlow { to { transform: scale(1.15); opacity: .8; } }
+
+  #enter { position: fixed; inset: 0; z-index: 80; display: flex; flex-direction: column; overflow: hidden; color: #fff;
+    background: radial-gradient(70% 45% at 20% 10%, rgba(124,92,255,.45), transparent 70%), radial-gradient(60% 40% at 90% 30%, rgba(209,77,255,.3), transparent 70%),
+      radial-gradient(60% 40% at 50% 100%, rgba(255,122,89,.22), transparent 70%), #08070f;
+    padding: max(18px, env(safe-area-inset-top)) 22px max(22px, env(safe-area-inset-bottom)); }
+  #enter[hidden] { display: none; }
+  .en-top { display: flex; justify-content: space-between; align-items: center; min-height: 40px; max-width: 520px; width: 100%; margin: 0 auto; }
+  .en-brand { display: flex; align-items: center; gap: 9px; font: 800 17px var(--round); }
+  .en-brand img { width: 28px; height: 28px; border-radius: 8px; }
+  .en-skip { background: none; border: 0; color: rgba(255,255,255,.7); font: 600 15px inherit; font-family: inherit; cursor: pointer; padding: 8px 4px; }
+  .en-stage { flex: 1; position: relative; max-width: 520px; width: 100%; margin: 0 auto; }
+  .en-slide { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; text-align: center;
+    opacity: 0; transform: translateX(40px); pointer-events: none; transition: opacity .45s, transform .45s cubic-bezier(.2,.8,.2,1); }
+  .en-slide.on { opacity: 1; transform: none; pointer-events: auto; }
+  .en-slide.before { transform: translateX(-40px); }
+  .en-art { flex: 1; position: relative; min-height: 220px; }
+  .en-slide h1 { font: 800 clamp(30px, 8.5vw, 40px)/1.08 var(--round); letter-spacing: -.035em; margin: 18px 0 10px; }
+  .en-slide h1 .g { background: linear-gradient(120deg, #b9a8ff, #ff8ad8 50%, #ffb38a); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .en-slide p { margin: 0 auto; max-width: 360px; color: rgba(255,255,255,.72); font-size: 16.5px; line-height: 1.5; }
+  .en-bottom { max-width: 520px; width: 100%; margin: 22px auto 0; }
+  .en-dots { display: flex; justify-content: center; gap: 7px; margin-bottom: 18px; }
+  .en-dots i { width: 7px; height: 7px; border-radius: 4px; background: rgba(255,255,255,.25); transition: width .3s, background .3s; }
+  .en-dots i.on { width: 22px; background: #fff; }
+  .en-go { width: 100%; padding: 17px; border: 0; border-radius: 18px; cursor: pointer; font: 800 17px var(--round); color: #fff;
+    background: linear-gradient(120deg, #7c5cff, #d14dff 55%, #ff7a59); box-shadow: 0 14px 34px rgba(160,80,255,.45); transition: transform .15s; }
+  .en-go:active { transform: scale(.98); }
+  .en-alt { display: block; width: 100%; margin-top: 10px; padding: 12px; border: 0; background: none; color: rgba(255,255,255,.75);
+    font: 600 15px inherit; font-family: inherit; cursor: pointer; }
+  .en-alt[hidden] { display: none; }
+  /* Slide art */
+  .en-logo { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 116px; height: 116px; border-radius: 32px; z-index: 3;
+    box-shadow: 0 24px 60px rgba(124,92,255,.55); animation: enFloat 5s ease-in-out infinite; }
+  .en-hero { position: absolute; left: 50%; bottom: 0; width: min(112%, 450px); max-height: 100%; object-fit: contain; object-position: bottom;
+    translate: -50% 0; animation: enHero .9s cubic-bezier(.2,1.2,.4,1) both, enBob 5s ease-in-out .9s infinite; }
+  @keyframes enHero { from { opacity: 0; transform: scale(.85) translateY(20px); } }
+  @keyframes enBob { 50% { transform: translateY(-8px); } }
+  .ec { position: absolute; width: 168px; aspect-ratio: 1.586; border-radius: 16px; padding: 12px 14px; display: flex; flex-direction: column;
+    justify-content: space-between; font: 800 15px var(--round); color: #fff; box-shadow: 0 18px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.3); }
+  .ec small { font: 700 10px var(--round); letter-spacing: .1em; opacity: .75; }
+  .ec em { font-style: normal; font-size: 19px; }
+  .ec.t { background: linear-gradient(135deg, #e3262f, #8e0f16); }
+  .ec.s { background: linear-gradient(135deg, #0c8a5b, #04442b); }
+  .ec.a { background: linear-gradient(135deg, #2b313b, #0e1116); }
+  .ec.a b { color: #ff9900; }
+  .ec.p { background: linear-gradient(135deg, #7c5cff, #d14dff); }
+  .ec.f1 { left: 50%; top: 50%; --r: -16deg; --x: -105%; --y: -78%; animation: enFan 5s ease-in-out infinite; }
+  .ec.f2 { left: 50%; top: 50%; --r: 14deg; --x: 5%; --y: -70%; animation: enFan 5s ease-in-out -1.6s infinite; }
+  .ec.f3 { left: 50%; top: 50%; --r: -6deg; --x: -50%; --y: 34%; animation: enFan 5s ease-in-out -3.2s infinite; }
+  @keyframes enFan { 0%, 100% { transform: translate(var(--x), var(--y)) rotate(var(--r)); } 50% { transform: translate(var(--x), calc(var(--y) - 7%)) rotate(calc(var(--r) + 3deg)); } }
+  @keyframes enFloat { 50% { translate: -50% -56%; } }
+  .en-total { position: absolute; left: 50%; bottom: 4%; translate: -50% 0; padding: 10px 18px; border-radius: 99px; white-space: nowrap;
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); font-size: 14px; }
+  .en-total b { font: 800 17px var(--round); margin-left: 6px; }
+  .en-ring { position: absolute; left: 50%; top: 50%; width: 230px; height: 230px; translate: -50% -50%; border-radius: 50%;
+    border: 1.5px dashed rgba(255,255,255,.2); animation: enSpin 28s linear infinite; }
+  .en-ring span { position: absolute; width: 58px; height: 58px; margin: -29px; border-radius: 50%; display: grid; place-items: center; font-size: 30px;
+    background: var(--c); box-shadow: 0 0 0 3px #08070f, 0 10px 26px rgba(0,0,0,.5); animation: enSpin 28s linear infinite reverse; }
+  .en-ring span:nth-child(1) { left: 50%; top: 0; } .en-ring span:nth-child(2) { left: 100%; top: 50%; }
+  .en-ring span:nth-child(3) { left: 50%; top: 100%; } .en-ring span:nth-child(4) { left: 0; top: 50%; }
+  @keyframes enSpin { to { rotate: 360deg; } }
+  .en-mid { position: absolute; left: 50%; top: 50%; translate: -50% -50%; }
+  .en-mid .ec { position: relative; }
+  .en-bell { position: absolute; left: 50%; top: 18%; translate: -50% 0; width: 84px; height: 84px; border-radius: 26px; display: grid; place-items: center;
+    background: linear-gradient(135deg, #ffd27a, #ff8a5c); box-shadow: 0 18px 44px rgba(255,140,80,.45); animation: enRing 2.4s ease-in-out infinite; }
+  .en-bell .i { width: 42px; height: 42px; color: #3a1d00; stroke-width: 2; --ic: #3a1d00; }
+  @keyframes enRing { 0%, 60%, 100% { rotate: 0deg; } 65% { rotate: 14deg; } 72% { rotate: -12deg; } 79% { rotate: 8deg; } 86% { rotate: -4deg; } }
+  .en-note { position: absolute; left: 50%; bottom: 10%; translate: -50% 0; width: min(310px, 92%); display: flex; gap: 11px; align-items: center; text-align: left;
+    padding: 12px 14px; border-radius: 18px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 16px 40px rgba(0,0,0,.45); animation: enDrop 3.2s ease-in-out infinite; }
+  .en-note img { width: 38px; height: 38px; border-radius: 10px; }
+  .en-note b { display: block; font-size: 14.5px; }
+  .en-note span { font-size: 13px; color: rgba(255,255,255,.75); }
+  @keyframes enDrop { 0% { opacity: 0; transform: translateY(-16px); } 12%, 85% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-8px); } }
+  .en-me { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+  .en-me .avatar.xl { width: 104px; height: 104px; font-size: 58px; }
+  .en-emojis { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; max-width: 330px; }
+  .en-emojis button { width: 44px; height: 44px; border-radius: 14px; border: 1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.07);
+    font-size: 23px; cursor: pointer; }
+  .en-emojis button.on { background: rgba(255,255,255,.22); border-color: #fff; }
+  #enName { width: min(330px, 100%); text-align: center; font-size: 19px; font-weight: 650; padding: 14px; border-radius: 16px;
+    background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2); color: #fff; }
+  #enName::placeholder { color: rgba(255,255,255,.45); }
+  @media (max-height: 700px) { .en-art { min-height: 180px; } .en-me .avatar.xl { width: 80px; height: 80px; font-size: 44px; } .en-slide h1 { margin-top: 10px; } }
+  @media (prefers-reduced-motion: reduce) { #enter *, #splash * { animation: none !important; } }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -1055,6 +1142,9 @@
 </style>
 </head>
 <body>
+<!-- Launch splash: shows instantly while the app gets ready -->
+<div id="splash" aria-hidden="true"><div class="sp-in"><img src="brand/logo-icon.svg" alt=""><b>Gift Keeper</b></div></div>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V8"/><path d="M18 17v-9"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol><symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.3l4.27-3.67a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.67a1 1 0 0 0 1.52-.3z"/><path d="M5 21h14"/></symbol><symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol><symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13.2 13.2 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M14 8v8M17 8v8"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol><symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol><symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol><symbol id="i-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3"/></symbol><symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></symbol><symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol><symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.56-2.5 5.56-5.56C22 6.02 17.5 2 12 2z"/></symbol></svg>
 <div class="app">
   <header>
@@ -1197,7 +1287,7 @@
       <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
     </div>
     <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.19 · Everything is saved only on this device.
+      Gift Keeper v0.20 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1533,14 +1623,62 @@
   </div>
 </div>
 
-<!-- First-time welcome tour -->
-<div class="overlay" id="welcomeOverlay">
-  <div class="sheet welcome">
-    <div id="welcomeBody"></div>
-    <div class="actions">
-      <button type="button" class="btn" id="welcomeSkip">Skip</button>
-      <button type="button" class="btn primary" id="welcomeNext">Next</button>
-    </div>
+<!-- Enter screen: the first thing a new person sees -->
+<div id="enter" hidden>
+  <div class="en-top">
+    <span class="en-brand"><img src="brand/logo-icon.svg" alt="">Gift Keeper</span>
+    <button type="button" class="en-skip" id="welcomeSkip">Skip</button>
+  </div>
+  <div class="en-stage" id="enStage">
+    <section class="en-slide">
+      <div class="en-art">
+        <img class="en-hero" src="img/enter-hero.png" alt="Gift cards bursting out of a glowing gift box">
+      </div>
+      <h1>Never lose a<br><span class="g">gift card</span> again</h1>
+      <p>All your family’s gift cards — balances, numbers and PINs — safe in one place.</p>
+    </section>
+    <section class="en-slide">
+      <div class="en-art">
+        <div class="ec f1 p"><span>Your wallet</span><span><small>TOTAL</small><br><em>$243.40</em></span></div>
+        <div class="ec f2 t"><span>Target</span><span><small>BALANCE</small><br><em>$50.00</em></span></div>
+        <div class="ec f3 s"><span>Starbucks</span><span><small>BALANCE</small><br><em>$18.40</em></span></div>
+        <div class="en-total">💸 <b>43%</b> of Americans have unused gift cards</div>
+      </div>
+      <h1>See every dollar<br><span class="g">you already have</span></h1>
+      <p>Add a card in seconds — paste it from an email, scan it, or tap a store. Show the barcode at checkout.</p>
+    </section>
+    <section class="en-slide">
+      <div class="en-art">
+        <div class="en-ring"><span style="--c:#7c5cff">👩</span><span style="--c:#2bb3a3">👨</span><span style="--c:#ff5fd2">👧</span><span style="--c:#f59e0b">👦</span></div>
+        <div class="en-mid"><div class="ec p"><span>Gift Keeper <b>Family</b></span><span><small>4 PEOPLE</small><br><em>12 cards</em></span></div></div>
+      </div>
+      <h1>One wallet for<br><span class="g">the whole family</span></h1>
+      <p>Everyone gets their own cards. Kids save toward goals, earn allowance and learn to manage money.</p>
+    </section>
+    <section class="en-slide">
+      <div class="en-art">
+        <div class="en-bell"><svg class="i i-bell" aria-hidden="true"><use href="#i-bell"/></svg></div>
+        <div class="en-note"><img src="brand/logo-icon.svg" alt=""><span><b>Use it! 🎯 Target · $50.00</b>Expires in 7 days — don’t lose it</span></div>
+      </div>
+      <h1>Spend it before<br><span class="g">it expires</span></h1>
+      <p>Gift Keeper reminds you before a card runs out, so the money gets used — not lost.</p>
+    </section>
+    <section class="en-slide">
+      <div class="en-art">
+        <div class="en-me">
+          <span class="avatar xl" id="enAvatar"></span>
+          <input id="enName" maxlength="20" placeholder="Your first name" autocomplete="given-name" enterkeyhint="done">
+          <div class="en-emojis" id="enEmojis"></div>
+        </div>
+      </div>
+      <h1>Let’s make it <span class="g">yours</span></h1>
+      <p>Pick a picture and tell us your name.</p>
+    </section>
+  </div>
+  <div class="en-bottom">
+    <div class="en-dots" id="enDots"></div>
+    <button type="button" class="en-go" id="welcomeNext">Get started</button>
+    <button type="button" class="en-alt" id="enAlt" hidden></button>
   </div>
 </div>
 
@@ -3905,7 +4043,7 @@ function checkout(link) {
 
 // ----- Settings → Account -----
 function renderAccount() {
-  $('footNote').textContent = `Gift Keeper v0.19 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('footNote').textContent = `Gift Keeper v0.20 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
   $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
   if (!cloudOn()) return;
   $('settingsAccount').innerHTML = !user
@@ -3974,33 +4112,87 @@ $('accountForm').addEventListener('submit', async e => {
 });
 $('acctBack').onclick = () => { $('acctStep1').hidden = false; $('acctStep2').hidden = true; $('acctError').textContent = ''; };
 
-// ---------- Welcome: a short tour the first time someone opens Gift Keeper ----------
-const WELCOME = [
-  { icon: 'wallet', title: 'Every gift card, in one place', text: 'Add the cards in your drawer, wallet and email. Gift Keeper keeps the balance, number and PIN ready for checkout.' },
-  { icon: 'users',  title: 'One wallet for the whole family', text: 'Add your partner and kids. Everyone sees their own cards, and kids can save toward goals.' },
-  { icon: 'bell',   title: 'Never let one expire', text: 'Gift Keeper warns you before a card runs out, so the money gets spent — not lost.' },
-];
-let welcomeStep = 0;
+// ---------- Enter screen: a full-screen welcome the first time someone opens Gift Keeper ----------
+const EN_FACES = ['🧑', '👩', '👨', '👧', '👦', '👵', '👴', '🐶', '🐱', '🦄', '🦊', '🚀'];
+let welcomeStep = 0, enFace = '🧑';
+const enSlides = () => [...document.querySelectorAll('.en-slide')];
 function showWelcome() {
   if (settings.welcomed || cards.length) return;
-  welcomeStep = 0; drawWelcome(); open('welcomeOverlay');
+  openEnter(0);
+}
+function openEnter(step) {
+  welcomeStep = step;
+  enFace = me().avatar || '🧑';
+  $('enName').value = me().name === 'Me' ? '' : me().name;
+  $('enter').hidden = false;
+  document.body.style.overflow = 'hidden';
+  drawWelcome();
 }
 function drawWelcome() {
-  const s = WELCOME[welcomeStep], last = welcomeStep === WELCOME.length - 1;
-  $('welcomeBody').innerHTML = `<div class="wl-icon">${ic(s.icon)}</div><h2>${s.title}</h2><p>${s.text}</p>
-    <div class="wl-dots">${WELCOME.map((_, i) => `<i class="${i === welcomeStep ? 'on' : ''}"></i>`).join('')}</div>`;
-  $('welcomeNext').textContent = last ? 'Add my first card' : 'Next';
-  $('welcomeSkip').textContent = last ? 'Maybe later' : 'Skip';
+  const slides = enSlides(), last = welcomeStep === slides.length - 1;
+  slides.forEach((s, i) => { s.classList.toggle('on', i === welcomeStep); s.classList.toggle('before', i < welcomeStep); });
+  $('enter').classList.toggle('past0', welcomeStep > 0);
+  $('enDots').innerHTML = slides.map((_, i) => `<i class="${i === welcomeStep ? 'on' : ''}"></i>`).join('');
+  $('welcomeNext').textContent = welcomeStep === 0 ? 'Get started' : last ? 'Add my first card' : 'Next';
+  $('welcomeSkip').hidden = last;
+  $('enAlt').hidden = !(last || (welcomeStep === 0 && cloudOn()));
+  $('enAlt').textContent = last ? 'Look around first' : 'I already have an account';
+  if (last) {
+    $('enAvatar').textContent = enFace;
+    $('enAvatar').style.setProperty('--av', me().color || '#7c5cff');
+    $('enEmojis').innerHTML = EN_FACES.map(f => `<button type="button" class="${f === enFace ? 'on' : ''}" data-face="${f}">${f}</button>`).join('');
+  }
 }
-function endWelcome() { settings.welcomed = true; saveSettings(); close('welcomeOverlay'); }
-$('welcomeNext').onclick = () => {
-  if (welcomeStep < WELCOME.length - 1) { welcomeStep++; return drawWelcome(); }
-  endWelcome();
-  openForm();
-  if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission().then(() => render());
+function enStep(d) {
+  const n = welcomeStep + d;
+  if (n < 0 || n >= enSlides().length) return;
+  welcomeStep = n;
+  drawWelcome();
+}
+function endWelcome(addCard = false) {
+  const name = $('enName').value.trim();
+  if (welcomeStep === enSlides().length - 1) {
+    const m = me();
+    if (name) m.name = name;
+    m.avatar = enFace;
+    saveFamily();
+  }
+  settings.welcomed = true;
+  saveSettings();
+  $('enter').hidden = true;
+  document.body.style.overflow = '';
+  render();
+  if (name) toast(`Welcome, ${name}!`);
+  if (addCard) {
+    openForm();
+    if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission().then(() => render());
+  }
+}
+$('welcomeNext').onclick = () => welcomeStep === enSlides().length - 1 ? endWelcome(true) : enStep(1);
+$('welcomeSkip').onclick = () => { welcomeStep = enSlides().length - 1; drawWelcome(); };   // skip the tour, still say hi
+$('enAlt').onclick = () => {
+  if (welcomeStep === enSlides().length - 1) return endWelcome();
+  settings.welcomed = true; saveSettings();
+  $('enter').hidden = true; document.body.style.overflow = '';
+  openAccount();
 };
-$('welcomeSkip').onclick = endWelcome;
-$('setTour').onclick = () => { settings.welcomed = false; welcomeStep = 0; drawWelcome(); open('welcomeOverlay'); };
+$('enEmojis').onclick = e => { const b = e.target.closest('[data-face]'); if (b) { enFace = b.dataset.face; drawWelcome(); } };
+$('enName').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('enName').blur(); } });
+// Swipe between slides
+let enTouch = null;
+$('enStage').addEventListener('touchstart', e => { enTouch = e.touches[0].clientX; }, { passive: true });
+$('enStage').addEventListener('touchend', e => {
+  if (enTouch === null) return;
+  const dx = e.changedTouches[0].clientX - enTouch;
+  enTouch = null;
+  if (Math.abs(dx) > 50) enStep(dx < 0 ? 1 : -1);
+});
+document.addEventListener('keydown', e => {
+  if ($('enter').hidden || e.target.id === 'enName') return;
+  if (e.key === 'ArrowRight') enStep(1);
+  if (e.key === 'ArrowLeft') enStep(-1);
+});
+$('setTour').onclick = () => openEnter(0);
 
 // ---------- Keeper Coins: an in-app currency, bought with real money and spent on styles and boosts ----------
 // Every coin change is a line in a ledger (bought, daily bonus, spent on an item). Balances and what someone
@@ -4486,6 +4678,7 @@ if (needsLock()) showLock('unlock');
   sendReminders();
   if (hasFamily()) openWho();   // shared device: ask who's here
   else showWelcome();
+  setTimeout(() => $('splash').classList.add('gone'), Math.max(0, 700 - performance.now()));
   cloudInit();
 })();
 // Re-check every hour in case the app stays open past midnight

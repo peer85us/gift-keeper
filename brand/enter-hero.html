@@ -1,0 +1,59 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+  body { margin: 0; background: transparent; font-family: ui-rounded, "SF Pro Rounded", -apple-system, sans-serif; }
+  #art { position: relative; width: 360px; height: 330px; overflow: hidden; }
+  svg.rays { position: absolute; inset: 0; }
+  .glow { position: absolute; left: 50%; top: 226px; width: 330px; height: 200px; translate: -50% -50%; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(255,222,140,.85), rgba(255,160,210,.35) 38%, rgba(255,160,210,.08) 70%, rgba(255,160,210,0) 100%); }
+  .card { position: absolute; left: 50%; top: 262px; width: 138px; height: 87px; margin-left: -69px; margin-top: -87px; border-radius: 13px;
+    transform-origin: 50% 100%; padding: 10px 11px; box-sizing: border-box; color: #fff; display: flex; flex-direction: column; justify-content: space-between;
+    box-shadow: 0 12px 26px rgba(20,0,60,.45), inset 0 1px 0 rgba(255,255,255,.45), inset 0 0 0 1px rgba(255,255,255,.12); overflow: hidden; }
+  .card::before { content: ""; position: absolute; inset: 0; background: linear-gradient(115deg, transparent 35%, rgba(255,255,255,.3) 48%, transparent 60%); }
+  .card::after { content: ""; position: absolute; width: 120px; height: 120px; right: -50px; bottom: -70px; border-radius: 50%; border: 16px solid rgba(255,255,255,.12); }
+  .top { display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 12.5px; position: relative; z-index: 1; }
+  .em { width: 23px; height: 23px; border-radius: 7px; background: rgba(255,255,255,.95); display: grid; place-items: center; font-size: 13px; }
+  .chip { position: absolute; right: 11px; top: 12px; width: 20px; height: 15px; border-radius: 4px; background: linear-gradient(135deg, #fff1b8, #d9a441); z-index: 1; }
+  .bal { position: relative; z-index: 1; font-weight: 800; font-size: 18px; letter-spacing: -.3px; }
+  .bal small { display: block; font-size: 7.5px; letter-spacing: .14em; opacity: .8; font-weight: 700; }
+  .c1 { background: linear-gradient(135deg, #ff5f6d, #c2185b); transform: translate(-84px, -34px) rotate(-22deg); }
+  .c4 { background: linear-gradient(135deg, #ffb547, #ff6a3d); transform: translate(84px, -34px) rotate(22deg); }
+  .c2 { background: linear-gradient(135deg, #22c38e, #0b7a55); transform: translate(-34px, -84px) rotate(-9deg); }
+  .c3 { background: linear-gradient(135deg, #8b6cff, #4f2bd6); transform: translate(36px, -66px) rotate(9deg); }
+  .box { position: absolute; left: 50%; top: 248px; width: 184px; height: 80px; margin-left: -92px; border-radius: 4px 4px 18px 18px;
+    background: linear-gradient(160deg, #a37bff, #7c4dff 45%, #5a2fd1); box-shadow: 0 22px 40px rgba(30,0,80,.55), inset 0 -10px 20px rgba(0,0,0,.18); }
+  .box::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 28px; margin-left: -14px; background: linear-gradient(90deg, #e6a224, #fff0a8 50%, #e6a224); }
+  .rim { position: absolute; left: 50%; top: 236px; width: 200px; height: 24px; margin-left: -100px; border-radius: 8px;
+    background: linear-gradient(180deg, #c9b0ff, #8a5cff); box-shadow: 0 6px 12px rgba(30,0,80,.35), inset 0 2px 0 rgba(255,255,255,.55); }
+  .rim::before { content: ""; position: absolute; left: 50%; top: 0; bottom: 0; width: 30px; margin-left: -15px; background: linear-gradient(90deg, #e6a224, #fff0a8 50%, #e6a224); }
+  .bow { position: absolute; left: 50%; top: 268px; width: 0; height: 0; }
+  .bow i { position: absolute; top: -16px; width: 42px; height: 30px; border-radius: 50% 50% 50% 50%; box-sizing: border-box;
+    background: radial-gradient(ellipse at 50% 50%, #c98614 0 22%, #f5c24a 24% 60%, #ffe9a0 62% 72%, #e6a224 74%); box-shadow: 0 4px 8px rgba(80,40,0,.35); }
+  .bow i:nth-child(1) { left: -46px; transform: rotate(-18deg); } .bow i:nth-child(2) { left: 4px; transform: rotate(18deg); }
+  .bow b { position: absolute; left: -10px; top: -9px; width: 20px; height: 18px; border-radius: 6px; background: linear-gradient(135deg, #fff0a8, #e6a224); box-shadow: 0 2px 6px rgba(80,40,0,.35); }
+  .coin { position: absolute; width: 28px; height: 28px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff8d6, #ffd25e 40%, #d98a16);
+    box-shadow: 0 6px 12px rgba(0,0,0,.3), inset 0 -2px 0 rgba(0,0,0,.18); display: grid; place-items: center; font: 900 14px ui-rounded, sans-serif; color: #a8620a; }
+  .spark { position: absolute; width: 18px; height: 18px; background: #fff;
+    clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); }
+</style></head><body>
+<div id="art">
+  <svg class="rays" viewBox="0 0 360 330"><defs><radialGradient id="rg" cx="180" cy="250" r="210" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffe7a8" stop-opacity=".5"/><stop offset=".35" stop-color="#ffb3e0" stop-opacity=".16"/><stop offset=".85" stop-color="#b9a8ff" stop-opacity="0"/></radialGradient></defs>
+    <g fill="url(#rg)"><polygon points="180,250 -58.7,224.9 -51.8,187.9"/><polygon points="180,250 -35.7,144.8 -16.6,112.3"/><polygon points="180,250 13.3,77.4 42.3,53.4"/><polygon points="180,250 82.4,30.7 117.9,18.2"/><polygon points="180,250 163.3,10.6 200.9,10.9"/><polygon points="180,250 246.2,19.3 281.4,32.5"/><polygon points="180,250 321.1,55.8 349.7,80.3"/><polygon points="180,250 379.0,115.8 397.5,148.6"/><polygon points="180,250 412.9,191.9 419.1,229.1"/><polygon points="180,250 418.7,275.1 411.8,312.1"/></g></svg>
+  <div class="glow"></div>
+  <div class="card c1"><div class="top"><span class="em">🍕</span>Pizza</div><span class="chip"></span><div class="bal"><small>BALANCE</small>$25.00</div></div>
+  <div class="card c4"><div class="top"><span class="em">🎬</span>Movies</div><span class="chip"></span><div class="bal"><small>BALANCE</small>$40.00</div></div>
+  <div class="card c2"><div class="top"><span class="em">☕</span>Coffee</div><span class="chip"></span><div class="bal"><small>BALANCE</small>$18.40</div></div>
+  <div class="card c3"><div class="top"><span class="em">🎮</span>Games</div><span class="chip"></span><div class="bal"><small>BALANCE</small>$50.00</div></div>
+  <div class="rim"></div>
+  <div class="box"></div>
+  <div class="bow"><i></i><i></i><b></b></div>
+  <span class="coin" style="left:16px;top:118px;transform:rotate(-15deg)">$</span>
+  <span class="coin" style="left:322px;top:96px;width:22px;height:22px;font-size:11px">$</span>
+  <span class="coin" style="left:318px;top:250px;transform:rotate(20deg)">$</span>
+  <span class="coin" style="left:36px;top:270px;width:20px;height:20px;font-size:10px">$</span>
+  <span class="spark" style="left:62px;top:70px"></span>
+  <span class="spark" style="left:276px;top:52px;width:13px;height:13px"></span>
+  <span class="spark" style="left:322px;top:100px;width:10px;height:10px"></span>
+  <span class="spark" style="left:24px;top:236px;width:11px;height:11px"></span>
+  <span class="spark" style="left:174px;top:18px;width:15px;height:15px"></span>
+</div>
+</body></html>
