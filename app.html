@@ -1028,6 +1028,20 @@
   @keyframes firepulse { 50% { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #ffb347, 0 0 26px #ff5a1f; } }
   @media (max-width: 420px) { .coin-btn { padding: 7px 9px; font-size: 12px; } }
 
+  /* Easier card typing */
+  .fill-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .fill-row .scan-top { padding-left: 8px; padding-right: 8px; white-space: nowrap; gap: 6px; font-size: 14.5px; }
+  .fill-row .scan-top .lock { font-size: 8.5px; padding: 1px 5px; margin-left: 2px; }
+  .paste-box { margin-top: 10px; }
+  #amtQuick { margin-top: 8px; }
+  #amtQuick .chip-btn { flex: 1; justify-content: center; }
+  .more-opts { margin-top: 16px; border-top: 1px solid var(--line); padding-top: 12px; }
+  .more-opts summary { cursor: pointer; font-weight: 650; list-style: none; display: flex; align-items: baseline; gap: 8px; }
+  .more-opts summary::-webkit-details-marker { display: none; }
+  .more-opts summary::after { content: "+"; margin-left: auto; color: var(--muted); font-size: 20px; line-height: 1; transition: rotate .2s; }
+  .more-opts[open] summary::after { rotate: 45deg; }
+  .more-opts summary span { font-weight: 400; font-size: 13px; color: var(--muted); }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -1183,7 +1197,7 @@
       <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
     </div>
     <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.18 · Everything is saved only on this device.
+      Gift Keeper v0.19 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1217,25 +1231,29 @@
       <div class="owner-row" id="ownerPicker"></div>
     </div>
 
-    <button type="button" class="btn scan-top" id="scanTop"><svg class="i i-camera" aria-hidden="true"><use href="#i-camera"/></svg> Scan card to fill everything</button>
+    <div class="fill-row">
+      <button type="button" class="btn scan-top" id="scanTop"><svg class="i i-camera" aria-hidden="true"><use href="#i-camera"/></svg> Scan card</button>
+      <button type="button" class="btn scan-top" id="pasteTop"><svg class="i i-mail" aria-hidden="true"><use href="#i-mail"/></svg> Paste from email</button>
+    </div>
+    <textarea id="pasteBox" class="paste-box" rows="3" hidden placeholder="Paste the gift card email or text here — we’ll pull out the store, number, PIN and amount"></textarea>
 
     <div class="preview" id="formPreview"></div>
 
     <!-- Store gift card fields -->
     <div id="storeFields">
       <label for="fStore">Store</label>
-      <input id="fStore" placeholder="Search or type a store name">
+      <input id="fStore" placeholder="Search or type a store name" enterkeyhint="next" autocapitalize="words">
       <div class="brands" id="brandPicker"></div>
 
       <label for="fNumber">Card number</label>
       <div class="input-row">
-        <input id="fNumber" class="mono" placeholder="6006 4912 3456 7890">
+        <input id="fNumber" class="mono" placeholder="6006 4912 3456 7890" enterkeyhint="next" autocapitalize="characters" autocorrect="off" spellcheck="false">
         <button type="button" class="btn" id="scanBtn"><svg class="i i-camera" aria-hidden="true"><use href="#i-camera"/></svg> Scan</button>
       </div>
       <div class="row">
         <div>
           <label for="fPin">PIN</label>
-          <input id="fPin" class="mono" placeholder="Optional">
+          <input id="fPin" class="mono" placeholder="Optional" inputmode="numeric" enterkeyhint="next">
         </div>
         <div>
           <label for="fExpires">Expires</label>
@@ -1247,16 +1265,16 @@
     <!-- Prepaid Visa / Mastercard / Amex / Discover fields -->
     <div id="prepaidFields" hidden>
       <label for="fCardNum">Card number</label>
-      <input id="fCardNum" class="mono" inputmode="numeric" placeholder="4111 1111 1111 1111" maxlength="23">
+      <input id="fCardNum" class="mono" inputmode="numeric" placeholder="4111 1111 1111 1111" maxlength="23" autocomplete="off" enterkeyhint="next">
       <div class="hint" id="netHint">Visa, Mastercard, Amex and Discover are detected automatically.</div>
       <div class="row">
         <div>
           <label for="fExp">Expires (MM/YY)</label>
-          <input id="fExp" class="mono" inputmode="numeric" placeholder="08/29" maxlength="5">
+          <input id="fExp" class="mono" inputmode="numeric" placeholder="08/29" maxlength="5" enterkeyhint="next">
         </div>
         <div>
           <label for="fCvv">Security code</label>
-          <input id="fCvv" class="mono" inputmode="numeric" placeholder="CVV" maxlength="4">
+          <input id="fCvv" class="mono" inputmode="numeric" placeholder="CVV" maxlength="4" enterkeyhint="next">
         </div>
       </div>
       <label for="fIssuer">Card name</label>
@@ -1266,13 +1284,23 @@
     <div class="row">
       <div>
         <label for="fAmount">Card value</label>
-        <input id="fAmount" type="number" step="0.01" min="0" inputmode="decimal" placeholder="$50.00">
+        <input id="fAmount" type="number" step="0.01" min="0" inputmode="decimal" placeholder="$50.00" enterkeyhint="next">
       </div>
       <div>
         <label for="fBalance">Balance left</label>
-        <input id="fBalance" type="number" step="0.01" min="0" inputmode="decimal" placeholder="Same as value">
+        <input id="fBalance" type="number" step="0.01" min="0" inputmode="decimal" placeholder="Same as value" enterkeyhint="done">
       </div>
     </div>
+    <div class="quick-amts" id="amtQuick">
+      <button type="button" class="chip-btn" data-amt="10">$10</button>
+      <button type="button" class="chip-btn" data-amt="15">$15</button>
+      <button type="button" class="chip-btn" data-amt="25">$25</button>
+      <button type="button" class="chip-btn" data-amt="50">$50</button>
+      <button type="button" class="chip-btn" data-amt="100">$100</button>
+    </div>
+
+    <details class="more-opts" id="moreOpts">
+      <summary>More options <span>gift from, color, style, notes</span></summary>
 
     <label for="fFrom">Gift from</label>
     <input id="fFrom" placeholder="e.g. Grandma (optional)">
@@ -1285,6 +1313,7 @@
 
     <label for="fNotes">Notes</label>
     <textarea id="fNotes" placeholder="e.g. Birthday gift from Grandma"></textarea>
+    </details>
     <div class="hint bad" id="formError"></div>
 
     <div class="actions">
@@ -2073,7 +2102,7 @@ function renderHeader() {
   $('proBtn').innerHTML = isUltra() ? `${ic('gem')}<span class="pl">Ultra</span>` : isPremium() ? `${ic('crown')}<span class="pl">Premium</span>` : `${ic('crown')}<span class="pl">Upgrade</span>`;
   $('proBtn').classList.toggle('on', isPremium() && !isUltra());
   $('proBtn').classList.toggle('ultra', isUltra());
-  $('scanTop').innerHTML = ic('camera') + ' Scan card to fill everything' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
+  $('scanTop').innerHTML = ic('camera') + ' Scan card' + (isPremium() ? '' : ' <span class="lock">PREMIUM</span>');
   $('addMemberBtn').innerHTML = '+ Add family member' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
 }
 
@@ -2297,7 +2326,7 @@ function readForm() {
     return { ...base, network, store: $('fIssuer').value.trim(), number: formatCardNumber(number),
              exp: $('fExp').value, cvv: $('fCvv').value.trim(), expires: expToDate($('fExp').value), pin: '' };
   }
-  return { ...base, network: null, store: $('fStore').value.trim(), number: $('fNumber').value.trim(),
+  return { ...base, network: null, store: $('fStore').value.trim(), number: plainNumber($('fNumber').value),
            pin: $('fPin').value.trim(), expires: $('fExpires').value, exp: '', cvv: '' };
 }
 
@@ -2321,7 +2350,7 @@ function openForm(id = null) {
   const c = cards.find(x => x.id === id) || {};
   $('formTitle').textContent = id ? 'Edit Card' : 'Add Card';
   $('fStore').value = isPrepaid(c) ? '' : (c.store || '');
-  $('fNumber').value = isPrepaid(c) ? '' : (c.number || '');
+  $('fNumber').value = isPrepaid(c) ? '' : groupNumber(c.number || '');
   $('fPin').value = c.pin || '';
   $('fExpires').value = isPrepaid(c) ? '' : (c.expires || '');
   $('fCardNum').value = isPrepaid(c) ? (c.number || '') : '';
@@ -2332,6 +2361,8 @@ function openForm(id = null) {
   $('fBalance').value = c.balance ?? '';
   $('fNotes').value = c.notes || '';
   $('fFrom').value = c.from || '';
+  $('moreOpts').open = !!(c.from || c.notes || c.color || c.theme);
+  $('pasteBox').hidden = true; $('pasteBox').value = '';
   formOwner = c.owner || (isParent() && walletScope !== 'all' ? walletScope : family.current);
   renderOwnerPicker();
   formColor = c.color || '';
@@ -2389,6 +2420,7 @@ $('brandPicker').onclick = e => {
   if (!b) return;
   $('fStore').value = b.dataset.brand;
   updatePreview();
+  $('fNumber').focus();
 };
 $('fCardNum').addEventListener('input', () => { $('fCardNum').value = formatCardNumber($('fCardNum').value); });
 $('fExp').addEventListener('input', e => {
@@ -2397,6 +2429,66 @@ $('fExp').addEventListener('input', e => {
 });
 $('fCvv').addEventListener('input', () => { $('fCvv').value = digits($('fCvv').value).slice(0, 4); });
 $('cardForm').addEventListener('input', updatePreview);
+
+// ---------- Easier typing in the card form ----------
+// Store card numbers show in groups of 4 while typing (letters are fine, e.g. Amazon claim codes)
+const plainNumber = v => /^[\d\s-]+$/.test(v.trim()) ? digits(v) : v.trim().toUpperCase();
+const groupNumber = v => /^\d{8,}$/.test(v) ? v.replace(/(.{4})(?=.)/g, '$1 ') : v;
+$('fNumber').addEventListener('input', e => {
+  const el = $('fNumber');
+  if (e.inputType?.startsWith('delete') || el.selectionStart !== el.value.length) return;   // don't jump the cursor
+  const d = digits(el.value);
+  if (/^[\d\s-]+$/.test(el.value) && d.length >= 5) el.value = d.replace(/(.{4})(?=.)/g, '$1 ');
+});
+
+// "Paste from email": read the clipboard (or let them paste into the box) and fill everything we can find
+$('pasteTop').onclick = async () => {
+  let text = '';
+  try { text = await navigator.clipboard.readText(); } catch {}
+  if (text.trim() && fillFromFound(parseCardText(text))) return;
+  $('pasteBox').hidden = false;
+  $('pasteBox').focus();
+};
+$('pasteBox').addEventListener('input', () => {
+  const text = $('pasteBox').value;
+  if (text.trim().length < 8) return;
+  if (fillFromFound(parseCardText(text))) { $('pasteBox').hidden = true; $('pasteBox').value = ''; }
+});
+// Pasting a whole email into the store or number box fills the form instead
+['fStore', 'fNumber'].forEach(id => $(id).addEventListener('paste', e => {
+  const text = e.clipboardData?.getData('text') || '';
+  if (text.length < 30 && !/\n/.test(text)) return;
+  const found = parseCardText(text);
+  if (!found.number && !found.store) return;
+  e.preventDefault();
+  fillFromFound(found);
+}));
+
+$('amtQuick').onclick = e => {
+  const b = e.target.closest('[data-amt]');
+  if (!b) return;
+  $('fAmount').value = b.dataset.amt;
+  updatePreview();
+};
+
+// Return / "Next" on the phone keyboard moves to the next box instead of saving half a card
+const FIELD_ORDER = { store: ['fStore', 'fNumber', 'fPin', 'fAmount', 'fBalance'], prepaid: ['fCardNum', 'fExp', 'fCvv', 'fAmount', 'fBalance'] };
+$('cardForm').addEventListener('keydown', e => {
+  if (e.key !== 'Enter' || e.target.tagName === 'TEXTAREA' || e.target.type === 'submit' || e.target.type === 'button') return;
+  const order = FIELD_ORDER[formType], i = order.indexOf(e.target.id);
+  if (i === -1 || i === order.length - 1) return;   // last box: Enter saves
+  e.preventDefault();
+  $(order[i + 1]).focus();
+});
+// Prepaid cards: jump ahead once a box is complete
+$('fCardNum').addEventListener('input', () => {
+  const n = digits($('fCardNum').value);
+  if (n.length >= (detectNetwork(n) === 'amex' ? 15 : 16) && luhnOk(n)) $('fExp').focus();
+});
+$('fExp').addEventListener('input', () => { if ($('fExp').value.length === 5) $('fCvv').focus(); });
+$('fCvv').addEventListener('input', () => {
+  if ($('fCvv').value.length === (detectNetwork(digits($('fCardNum').value)) === 'amex' ? 4 : 3)) $('fAmount').focus();
+});
 
 $('cardForm').addEventListener('submit', e => {
   e.preventDefault();
@@ -2852,8 +2944,9 @@ function renderFound() {
   $('scanUseRow').hidden = !Object.keys(d).length;
 }
 
-function applyScan() {
-  const d = scanData;
+function applyScan() { fillFromFound(scanData); stopScanner(); }
+function fillFromFound(d) {
+  scanData = d;
   const kind = scanKind();
   setFormType(kind);
   let filled = 0;
@@ -2864,14 +2957,14 @@ function applyScan() {
     fill('fCvv', d.cvv);
   } else {
     fill('fStore', d.store);
-    fill('fNumber', d.barcode || d.number);
+    fill('fNumber', groupNumber(d.barcode || d.number || ''));
     fill('fPin', d.pin);
     fill('fExpires', expToDate(d.exp));
   }
   if ($('fAmount').value === '') fill('fAmount', d.amount);
-  stopScanner();
   updatePreview();
-  toast(`Filled ${filled} field${filled === 1 ? '' : 's'} — please double-check`);
+  toast(filled ? `Filled ${filled} field${filled === 1 ? '' : 's'} — please double-check` : 'Couldn’t find card details in that text');
+  return filled;
 }
 
 $('scanBtn').onclick = openScanner;
@@ -3812,7 +3905,7 @@ function checkout(link) {
 
 // ----- Settings → Account -----
 function renderAccount() {
-  $('footNote').textContent = `Gift Keeper v0.18 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('footNote').textContent = `Gift Keeper v0.19 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
   $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
   if (!cloudOn()) return;
   $('settingsAccount').innerHTML = !user
