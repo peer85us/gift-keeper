@@ -1117,7 +1117,7 @@
       <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
     </div>
     <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.16 · Everything is saved only on this device.
+      Gift Keeper v0.17 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1592,6 +1592,9 @@ const PREMIUM_PRICE = '$9.99';
 const ULTRA_PRICE = '$19.99';
 const PAYMENT_LINK_ULTRA = '';   // Stripe Payment Link for Ultra (redirect: app.html?premium=success&tier=ultra)
 const FREE_CARD_LIMIT = 5;
+// Without payment links, plans unlock for free only on your own computer (opened as a file) so you can try them.
+// On the real website they say “coming soon” instead, so nobody gets Premium or Ultra for free.
+const TEST_MODE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname);
 // Paste a Stripe Payment Link here to take real money. Set its "after payment" redirect to
 // https://peer85us.github.io/gift-keeper/app.html?premium=success so the upgrade switches on when the customer comes back.
 const PAYMENT_LINK = '';
@@ -1708,8 +1711,9 @@ function saveGiven() { localStorage.setItem(GIVEN_KEY, JSON.stringify(given)); c
 function saveSettings() { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }
 
 function loadPremium() {
-  try { return JSON.parse(localStorage.getItem(PREMIUM_KEY)) || null; }
-  catch { return null; }
+  let p = null;
+  try { p = JSON.parse(localStorage.getItem(PREMIUM_KEY)); } catch {}
+  return p?.test && !TEST_MODE ? null : p;   // free test plans only count on your own computer
 }
 function savePremium() {
   if (premium) localStorage.setItem(PREMIUM_KEY, JSON.stringify(premium));
@@ -3707,7 +3711,7 @@ function checkout(link) {
 
 // ----- Settings → Account -----
 function renderAccount() {
-  $('footNote').textContent = `Gift Keeper v0.16 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('footNote').textContent = `Gift Keeper v0.17 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
   $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
   if (!cloudOn()) return;
   $('settingsAccount').innerHTML = !user
@@ -3844,7 +3848,8 @@ function openPremium(reason = '') {
   $('pmBuyUltra').textContent = isUltra() ? 'Current plan' : `Ultra · ${ULTRA_PRICE}`;
   $('pmFine').textContent = !parent ? 'Only parents can change the plan — ask a parent!'
     : PAYMENT_LINK ? 'Billed monthly. Cancel any time.'
-    : 'Test mode — payments aren’t connected yet, so this unlocks the plan for free.';
+    : TEST_MODE ? 'Test mode — payments aren’t connected yet, so this unlocks the plan for free.'
+    : 'Paid plans are coming very soon.';
   open('premiumOverlay');
 }
 function activatePremium(test, tier = 'premium') {
@@ -3856,11 +3861,11 @@ function activatePremium(test, tier = 'premium') {
   toast(tier === 'ultra' ? 'Welcome to Ultra' : 'Welcome to Premium');
 }
 $('pmBuy').onclick = () => {
-  if (!PAYMENT_LINK) return activatePremium(true, 'premium');
+  if (!PAYMENT_LINK) return TEST_MODE ? activatePremium(true, 'premium') : toast('Premium is coming very soon');
   checkout(PAYMENT_LINK);
 };
 $('pmBuyUltra').onclick = () => {
-  if (!PAYMENT_LINK_ULTRA) return activatePremium(true, 'ultra');
+  if (!PAYMENT_LINK_ULTRA) return TEST_MODE ? activatePremium(true, 'ultra') : toast('Ultra is coming very soon');
   checkout(PAYMENT_LINK_ULTRA);
 };
 $('settingsPlan').onclick = e => {
@@ -3879,7 +3884,7 @@ if (new URLSearchParams(location.search).get('premium') === 'success') {
   const tier = new URLSearchParams(location.search).get('tier') === 'ultra' ? 'ultra' : 'premium';
   history.replaceState(null, '', location.pathname);
   if (cloudOn()) pendingUpgrade = true;   // the server confirms the payment once we're signed in
-  else if (!isPremium() || (tier === 'ultra' && !isUltra())) setTimeout(() => activatePremium(false, tier), 300);
+  else if ((PAYMENT_LINK || TEST_MODE) && (!isPremium() || (tier === 'ultra' && !isUltra()))) setTimeout(() => activatePremium(false, tier), 300);
 }
 
 $('settingsUltra').onclick = e => {
