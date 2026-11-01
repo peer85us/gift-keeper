@@ -1129,6 +1129,11 @@
   @media (max-height: 700px) { .en-art { min-height: 180px; } .en-me .avatar.xl { width: 80px; height: 80px; font-size: 44px; } .en-slide h1 { margin-top: 10px; } }
   @media (prefers-reduced-motion: reduce) { #enter *, #splash * { animation: none !important; } }
 
+  #askOverlay { z-index: 70; }
+  .ask p { font-size: 17px; font-weight: 600; line-height: 1.45; margin: 6px 2px 14px; }
+  .ask input { margin-bottom: 4px; text-align: center; font-size: 20px; letter-spacing: 2px; }
+  #askYes.danger-fill { background: #ff4d6d; color: #fff; border-color: transparent; box-shadow: 0 8px 22px rgba(255,77,109,.35); }
+
   /* Fixes kept from the redesign */
   .mini { white-space: nowrap; }
   .pm-buttons .btn:disabled { opacity: .55; }
@@ -1623,6 +1628,18 @@
   </div>
 </div>
 
+<!-- In-app questions ("Delete this card?") instead of browser pop-ups -->
+<div class="overlay" id="askOverlay">
+  <form class="sheet ask" id="askForm" novalidate>
+    <p id="askText"></p>
+    <input id="askInput" hidden autocomplete="off" autocapitalize="characters">
+    <div class="actions">
+      <button type="button" class="btn" id="askNo">Cancel</button>
+      <button type="submit" class="btn primary" id="askYes">OK</button>
+    </div>
+  </form>
+</div>
+
 <!-- Enter screen: the first thing a new person sees -->
 <div id="enter" hidden>
   <div class="en-top">
@@ -1770,6 +1787,12 @@
 
 <script src="https://unpkg.com/@zxing/library@0.21.3/umd/index.min.js"></script>
 <script>
+// Some frames block storage; keep the app working (unsaved) instead of crashing
+try { localStorage.getItem('giftKeeper.test'); } catch {
+  const mem = {};
+  try { Object.defineProperty(window, 'localStorage', { configurable: true, value: { getItem: k => mem[k] ?? null,
+    setItem: (k, v) => { mem[k] = String(v); }, removeItem: k => { delete mem[k]; }, clear: () => { for (const k in mem) delete mem[k]; } } }); } catch {}
+}
 // crypto.randomUUID only exists on https pages; this keeps ids working when the app is opened over home Wi-Fi
 if (!crypto.randomUUID) crypto.randomUUID = () => '10000000-1000-4000-8000-100000000000'.replace(/[018]/g, c =>
   (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
@@ -2724,7 +2747,7 @@ function showDetail(id) {
     <div class="panel timeline">${c.history.slice().reverse().map(h =>
       `<div><span>${esc(h.note)} <small>· ${fmtDate(h.date)}${hasFamily() && member(h.by) ? ` · by ${esc(member(h.by).name)}` : ''}</small></span><b>${money(h.balance)}</b></div>`).join('')}</div>`;
 
-  $('detail').onclick = e => {
+  $('detail').onclick = async e => {
     const b = e.target.closest('[data-act]');
     if (!b) return;
     const act = b.dataset.act;
@@ -2745,7 +2768,7 @@ function showDetail(id) {
       close('detailOverlay');
       openForm(id);
     } else if (act === 'delete') {
-      if (!confirm(`Delete ${displayName(c)}? This can’t be undone.`)) return;
+      if (!await ask(`Delete ${displayName(c)}? This can’t be undone.`, { ok: 'Delete', danger: true })) return;
       cards = cards.filter(x => x.id !== id);
       save(); close('detailOverlay'); render(); toast('Card deleted');
     }
@@ -3186,9 +3209,9 @@ function renderGiven() {
       </div>`).join('')
     : '<div class="empty-state" style="padding:18px 6px">No gifts logged yet. Gave a gift card for a birthday or to a teacher? Log it here.</div>';
 }
-$('givenList').onclick = e => {
+$('givenList').onclick = async e => {
   const b = e.target.closest('[data-del]');
-  if (!b || !confirm('Delete this gift from the list?')) return;
+  if (!b || !await ask('Delete this gift from the list?', { ok: 'Delete', danger: true })) return;
   given = given.filter(g => g.id !== b.dataset.del);
   saveGiven();
   renderGiven();
@@ -3299,10 +3322,10 @@ $('memberForm').addEventListener('submit', e => {
   if (!editingMember) confetti();
 });
 
-$('mDelete').onclick = () => {
+$('mDelete').onclick = async () => {
   const m = member(editingMember);
   const own = cards.filter(c => c.owner === m.id);
-  if (!confirm(`Remove ${m.name} from the family?${own.length ? ` Their ${own.length} card${own.length === 1 ? '' : 's'} will move to you.` : ''}`)) return;
+  if (!await ask(`Remove ${m.name} from the family?${own.length ? ` Their ${own.length} card${own.length === 1 ? '' : 's'} will move to you.` : ''}`, { ok: 'Remove', danger: true })) return;
   own.forEach(c => { c.owner = family.current; });
   family.members = family.members.filter(x => x.id !== m.id);
   if (walletScope === m.id) walletScope = 'all';
@@ -3571,8 +3594,8 @@ document.addEventListener('keydown', e => {
   else if (e.key === 'Escape' && lockMode !== 'unlock') $('lockOverlay').classList.remove('open');
   e.stopPropagation();
 }, true);
-$('lockForgot').onclick = () => {
-  if (!confirm('The passcode can’t be recovered. To get back in, all gift cards and family data on this device will be deleted (restore them from a backup file). Continue?')) return;
+$('lockForgot').onclick = async () => {
+  if (!await ask('The passcode can’t be recovered. To get back in, all gift cards and family data on this device will be deleted (restore them from a backup file). Continue?', { ok: 'Delete everything', danger: true })) return;
   localStorage.clear();
   location.reload();
 };
@@ -4061,9 +4084,9 @@ $('settingsAccount').onclick = async e => {
   if (e.target.closest('#acctSignIn')) openAccount();
   if (e.target.closest('#acctOut')) { await sb.auth.signOut(); syncState = ''; toast('Signed out'); render(); }
   if (e.target.closest('#acctJoin')) {
-    const code = (prompt('Family invite code') || '').trim().toUpperCase();
+    const code = ((await ask('Type the family invite code', { ok: 'Next', input: 'AB12CD34' })) || '').toUpperCase();
     if (!code) return;
-    if (!confirm('Join that family? This phone will show their family wallet instead of what’s on it now.')) return;
+    if (!await ask('Join that family? This phone will show their family wallet instead of what’s on it now.', { ok: 'Join' })) return;
     const { data: fam, error } = await sb.rpc('join_family', { code });
     if (error || !fam) return toast('That code didn’t work — check it and try again');
     cloudFamily = fam;
@@ -4073,7 +4096,7 @@ $('settingsAccount').onclick = async e => {
     render(); toast('You’re in the family');
   }
   if (e.target.closest('#acctDelete')) {
-    if (!confirm('Delete your account? Your sign-in is removed, and the family’s cloud copy too if nobody else is in it. Cards on this phone stay. Cancel any paid plan in billing first.')) return;
+    if (!await ask('Delete your account? Your sign-in is removed, and the family’s cloud copy too if nobody else is in it. Cards on this phone stay. Cancel any paid plan in billing first.', { ok: 'Delete account', danger: true })) return;
     const { error } = await sb.rpc('delete_me');
     if (error) return toast('Couldn’t delete the account — try again');
     await sb.auth.signOut(); cloudFamily = null; syncState = '';
@@ -4437,6 +4460,25 @@ if (new URLSearchParams(location.search).has('paid')) {
   pendingCoins = true;
 }
 
+// ---------- In-app questions ----------
+// confirm() and prompt() are blocked when the app runs inside some frames (like a Claude artifact),
+// and they look out of place — so questions use a sheet in the app. Resolves true/false, or the typed text.
+let askDone = null;
+function ask(text, { ok = 'OK', danger = false, input = '' } = {}) {
+  askDone?.(false);
+  $('askText').textContent = text;
+  $('askInput').hidden = !input;
+  $('askInput').placeholder = input;
+  $('askInput').value = '';
+  $('askYes').textContent = ok;
+  $('askYes').className = 'btn ' + (danger ? 'danger-fill' : 'primary');
+  open('askOverlay');
+  if (input) setTimeout(() => $('askInput').focus(), 150);
+  return new Promise(resolve => { askDone = v => { askDone = null; close('askOverlay'); resolve(v); }; });
+}
+$('askForm').addEventListener('submit', e => { e.preventDefault(); askDone?.($('askInput').hidden ? true : $('askInput').value.trim()); });
+$('askNo').onclick = () => askDone?.(false);
+
 // ---------- Premium ----------
 const isPremium = () => !!premium;
 const isUltra = () => premium?.tier === 'ultra';
@@ -4499,11 +4541,11 @@ $('pmBuyUltra').onclick = () => {
   if (!PAYMENT_LINK_ULTRA) return TEST_MODE ? activatePremium(true, 'ultra') : toast('Ultra is coming very soon');
   checkout(PAYMENT_LINK_ULTRA);
 };
-$('settingsPlan').onclick = e => {
+$('settingsPlan').onclick = async e => {
   if (e.target.closest('#setUpgrade')) openPremium();
   if (e.target.closest('#setUltra')) openPremium('ultra');
   if (e.target.closest('#setCancel') && premium?.cloud) return BILLING_PORTAL ? void (location.href = BILLING_PORTAL) : toast('Open the receipt email from Stripe to manage your plan');
-  if (e.target.closest('#setCancel') && confirm(`Cancel ${isUltra() ? 'Ultra' : 'Premium'}? You’ll keep all your cards.`)) {
+  if (e.target.closest('#setCancel') && await ask(`Cancel ${isUltra() ? 'Ultra' : 'Premium'}? You’ll keep all your cards.`, { ok: 'Cancel plan', danger: true })) {
     premium = null;
     savePremium();
     render();
@@ -4518,13 +4560,13 @@ if (new URLSearchParams(location.search).get('premium') === 'success') {
   else if ((PAYMENT_LINK || TEST_MODE) && (!isPremium() || (tier === 'ultra' && !isUltra()))) setTimeout(() => activatePremium(false, tier), 300);
 }
 
-$('settingsUltra').onclick = e => {
+$('settingsUltra').onclick = async e => {
   if (e.target.closest('#setWrap')) return openWrap();
   if (e.target.closest('#setCsv')) return exportCsv();
   if (e.target.closest('#setLock')) {
     if (!isUltra()) return openPremium('lock');
     if (settings.lockHash) {
-      if (!confirm('Turn off App lock?')) return;
+      if (!await ask('Turn off App lock?', { ok: 'Turn off' })) return;
       delete settings.lockHash;
       saveSettings();
       render();
@@ -4579,7 +4621,7 @@ $('importFile').onchange = async () => {
   try {
     const data = JSON.parse(await file.text());
     if (!Array.isArray(data.cards) || !data.family?.members?.length) throw new Error('not a backup');
-    if (!confirm(`Replace everything on this device with the backup (${data.cards.length} cards, ${data.family.members.length} people)?`)) return;
+    if (!await ask(`Replace everything on this device with the backup (${data.cards.length} cards, ${data.family.members.length} people)?`, { ok: 'Restore' })) return;
     cards = data.cards;
     given = Array.isArray(data.given) ? data.given : [];
     saveGiven();
@@ -4594,8 +4636,8 @@ $('importFile').onchange = async () => {
     toast('That file isn’t a Gift Keeper backup');
   }
 };
-$('wipeBtn').onclick = () => {
-  if (!confirm('Delete ALL gift cards and family members from this device? This can’t be undone.')) return;
+$('wipeBtn').onclick = async () => {
+  if (!await ask('Delete ALL gift cards and family members from this device? This can’t be undone.', { ok: 'Delete everything', danger: true })) return;
   [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, KIDBANK_KEY, COINS_KEY].forEach(k => localStorage.removeItem(k));
   indexedDB.deleteDatabase('giftKeeper');
   location.reload();
@@ -4632,6 +4674,7 @@ document.querySelectorAll('.overlay').forEach(o => {
   o.addEventListener('click', e => {
     if (e.target !== o && !e.target.closest('[data-close]')) return;
     if (o.id === 'scanOverlay') stopScanner();
+    else if (o.id === 'askOverlay') askDone?.(false);
     else if (o.id === 'cardOverlay') closeCard();
     else if (o.id === 'payOverlay') closePay();
     else close(o.id);
@@ -4642,6 +4685,7 @@ document.addEventListener('keydown', e => {
   const top = [...document.querySelectorAll('.overlay.open')].pop();
   if (!top) return;
   if (top.id === 'scanOverlay') stopScanner();
+  else if (top.id === 'askOverlay') askDone?.(false);
   else if (top.id === 'cardOverlay') closeCard();
   else if (top.id === 'payOverlay') closePay();
   else close(top.id);
