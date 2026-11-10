@@ -1,5 +1,5 @@
 // Keeps Gift Keeper working offline: serve from the network when we can, the cache when we can't.
-const CACHE = 'gift-keeper-v2';
+const CACHE = 'gift-keeper-v3';
 const FILES = ['app.html', 'manifest.webmanifest', 'img/icon-192.png', 'img/icon-512.png'];
 
 self.addEventListener('install', e => {
@@ -13,7 +13,7 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
   e.respondWith(fetch(e.request).then(res => {
-    if (res.ok && new URL(e.request.url).origin === location.origin) {
+    if (res.status === 200 && new URL(e.request.url).origin === location.origin) {   // not 206 video ranges — the cache can't store those
       const copy = res.clone();
       caches.open(CACHE).then(c => c.put(e.request, copy));
     }

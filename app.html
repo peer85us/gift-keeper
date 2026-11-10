@@ -1180,6 +1180,15 @@
   @keyframes giWobble { 0%, 100% { transform: rotate(0) scale(1); } 20% { transform: rotate(-9deg) scale(1.05); } 40% { transform: rotate(8deg) scale(1.05); } 60% { transform: rotate(-4deg); } }
   @keyframes giPop { from { transform: scale(.5) rotate(-8deg); opacity: 0; } }
 
+  /* Intro video: plays the first time someone opens Gift Keeper */
+  #intro { position: fixed; inset: 0; z-index: 82; background: #08070f; display: flex; align-items: center; justify-content: center; }
+  #intro[hidden] { display: none; }
+  #intro video { height: 100%; width: 100%; object-fit: contain; }
+  #intro button { position: absolute; border: 1px solid rgba(255,255,255,.25); background: rgba(10,8,20,.55); color: #fff; cursor: pointer;
+    font: 650 15px inherit; font-family: inherit; border-radius: 99px; padding: 10px 16px; -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  #introSkip { top: max(16px, env(safe-area-inset-top)); right: 16px; }
+  #introSound { bottom: max(24px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; }
+
   /* Family card swaps */
   .swap-pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin: 4px 0 6px; }
   .swap-pair .arrow { width: 26px; height: 26px; }
@@ -1370,10 +1379,11 @@
       <a class="setting" href="privacy.html" target="_blank"><span><svg class="i i-shield" aria-hidden="true"><use href="#i-shield"/></svg>Privacy Policy</span><span class="go">›</span></a>
       <a class="setting" href="terms.html" target="_blank"><span><svg class="i i-book" aria-hidden="true"><use href="#i-book"/></svg>Terms of Use</span><span class="go">›</span></a>
       <a class="setting" href="https://github.com/peer85us/gift-keeper/issues" target="_blank"><span><svg class="i i-mail" aria-hidden="true"><use href="#i-mail"/></svg>Send feedback<span class="sub">Found a problem or have an idea? Tell us</span></span><span class="go">›</span></a>
+      <button class="setting" id="setIntro"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Watch the Gift Keeper video</span><span class="go">›</span></button>
       <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
     </div>
     <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.22 · Everything is saved only on this device.
+      Gift Keeper v0.23 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1838,6 +1848,13 @@
       <button type="submit" class="btn primary">Confirm balance</button>
     </div>
   </form>
+</div>
+
+<!-- Intro video: the first time someone opens Gift Keeper (and from Settings) -->
+<div id="intro" hidden>
+  <video id="introVid" playsinline muted preload="none" poster="img/intro-poster.jpg"><source src="img/intro.mp4" type="video/mp4"></video>
+  <button type="button" id="introSkip">Skip</button>
+  <button type="button" id="introSound">🔊 Tap for sound</button>
 </div>
 
 <!-- Someone opened a gift card link -->
@@ -4228,7 +4245,7 @@ function checkout(link) {
 
 // ----- Settings → Account -----
 function renderAccount() {
-  $('footNote').textContent = `Gift Keeper v0.22 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('footNote').textContent = `Gift Keeper v0.23 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
   $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
   if (!cloudOn()) return;
   $('settingsAccount').innerHTML = !user
@@ -4304,6 +4321,8 @@ const enSlides = () => [...document.querySelectorAll('.en-slide')];
 function showWelcome() {
   if (settings.welcomed || cards.length) return;
   openEnter(0);
+  // Once per phone; someone opening a gift goes straight to their present
+  if (!incoming && !settings.introSeen) { settings.introSeen = true; saveSettings(); playIntro(); }
 }
 function openEnter(step) {
   welcomeStep = step;
@@ -4810,6 +4829,37 @@ $('startSwapBtn').onclick = () => {
   if (!swapCards(family.current).length && !isParent()) return toast('You need a card with money on it to swap');
   openSwap(swapCards(family.current).length ? family.current : family.members.find(m => swapCards(m.id).length)?.id || family.current);
 };
+
+// ---------- Intro video ----------
+// Starts muted (phones only autoplay silent video); one tap turns the sound on.
+function playIntro() {
+  const v = $('introVid');
+  $('intro').hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('introSound').hidden = false;
+  v.muted = true;
+  v.currentTime = 0;
+  v.play().catch(() => {});
+  v.onended = endIntro;
+}
+function endIntro() {
+  const v = $('introVid');
+  v.pause();
+  v.onended = null;
+  $('intro').hidden = true;
+  if ($('enter').hidden && !document.querySelector('.overlay.open')) document.body.style.overflow = '';
+}
+function introSound() {
+  const v = $('introVid');
+  v.muted = false;
+  v.currentTime = 0;
+  v.play().catch(() => {});
+  $('introSound').hidden = true;
+}
+$('introSkip').onclick = endIntro;
+$('introSound').onclick = introSound;
+$('introVid').onclick = () => { if ($('introVid').muted) introSound(); };
+$('setIntro').onclick = playIntro;
 
 // ---------- Sharing: send a gift card as a link, invite friends, share a picture of the wallet ----------
 // Every share brings someone new to Gift Keeper. Links always point at the real website, even when testing.
