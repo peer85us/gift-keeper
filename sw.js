@@ -1,5 +1,5 @@
 // Keeps Gift Keeper working offline: serve from the network when we can, the cache when we can't.
-const CACHE = 'gift-keeper-v1';
+const CACHE = 'gift-keeper-v2';
 const FILES = ['app.html', 'manifest.webmanifest', 'img/icon-192.png', 'img/icon-512.png'];
 
 self.addEventListener('install', e => {

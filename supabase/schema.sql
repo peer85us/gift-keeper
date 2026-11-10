@@ -132,7 +132,20 @@ begin
   insert into coin_ledger (family_id, member, delta, reason) values (fid, member, 5, 'daily:' || current_date);
 end $$;
 
-revoke all on function buy_item(uuid, text, text), claim_daily(uuid, text) from anon;
+-- One-time bonuses: sharing your invite link (25 coins) and joining from a friend's link (50)
+create or replace function claim_bonus(fid uuid, member text, kind text) returns void
+language plpgsql security definer set search_path = public as $$
+declare amount int := case kind when 'share' then 25 when 'invite' then 50 end;
+begin
+  if not is_member(fid) then raise exception 'not in this family'; end if;
+  if amount is null then raise exception 'unknown bonus'; end if;
+  perform pg_advisory_xact_lock(hashtext(fid::text || member));
+  if exists (select 1 from coin_ledger l where l.family_id = fid and l.member = claim_bonus.member and l.reason = 'bonus:' || kind)
+    then raise exception 'already claimed'; end if;
+  insert into coin_ledger (family_id, member, delta, reason) values (fid, member, amount, 'bonus:' || kind);
+end $$;
+
+revoke all on function buy_item(uuid, text, text), claim_daily(uuid, text), claim_bonus(uuid, text, text) from anon;
 
 -- Live updates: phones in the same family see changes right away
 alter publication supabase_realtime add table families, subscriptions, coin_ledger;

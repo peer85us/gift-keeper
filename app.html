@@ -10,6 +10,13 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="img/icon-180.png">
 <title>Gift Keeper</title>
+<meta name="description" content="Every gift card for the whole family in one place — balances, reminders, and send one to anyone by text.">
+<meta property="og:title" content="Gift Keeper 🎁">
+<meta property="og:description" content="Every gift card for the whole family in one place. Tap to open.">
+<meta property="og:image" content="https://peer85us.github.io/gift-keeper/img/social.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22%3E %3Cdefs%3E %3ClinearGradient id=%22gk-bg%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E %3Cstop offset=%220%22 stop-color=%22%237c5cff%22/%3E %3Cstop offset=%22.5%22 stop-color=%22%23d14dff%22/%3E %3Cstop offset=%221%22 stop-color=%22%23ff7a59%22/%3E %3C/linearGradient%3E %3ClinearGradient id=%22gk-gold%22 x1=%220%22 y1=%220%22 x2=%221%22 y2=%221%22%3E %3Cstop offset=%220%22 stop-color=%22%23ffe08a%22/%3E %3Cstop offset=%221%22 stop-color=%22%23ff9f43%22/%3E %3C/linearGradient%3E %3CradialGradient id=%22gk-glow%22 cx=%22.25%22 cy=%22.15%22 r=%22.8%22%3E %3Cstop offset=%220%22 stop-color=%22%23fff%22 stop-opacity=%22.35%22/%3E %3Cstop offset=%221%22 stop-color=%22%23fff%22 stop-opacity=%220%22/%3E %3C/radialGradient%3E %3C/defs%3E %3Crect width=%22512%22 height=%22512%22 rx=%22116%22 fill=%22url(%23gk-bg)%22/%3E %3Crect width=%22512%22 height=%22512%22 rx=%22116%22 fill=%22url(%23gk-glow)%22/%3E %3Crect x=%22118%22 y=%22132%22 width=%22300%22 height=%22190%22 rx=%2230%22 fill=%22%23fff%22 opacity=%22.32%22 transform=%22rotate(-13 268 227)%22/%3E %3Cg transform=%22rotate(-5 256 300)%22%3E %3Crect x=%2292%22 y=%22200%22 width=%22328%22 height=%22206%22 rx=%2232%22 fill=%22%23fff%22/%3E %3Crect x=%22178%22 y=%22200%22 width=%2240%22 height=%22206%22 fill=%22url(%23gk-gold)%22/%3E %3Crect x=%22262%22 y=%22318%22 width=%22118%22 height=%2216%22 rx=%228%22 fill=%22%23e9e2ff%22/%3E %3Crect x=%22262%22 y=%22350%22 width=%2278%22 height=%2216%22 rx=%228%22 fill=%22%23e9e2ff%22/%3E %3Cg fill=%22none%22 stroke=%22url(%23gk-gold)%22 stroke-width=%2220%22 stroke-linecap=%22round%22%3E %3Cpath d=%22M198 200 C 150 196, 128 140, 160 128 C 184 120, 196 162, 198 200 Z%22/%3E %3Cpath d=%22M198 200 C 246 196, 268 140, 236 128 C 212 120, 200 162, 198 200 Z%22/%3E %3C/g%3E %3Ccircle cx=%22198%22 cy=%22200%22 r=%2220%22 fill=%22url(%23gk-gold)%22/%3E %3C/g%3E %3C/svg%3E">
 <style>
   :root {
@@ -861,7 +868,8 @@
   .i-chart, .i-download, .i-upload, .i-user, .i-card, .i-store { --ic: #6cb6ff; }
   .i-camera, .i-keyboard, .i-eye, .i-eye-off { --ic: #5fd8ff; }
   .i-crown, .i-coins, .i-hourglass, .i-trophy { --ic: #ffd27a; }
-  .i-gift, .i-sparkles, .i-heart, .i-cake, .i-mail { --ic: #ff7ad1; }
+  .i-gift, .i-sparkles, .i-heart, .i-cake, .i-mail, .i-send { --ic: #ff7ad1; }
+  .i-share, .i-swap { --ic: #4cc9f0; }
   .i-clock, .i-bell, .i-calendar, .i-bag { --ic: #ffa45c; }
   .i-target, .i-trash, .i-ban, .i-alert { --ic: #ff6b81; }
   .i-pencil, .i-settings, .i-snow, .i-book, .i-cap, .i-palette, .i-trend { --ic: #c9b8ff; }
@@ -1144,13 +1152,75 @@
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
   }
+
+  /* Sharing: send a card as a gift, invite friends, share the wallet */
+  .confetti { z-index: 95; }
+  .hero-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hero-btns .eye-btn { display: inline-flex; align-items: center; gap: 6px; }
+  .send-preview { max-width: 300px; margin: 4px auto 14px; }
+  .send-move { display: flex; align-items: center; gap: 10px; margin: 14px 2px 4px; font-size: 15px; cursor: pointer; }
+  .send-move input { width: 20px; height: 20px; margin: 0; accent-color: #d14dff; }
+  .invite-row { display: flex; align-items: center; gap: 12px; width: 100%; margin: 0 0 14px; padding: 14px 16px; border-radius: 18px; cursor: pointer;
+    text-align: left; color: #fff; font: inherit; border: 1px solid rgba(255,255,255,.16);
+    background: linear-gradient(120deg, rgba(124,92,255,.35), rgba(209,77,255,.28) 50%, rgba(255,122,89,.25)); }
+  .invite-row .i { width: 26px; height: 26px; flex: none; }
+  .invite-row b { display: block; font-size: 16px; }
+  .invite-row small { color: rgba(255,255,255,.75); font-size: 13px; }
+  #giftIn { position: fixed; inset: 0; z-index: 85; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px;
+    text-align: center; color: #fff; padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+    background: radial-gradient(70% 45% at 30% 20%, rgba(209,77,255,.45), transparent 70%), radial-gradient(60% 40% at 80% 80%, rgba(255,122,89,.3), transparent 70%), #08070f; }
+  #giftIn[hidden] { display: none; }
+  #giftIn small { color: rgba(255,255,255,.7); font-size: 15px; }
+  #giftIn h1 { margin: 0; font: 800 30px/1.15 var(--round); letter-spacing: -.02em; }
+  #giftIn .gi-box { font-size: 120px; line-height: 1; border: 0; background: none; cursor: pointer; padding: 10px; animation: giWobble 1.4s ease-in-out infinite; }
+  #giftIn .gi-card { width: min(340px, 100%); animation: giPop .6s cubic-bezier(.2,1.4,.4,1) both; }
+  #giftIn .gi-msg { max-width: 340px; font-size: 17px; font-style: italic; color: rgba(255,255,255,.9); }
+  #giftIn .btn { width: min(340px, 100%); flex: none; }
+  #giftIn .gi-later { background: none; border: 0; color: rgba(255,255,255,.65); font: 600 15px inherit; font-family: inherit; cursor: pointer; padding: 8px; }
+  @keyframes giWobble { 0%, 100% { transform: rotate(0) scale(1); } 20% { transform: rotate(-9deg) scale(1.05); } 40% { transform: rotate(8deg) scale(1.05); } 60% { transform: rotate(-4deg); } }
+  @keyframes giPop { from { transform: scale(.5) rotate(-8deg); opacity: 0; } }
+
+  /* Family card swaps */
+  .swap-pair { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin: 4px 0 6px; }
+  .swap-pair .arrow { width: 26px; height: 26px; }
+  .swap-slot { border: 1px dashed var(--line); border-radius: 16px; min-height: 92px; padding: 10px; display: flex; flex-direction: column;
+    justify-content: center; align-items: center; text-align: center; gap: 4px; font-size: 13px; color: var(--muted); }
+  .swap-slot.on { border: 0; color: #fff; background: linear-gradient(135deg, var(--c), #1a1530); box-shadow: 0 10px 26px rgba(0,0,0,.35); }
+  .swap-slot b { font-size: 15px; color: #fff; }
+  .swap-slot .bal { font: 800 20px var(--round); color: #fff; }
+  .swap-who { display: flex; align-items: center; gap: 8px; margin: 16px 2px 8px; font-weight: 700; font-size: 14px; }
+  .swap-opts { display: grid; gap: 8px; }
+  .swap-opt { display: flex; align-items: center; gap: 12px; width: 100%; padding: 10px 12px; border-radius: 14px; cursor: pointer; font: inherit;
+    color: var(--ink); text-align: left; background: var(--surface-2); border: 1px solid var(--line); }
+  .swap-opt.on { border-color: #d14dff; box-shadow: 0 0 0 2px rgba(209,77,255,.35); }
+  .swap-opt .chip { width: 38px; height: 26px; border-radius: 6px; flex: none; background: linear-gradient(135deg, var(--c), #1a1530); }
+  .swap-opt span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .swap-opt b { font-variant-numeric: tabular-nums; }
+  .swap-sum { text-align: center; font-size: 14px; margin: 14px 0 0; }
+  .swap-sum.uneven { color: #ffb84d; }
+  .swap-row { display: flex; align-items: center; gap: 10px; padding: 12px; margin-bottom: 10px; border-radius: 16px;
+    background: rgba(76,201,240,.08); border: 1px solid rgba(76,201,240,.28); }
+  .swap-row .info { flex: 1; min-width: 0; font-size: 14px; line-height: 1.4; }
+  .swap-row .s { color: var(--muted); font-size: 12.5px; display: block; }
+  .swap-row .btns { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+  .swap-row .warn, .swap-opt em { color: #ffb84d; font-style: normal; }
+  .swap-opt em { font-size: 12px; margin-left: 6px; }
+  .swap-note { margin: 0 0 12px; padding: 10px 12px; border-radius: 14px; font-size: 13.5px; background: rgba(76,201,240,.08); border: 1px solid rgba(76,201,240,.28); }
+  #verifyOverlay { z-index: 12; }
+  .verify-card { max-width: 280px; margin: 0 auto 12px; }
+  .verify-why { font-size: 14.5px; line-height: 1.45; color: var(--muted); margin: 0 2px 12px; text-align: center; }
+  .verify-check { display: flex; justify-content: center; align-items: center; gap: 6px; text-decoration: none; }
+  .verify-exp { font-size: 14px; margin: 10px 2px 0; }
+  .gi-checked { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px; font-size: 14px;
+    background: rgba(61,220,151,.14); color: #7dffc4; }
+  .gi-checked.warn { background: rgba(255,184,77,.14); color: #ffd27a; }
 </style>
 </head>
 <body>
 <!-- Launch splash: shows instantly while the app gets ready -->
 <div id="splash" aria-hidden="true"><div class="sp-in"><img src="brand/logo-icon.svg" alt=""><b>Gift Keeper</b></div></div>
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V8"/><path d="M18 17v-9"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol><symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.3l4.27-3.67a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.67a1 1 0 0 0 1.52-.3z"/><path d="M5 21h14"/></symbol><symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol><symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13.2 13.2 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M14 8v8M17 8v8"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol><symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol><symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol><symbol id="i-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3"/></symbol><symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></symbol><symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol><symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.56-2.5 5.56-5.56C22 6.02 17.5 2 12 2z"/></symbol></svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol><symbol id="i-gear" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol><symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5"/><path d="M13 17V8"/><path d="M18 17v-9"/></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol><symbol id="i-keyboard" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></symbol><symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.3l4.27-3.67a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.67a1 1 0 0 0 1.52-.3z"/><path d="M5 21h14"/></symbol><symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol><symbol id="i-gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5C10 3 12 8 12 8s2-5 4.5-5a2.5 2.5 0 0 1 0 5"/></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol><symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol><symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-eye-off" viewBox="0 0 24 24"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.4 10.4 0 0 1 12 5c7 0 10 7 10 7a13.2 13.2 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.5 13.5 0 0 0 2 12s3 7 10 7a9.7 9.7 0 0 0 5.39-1.61"/><path d="m2 2 20 20"/></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol><symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol><symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol><symbol id="i-table" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol><symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol><symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></symbol><symbol id="i-scan" viewBox="0 0 24 24"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"/><path d="M7 8v8M10 8v8M14 8v8M17 8v8"/></symbol><symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol><symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></symbol><symbol id="i-ban" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m4.9 4.9 14.2 14.2"/></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></symbol><symbol id="i-card" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></symbol><symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol><symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/></symbol><symbol id="i-hourglass" viewBox="0 0 24 24"><path d="M5 22h14M5 2h14M17 22v-4.17a2 2 0 0 0-.59-1.42L12 12l-4.41 4.41A2 2 0 0 0 7 17.83V22M7 2v4.17a2 2 0 0 0 .59 1.42L12 12l4.41-4.41A2 2 0 0 0 17 6.17V2"/></symbol><symbol id="i-heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></symbol><symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol><symbol id="i-trophy" viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol><symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol><symbol id="i-cake" viewBox="0 0 24 24"><path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"/><path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"/><path d="M2 21h20M7 8v3M12 8v3M17 8v3"/></symbol><symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9 4.9 19.1"/></symbol><symbol id="i-book" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></symbol><symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></symbol><symbol id="i-cap" viewBox="0 0 24 24"><path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol><symbol id="i-trend" viewBox="0 0 24 24"><path d="m22 7-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></symbol><symbol id="i-share" viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><path d="m16 6-4-4-4 4"/><path d="M12 2v13"/></symbol><symbol id="i-swap" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol><symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol><symbol id="i-palette" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.84-.44-1.13-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.56-2.5 5.56-5.56C22 6.02 17.5 2 12 2z"/></symbol></svg>
 <div class="app">
   <header>
     <div class="logo"><svg class="mark" viewBox="0 0 512 512" aria-hidden="true">
@@ -1200,6 +1270,7 @@
   <section class="page" id="page-wallet">
   <div id="alerts"></div>
   <div id="kidAlerts"></div>
+  <div id="swapAlerts"></div>
 
   <section class="hero">
     <div class="hero-stack" id="heroStack"></div>
@@ -1208,7 +1279,10 @@
     <div class="stats" id="stats"></div>
  <div id="heroGoal"></div>
     <div id="breakdown"></div>
-    <button class="eye-btn" id="eyeBtn" aria-label="Hide amounts"></button>
+    <div class="hero-btns">
+      <button class="eye-btn" id="eyeBtn" aria-label="Hide amounts"></button>
+      <button class="eye-btn" id="shareWalletBtn"><svg class="i i-share" aria-hidden="true"><use href="#i-share"/></svg>Share</button>
+    </div>
   </section>
 
   <div class="toolbar">
@@ -1233,6 +1307,11 @@
       <div class="stats" id="famStats"></div>
     </section>
     <div id="kidMoney"></div>
+    <div id="swapSection">
+      <div class="section-title"><svg class="i i-swap" aria-hidden="true"><use href="#i-swap"/></svg> Card swaps</div>
+      <div id="swapList"></div>
+      <button class="add-row" id="startSwapBtn">+ Swap a card with someone in the family</button>
+    </div>
     <div class="section-title">Family members</div>
     <div id="memberList"></div>
     <button class="add-row" id="addMemberBtn">+ Add family member</button>
@@ -1274,6 +1353,8 @@
     <div class="list-panel" id="settingsPlan"></div>
     <div class="section-title">Ultra</div>
     <div class="list-panel" id="settingsUltra"></div>
+    <div class="section-title">Spread the word</div>
+    <div class="list-panel" id="settingsInvite"></div>
     <div id="parentSettings">
       <div class="section-title">Backup</div>
       <div class="list-panel">
@@ -1292,7 +1373,7 @@
       <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
     </div>
     <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.20 · Everything is saved only on this device.
+      Gift Keeper v0.22 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1699,6 +1780,69 @@
   </div>
 </div>
 
+<!-- Send one of our gift cards to someone as a link -->
+<div class="overlay" id="sendOverlay">
+  <form class="sheet" id="sendForm" autocomplete="off" novalidate>
+    <div class="sheet-head">
+      <h2 id="sendTitle">Send as a gift</h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="send-preview" id="sendPreview"></div>
+    <div class="row">
+      <div>
+        <label for="sTo">Who it’s for</label>
+        <input id="sTo" placeholder="e.g. Grandma">
+      </div>
+      <div>
+        <label for="sFrom">From</label>
+        <input id="sFrom" placeholder="Your name">
+      </div>
+    </div>
+    <label for="sMsg">Message</label>
+    <input id="sMsg" maxlength="200" placeholder="Happy birthday! 🎉">
+    <label class="send-move"><input type="checkbox" id="sMove">Take it out of my wallet after sending</label>
+    <p class="shop-fine">They’ll get a link that opens the card in Gift Keeper — no app or account needed. Anyone with the link can use the card, so send it only to them.</p>
+    <div class="hint bad" id="sendError"></div>
+    <div class="actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn primary"><svg class="i i-send" aria-hidden="true"><use href="#i-send"/></svg> Send</button>
+    </div>
+  </form>
+</div>
+
+<!-- Swap a gift card with someone in the family -->
+<div class="overlay" id="swapOverlay">
+  <div class="sheet">
+    <div class="sheet-head">
+      <h2>Swap cards</h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="swapBody"></div>
+  </div>
+</div>
+
+<!-- Before a card changes hands: check it with the store -->
+<div class="overlay" id="verifyOverlay">
+  <form class="sheet" id="verifyForm" autocomplete="off" novalidate>
+    <div class="sheet-head">
+      <h2 id="verifyTitle">Check the balance</h2>
+      <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
+    </div>
+    <div id="verifyBody"></div>
+    <label for="vBal">Balance right now</label>
+    <input id="vBal" type="number" step="0.01" min="0" inputmode="decimal">
+    <label class="send-move"><input type="checkbox" id="vSure">I just checked it with the store</label>
+    <div class="hint bad" id="vErr"></div>
+    <div class="actions">
+      <button type="button" class="btn" data-close>Cancel</button>
+      <button type="submit" class="btn primary">Confirm balance</button>
+    </div>
+  </form>
+</div>
+
+<!-- Someone opened a gift card link -->
+<div id="giftIn" hidden></div>
+
 <!-- Log a gift card we gave -->
 <div class="overlay" id="giftOverlay">
   <form class="sheet" id="giftForm" autocomplete="off" novalidate>
@@ -2010,7 +2154,7 @@ const $ = id => document.getElementById(id);
 const ic = (name, cls = '') => `<svg class="i i-${name} ${cls}" aria-hidden="true"><use href="#i-${name}"/></svg>`;
 const money = n => '$' + (Number(n) || 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const today = () => new Date().toISOString().slice(0, 10);
+const today = () => new Date().toLocaleDateString('en-CA');   // YYYY-MM-DD in the phone's own time zone (toISOString is UTC — tomorrow, on US evenings)
 const digits = s => String(s || '').replace(/\D/g, '');
 const fmtDate = d => new Date(d + 'T00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
@@ -2252,6 +2396,7 @@ function render() {
   renderScope();
   renderAlerts();
   renderKidAlerts();
+  renderSwaps();
   renderHero();
   renderFilters();
   renderList();
@@ -2717,6 +2862,9 @@ function showDetail(id) {
        href="https://www.google.com/search?q=${encodeURIComponent(displayName(c) + ' gift card check balance')}">Check balance online ↗</a>
 
     <button class="btn gold" data-act="pay" style="margin-top:14px">${ic('scan')} Pay at checkout${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</button>
+    ${swaps.some(w => w.give === c.id || w.get === c.id) ? `<p class="swap-note" style="margin-top:12px">${ic('swap')} This card is in a swap. If its balance changes, the swap gets cancelled.</p>` : ''}
+    ${isParent() && !tradeProblem(c) ? `<button class="btn" data-act="send" style="margin-top:10px;width:100%">${ic('send')} Send as a gift</button>` : ''}
+    ${canSwap(c) ? `<button class="btn" data-act="swap" style="margin-top:10px;width:100%">${ic('swap')} Swap with family</button>` : ''}
     <div class="quick">
       <button class="btn primary" data-act="balance">Update Balance</button>
       <button class="btn" data-act="edit">Edit</button>
@@ -2762,6 +2910,11 @@ function showDetail(id) {
       navigator.clipboard?.writeText(b.dataset.value).then(() => toast('Copied'), () => toast('Couldn’t copy'));
     } else if (act === 'pay') {
       isPremium() ? openPay(id) : openPremium('checkout');
+    } else if (act === 'send') {
+      openSend(id);
+    } else if (act === 'swap') {
+      close('detailOverlay');
+      openSwap(c.owner, id);
     } else if (act === 'balance') {
       openBalance(id);
     } else if (act === 'edit') {
@@ -3693,7 +3846,7 @@ const round2 = n => Math.round(n * 100) / 100;
 function kbTx(a, desc, amount, type, extra = {}) {
   a.tx.push({ id: crypto.randomUUID(), date: today(), desc, amount: round2(amount), type, by: family.current, ...extra });
 }
-const addDays = (date, n) => { const d = new Date(date + 'T00:00'); d.setDate(d.getDate() + n); return d.toISOString().slice(0, 10); };
+const addDays = (date, n) => { const d = new Date(date + 'T00:00'); d.setDate(d.getDate() + n); return d.toLocaleDateString('en-CA'); };
 
 // Pay any allowance and savings interest that came due since the app was last opened
 function processKidbank() {
@@ -3928,6 +4081,11 @@ function renderSettings() {
 
   const tag = isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>';
   renderAccount();
+  $('settingsInvite').innerHTML = `
+    <button class="setting" id="setInvite"><span>${ic('send')}Invite friends<span class="sub">They get ${INVITE_COINS} free Keeper Coins${hasBonus('share') ? '' : ` — you get ${SHARE_COINS} the first time you share`}</span></span><span class="mini ok">Invite</span></button>
+    <button class="setting" id="setShareWallet"><span>${ic('share')}Share my wallet<span class="sub">A picture of your gift cards for your story or group chat</span></span><span class="go">›</span></button>`;
+  $('setInvite').onclick = invite;
+  $('setShareWallet').onclick = shareWallet;
   $('settingsUltra').innerHTML = `
     ${isParent() ? `<button class="setting" id="setLock"><span>${ic('lock')}App lock${tag}<span class="sub">${isUltra() && settings.lockHash ? 'On — a passcode is needed to open Gift Keeper' : 'Ask for a passcode every time Gift Keeper opens'}</span></span><span class="mini">${isUltra() && settings.lockHash ? 'Turn off' : 'Set up'}</span></button>` : ''}
     <button class="setting" id="setWrap"><span>${ic('sparkles')}Year in review${tag}<span class="sub">Your ${today().slice(0, 4)} in gift cards, story-style</span></span><span class="go">›</span></button>
@@ -3959,7 +4117,7 @@ async function cloudInit() {
 }
 
 // What gets shared with the family. Who is holding this phone (family.current) and device settings stay local.
-const snapshot = () => ({ cards, members: family.members, given, kidbank, asks: shop.asks });
+const snapshot = () => ({ cards, members: family.members, given, kidbank, asks: shop.asks, swaps });
 function applyCloud(d, merge) {
   const mix = (local, remote) => merge ? [...remote, ...local.filter(x => !remote.some(r => r.id === x.id))] : remote;
   applying = true;
@@ -3968,9 +4126,10 @@ function applyCloud(d, merge) {
   if (!family.members.some(m => m.id === family.current)) family.current = (family.members.find(m => m.role === 'parent') || family.members[0]).id;
   given = mix(given, d.given || []);
   kidbank = merge ? { ...kidbank, ...(d.kidbank || {}) } : (d.kidbank || {});
+  swaps = mix(swaps, d.swaps || []);
   shop.asks = mix(shop.asks, d.asks || []);
   saveShop();
-  save(); saveFamily(); saveGiven(); saveKidbank();
+  save(); saveFamily(); saveGiven(); saveKidbank(); saveSwaps();
   applying = false;
 }
 // A brand-new device only has the starter "Me" profile — nothing worth merging
@@ -4069,7 +4228,7 @@ function checkout(link) {
 
 // ----- Settings → Account -----
 function renderAccount() {
-  $('footNote').textContent = `Gift Keeper v0.20 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('footNote').textContent = `Gift Keeper v0.22 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
   $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
   if (!cloudOn()) return;
   $('settingsAccount').innerHTML = !user
@@ -4303,6 +4462,8 @@ function renderShop() {
       return `<div class="ask-row">${avatar(m)}<span class="info"><b>${esc(m.name)}</b> asked for ${coin(p.coins + p.bonus)} <span class="s">(${p.price})</span></span>
         ${parent ? `<button class="mini ok" data-act="askYes" data-id="${a.id}">Buy</button><button class="mini" data-act="askNo" data-id="${a.id}">No</button>` : '<span class="s">Waiting for a parent</span>'}</div>`;
     }).join('');
+    html += `<button class="invite-row" data-act="invite">${ic('send')}<span><b>Free coins — invite a friend</b>
+      <small>They get ${INVITE_COINS} coins when they join${hasBonus('share') ? '' : `, you get ${SHARE_COINS}`}</small></span></button>`;
     html += `<div class="shop-grid">${COIN_PACKS.map(p => `
       <button class="shop-item pack" data-act="pack" data-id="${p.id}">
         ${p.tag ? `<span class="tag">${p.tag}</span>` : ''}
@@ -4382,6 +4543,7 @@ $('shopOverlay').onclick = async e => {
   if (b.dataset.tab) shopTab = b.dataset.tab;
   const act = b.dataset.act;
   if (act === 'daily') await claimDaily(who);
+  if (act === 'invite') await invite();
   if (act === 'pack') {
     const p = COIN_PACKS.find(x => x.id === b.dataset.id);
     if (isParent()) buyPack(p, who.id);
@@ -4459,6 +4621,427 @@ if (new URLSearchParams(location.search).has('paid')) {
   history.replaceState(null, '', location.pathname);
   pendingCoins = true;
 }
+
+// ---------- Is this card really good? Checked before it's swapped or sent ----------
+// Gift Keeper can't see inside a store's system, so the person with the card checks the balance with the store
+// and confirms it here. Expired or empty cards can't change hands, and a check is good for a day.
+const isExpired = c => !!c.expires && daysLeft(c.expires) < 0;
+const freshCheck = c => !!c.checked && daysLeft(c.checked) >= -1;
+const tradeProblem = c => !c ? 'is gone' : isExpired(c) ? 'has expired' : !(Number(c.balance) > 0) ? 'has no money left' : '';
+let verifyDone = null, verifyId = null;
+function ensureChecked(c) {
+  if (tradeProblem(c)) { toast(`${c ? displayName(c) : 'That card'} ${tradeProblem(c)}, so it can’t be traded`); return Promise.resolve(false); }
+  if (freshCheck(c)) return Promise.resolve(true);
+  verifyDone?.(false);
+  verifyId = c.id;
+  const owner = member(c.owner), whose = !owner || owner.id === family.current ? 'this' : possessive(owner.name);
+  $('verifyTitle').textContent = `Check ${displayName(c)}`;
+  $('verifyBody').innerHTML = `
+    <div class="verify-card">${cardVisual(c)}</div>
+    <p class="verify-why">Before ${esc(whose)} card changes hands, make sure the money is really still on it. Cards can be spent or drained without Gift Keeper knowing.</p>
+    <a class="btn verify-check" target="_blank" rel="noopener"
+       href="https://www.google.com/search?q=${encodeURIComponent(displayName(c) + ' gift card check balance')}">${ic('search')} Check the balance with ${esc(displayName(c))} ↗</a>
+    ${c.expires ? `<p class="verify-exp">${ic('calendar')} ${esc(expiryText(c.expires))}${expiringSoon(c) ? ' — use it soon' : ''}</p>` : ''}`;
+  $('vBal').value = c.balance;
+  $('vSure').checked = false;
+  $('vErr').textContent = '';
+  open('verifyOverlay');
+  return new Promise(resolve => { verifyDone = resolve; });
+}
+function endVerify(ok) {
+  const done = verifyDone;
+  verifyDone = null;
+  close('verifyOverlay');
+  done?.(ok);
+}
+$('verifyForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const c = cards.find(x => x.id === verifyId), bal = Math.round((Number($('vBal').value) || 0) * 100) / 100;
+  const error = $('vBal').value === '' ? 'What does the store say is on the card?' : !$('vSure').checked ? 'Check it with the store first, then tick the box.' : '';
+  $('vErr').textContent = error;
+  if (error || !c) return;
+  if (bal !== Number(c.balance)) { c.balance = bal; c.history.push({ date: today(), balance: bal, note: 'Balance checked with the store', by: family.current }); }
+  c.checked = today();
+  save();
+  render();
+  if (!(bal > 0)) { toast('No money left on it, so it can’t be traded'); return endVerify(false); }
+  toast('Balance checked');
+  endVerify(true);
+});
+
+// ---------- Card swaps: trade a gift card with someone in the family ----------
+// "My Roblox card for your Target card." The other person says yes, and if a kid is in the swap a parent OKs it too.
+// Only inside the family on purpose — swaps with strangers are where gift card scams happen.
+const SWAPS_KEY = 'giftKeeper.swaps.v1';
+let swaps = [];
+try { swaps = JSON.parse(localStorage.getItem(SWAPS_KEY)) || []; } catch {}
+function saveSwaps() { localStorage.setItem(SWAPS_KEY, JSON.stringify(swaps)); cloudSoon(); }
+const swapCards = id => cards.filter(c => c.owner === id && !tradeProblem(c));
+const canSwap = c => hasFamily() && !tradeProblem(c) && (c.owner === family.current || isParent())
+  && family.members.some(m => m.id !== c.owner && swapCards(m.id).length);
+let swapFor = null, swapGive = null, swapGet = null;
+
+function openSwap(who = family.current, give = null) {
+  swapFor = who; swapGive = give; swapGet = null;
+  renderSwapSheet();
+  open('swapOverlay');
+}
+function renderSwapSheet() {
+  const owner = member(swapFor), give = cards.find(c => c.id === swapGive), get = cards.find(c => c.id === swapGet);
+  const slot = (c, text) => c
+    ? `<div class="swap-slot on" style="--c:${colorFor(c)}"><b>${esc(displayName(c))}</b><span class="bal">${money(c.balance)}</span>${avatar(member(c.owner), 'sm')}</div>`
+    : `<div class="swap-slot">${text}</div>`;
+  const opt = c => `<button class="swap-opt ${c.id === swapGive || c.id === swapGet ? 'on' : ''}" data-pick="${c.id}">
+    <i class="chip" style="--c:${colorFor(c)}"></i><span>${esc(displayName(c))}${expiringSoon(c) ? `<em>${esc(expiryText(c.expires).toLowerCase())}</em>` : ''}</span><b>${money(c.balance)}</b></button>`;
+  let html = `<p class="swap-note">${ic('shield')} Only cards that haven’t expired and still have money can be swapped. Both cards get checked with the store before anything changes hands.</p>
+    <div class="swap-pair">${slot(give, `${esc(owner.id === family.current ? 'Your' : possessive(owner.name))} card`)}${ic('swap', 'arrow')}${slot(get, 'Their card')}</div>`;
+  if (!give) {
+    html += `<div class="swap-who">${avatar(owner, 'sm')} Pick ${owner.id === family.current ? 'your' : esc(possessive(owner.name))} card to swap</div>
+      <div class="swap-opts">${swapCards(owner.id).map(opt).join('') || '<div class="empty-state">No cards with money on them yet.</div>'}</div>`;
+  } else {
+    html += family.members.filter(m => m.id !== owner.id && swapCards(m.id).length).map(m =>
+      `<div class="swap-who">${avatar(m, 'sm')} ${esc(possessive(m.name))} cards</div><div class="swap-opts">${swapCards(m.id).map(opt).join('')}</div>`).join('');
+  }
+  if (give && get) {
+    const diff = get.balance - give.balance;
+    html += `<p class="swap-sum ${Math.abs(diff) >= 0.01 ? 'uneven' : ''}">${Math.abs(diff) < 0.01 ? 'An even swap — same amount both ways.'
+      : diff > 0 ? `${esc(member(get.owner).name)} gives ${money(diff)} more than ${owner.id === family.current ? 'you do' : esc(owner.name) + ' does'}.`
+      : `${owner.id === family.current ? 'You give' : esc(owner.name) + ' gives'} ${money(-diff)} more than ${esc(member(get.owner).name)}.`}</p>
+      <div class="actions"><button class="btn" data-pick="back">Back</button><button class="btn primary" data-pick="offer">${ic('swap')} Offer swap</button></div>`;
+  } else if (give) html += `<div class="actions"><button class="btn" data-pick="back">Back</button></div>`;
+  $('swapBody').innerHTML = html;
+}
+$('swapBody').onclick = e => {
+  const b = e.target.closest('[data-pick]');
+  if (!b) return;
+  const k = b.dataset.pick;
+  if (k === 'back') { if (swapGet) swapGet = null; else swapGive = null; }
+  else if (k === 'offer') return offerSwap();
+  else if (!swapGive) swapGive = k;
+  else swapGet = k;
+  renderSwapSheet();
+};
+async function offerSwap() {
+  const give = cards.find(c => c.id === swapGive), get = cards.find(c => c.id === swapGet);
+  if (!give || !get) return;
+  if (swaps.some(s => [s.give, s.get].includes(give.id) || [s.give, s.get].includes(get.id))) return toast('One of those cards is already in a swap');
+  if (!await ensureChecked(give)) return renderSwapSheet();
+  swaps.push({ id: crypto.randomUUID(), from: give.owner, to: get.owner, give: give.id, get: get.id, giveBal: give.balance,
+               by: family.current, status: 'offered', date: today() });
+  saveSwaps();
+  close('swapOverlay');
+  render();
+  toast(`Swap offered to ${member(get.owner).name}`);
+}
+
+// Swaps whose cards were deleted, sent away or changed hands can't happen any more
+function liveSwaps() {
+  const ok = s => { const a = cards.find(c => c.id === s.give), b = cards.find(c => c.id === s.get);
+    return a && b && a.owner === s.from && b.owner === s.to && member(s.from) && member(s.to); };
+  if (swaps.some(s => !ok(s))) { swaps = swaps.filter(ok); saveSwaps(); }
+  return swaps;
+}
+const kidInSwap = s => [s.from, s.to].some(id => member(id)?.role === 'kid');
+// What the person holding the phone can do with a swap
+function swapActions(s) {
+  if (s.status === 'approve') return isParent() ? ['approve', 'no'] : s.from === family.current ? ['cancel'] : [];
+  if (s.by !== family.current && (s.to === family.current || (isParent() && member(s.to)?.role === 'kid'))) return ['accept', 'no'];
+  if (s.from === family.current || s.by === family.current || isParent()) return ['cancel'];
+  return [];
+}
+function swapRow(s) {
+  const a = cards.find(c => c.id === s.give), b = cards.find(c => c.id === s.get), from = member(s.from), to = member(s.to);
+  const label = { accept: 'Swap!', approve: 'OK it', no: 'No thanks', cancel: 'Cancel' };
+  return `<div class="swap-row">${avatar(from)}<span class="info">
+      <b>${esc(from.name)}</b> → <b>${esc(to.id === family.current ? 'you' : to.name)}</b>:
+      ${esc(displayName(a))} ${money(a.balance)} for ${esc(displayName(b))} ${money(b.balance)}
+      <span class="s">${s.status === 'approve' ? `${esc(to.name)} said yes — waiting for a parent to OK it` : `Waiting for ${esc(to.name)}`}</span>
+      ${[[a, s.giveBal], [b, s.getBal]].filter(([c, bal]) => tradeProblem(c) || (bal !== undefined && c.balance !== bal)).map(([c]) =>
+        `<span class="s warn">${ic('alert')} ${esc(displayName(c))} ${tradeProblem(c) ? esc(tradeProblem(c)) : 'balance changed since the offer'}</span>`).join('')}</span>
+    <span class="btns">${swapActions(s).map(act => `<button class="mini ${act === 'accept' || act === 'approve' ? 'ok' : ''}" data-swap="${act}" data-id="${s.id}">${label[act]}</button>`).join('')}</span></div>`;
+}
+function renderSwaps() {
+  const mine = liveSwaps().filter(s => isParent() || [s.from, s.to].includes(family.current));
+  // On the wallet: only swaps waiting for this person
+  $('swapAlerts').innerHTML = mine.filter(s => swapActions(s).some(a => a === 'accept' || a === 'approve')).map(swapRow).join('');
+  $('swapSection').hidden = !hasFamily();
+  $('swapList').innerHTML = mine.map(swapRow).join('');
+}
+// Right before cards change hands: still not expired, still the balance that was offered, checked in the last day
+async function swapReady(s) {
+  const a = cards.find(c => c.id === s.give), b = cards.find(c => c.id === s.get);
+  const cancel = why => { swaps = swaps.filter(x => x !== s); saveSwaps(); toast(`Swap cancelled — ${why}`); return false; };
+  for (const c of [a, b]) if (tradeProblem(c)) return cancel(`${displayName(c)} ${tradeProblem(c)}`);
+  for (const c of [a, b]) if (!await ensureChecked(c)) return false;
+  for (const [c, bal] of [[a, s.giveBal], [b, s.getBal]])
+    if (bal !== undefined && c.balance !== bal) return cancel(`${displayName(c)} went from ${money(bal)} to ${money(c.balance)}`);
+  return true;
+}
+function doSwap(s) {
+  const a = cards.find(c => c.id === s.give), b = cards.find(c => c.id === s.get), from = member(s.from), to = member(s.to);
+  a.owner = to.id; b.owner = from.id;
+  a.history.push({ date: today(), balance: a.balance, note: `Swapped from ${from.name} to ${to.name}`, by: family.current });
+  b.history.push({ date: today(), balance: b.balance, note: `Swapped from ${to.name} to ${from.name}`, by: family.current });
+  swaps = swaps.filter(x => x !== s);
+  save(); saveSwaps();
+  confetti();
+  toast(`Swapped! ${from.name} got ${displayName(b)}, ${to.name} got ${displayName(a)}`);
+}
+async function swapAction(act, id) {
+  const s = liveSwaps().find(x => x.id === id);
+  if (!s || !swapActions(s).includes(act)) return;
+  if (act === 'no' || act === 'cancel') { swaps = swaps.filter(x => x !== s); saveSwaps(); toast(act === 'no' ? 'Swap declined' : 'Swap cancelled'); }
+  if (act === 'approve' && await swapReady(s)) doSwap(s);
+  if (act === 'accept') {
+    const mine = cards.find(c => c.id === s.get);
+    if (!await ensureChecked(mine)) return render();
+    s.getBal = mine.balance; saveSwaps();
+    // A kid saying yes still needs a parent — unless a parent offered it or is the one accepting
+    if (kidInSwap(s) && !isParent() && member(s.by)?.role !== 'parent') { s.status = 'approve'; saveSwaps(); toast('Nice! A parent just needs to OK it'); }
+    else if (await swapReady(s)) doSwap(s);
+  }
+  render();
+}
+['swapAlerts', 'swapList'].forEach(el => $(el).addEventListener('click', e => {
+  const b = e.target.closest('[data-swap]');
+  if (b) swapAction(b.dataset.swap, b.dataset.id);
+}));
+$('startSwapBtn').onclick = () => {
+  if (!swapCards(family.current).length && !isParent()) return toast('You need a card with money on it to swap');
+  openSwap(swapCards(family.current).length ? family.current : family.members.find(m => swapCards(m.id).length)?.id || family.current);
+};
+
+// ---------- Sharing: send a gift card as a link, invite friends, share a picture of the wallet ----------
+// Every share brings someone new to Gift Keeper. Links always point at the real website, even when testing.
+const SITE = 'https://peer85us.github.io/gift-keeper/';
+const INVITE_COINS = 50, SHARE_COINS = 25;   // keep in step with claim_bonus in supabase/schema.sql
+const GIFT_FIELDS = ['type', 'store', 'number', 'pin', 'amount', 'balance', 'expires', 'network', 'exp', 'cvv', 'color', 'theme', 'checked'];
+const b64url = str => b64e(new TextEncoder().encode(str)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64url = str => new TextDecoder().decode(b64d(str.replace(/-/g, '+').replace(/_/g, '/')));
+
+// The share sheet on phones; copying the link everywhere else. Resolves false if the person backed out.
+async function shareOut({ title, text, url, files }) {
+  const data = files ? { title, text: `${text} ${url}`, files } : { title, text, url };
+  if (navigator.share && (!files || navigator.canShare?.(data))) {
+    try { await navigator.share(data); return true; }
+    catch (e) { if (e.name === 'AbortError') return false; }
+  }
+  try { await navigator.clipboard.writeText(`${text} ${url}`); toast('Link copied — paste it in a text or email'); return true; }
+  catch {
+    const done = ask('Copy this link and send it:', { ok: 'Done', input: 'link' });
+    $('askInput').value = url; $('askInput').select();
+    await done;
+    return true;
+  }
+}
+
+// One-time coin bonuses (sharing your invite, joining from a friend's link)
+const hasBonus = kind => shop.ledger.some(e => e.member === family.current && e.reason === 'bonus:' + kind);
+async function claimBonus(kind, n) {
+  if (hasBonus(kind)) return false;
+  if (coinsOnServer()) {
+    const { error } = await sb.rpc('claim_bonus', { fid: cloudFamily.id, member: family.current, kind });
+    if (error) return false;
+    await loadLedger();
+  } else addCoins(family.current, n, 'bonus:' + kind);
+  return true;
+}
+
+function inviteCode() {
+  if (!settings.inviteCode) { settings.inviteCode = crypto.getRandomValues(new Uint32Array(1))[0].toString(36).toUpperCase(); saveSettings(); }
+  return settings.inviteCode;
+}
+async function afterShare() {
+  if (!await claimBonus('share', SHARE_COINS)) return;
+  confetti();
+  toast(`+${SHARE_COINS} coins for sharing!`);
+  render();
+  if ($('shopOverlay').classList.contains('open')) renderShop();
+}
+async function invite() {
+  const sent = await shareOut({ title: 'Gift Keeper', url: `${SITE}app.html?ref=${inviteCode()}`,
+    text: `I keep all our gift cards in Gift Keeper so we never lose one 🎁 Join with my link and get ${INVITE_COINS} free Keeper Coins:` });
+  if (sent) afterShare();
+}
+// Opened from a friend's invite link: a welcome present
+const refCode = new URLSearchParams(location.search).get('ref');
+if (refCode) history.replaceState(null, '', location.pathname + location.hash);
+async function joinBonus() {
+  if (!refCode || refCode === settings.inviteCode || settings.invitedBy) return;
+  settings.invitedBy = refCode.slice(0, 12); saveSettings();
+  if (await claimBonus('invite', INVITE_COINS)) setTimeout(() => { confetti(); toast(`+${INVITE_COINS} Keeper Coins — a friend invited you!`); render(); }, 900);
+}
+
+// ----- Send a card as a gift -----
+// The card rides in the link's #fragment, which browsers never send to a server — only the person holding the link sees it.
+let sendId = null;
+function openSend(id) {
+  const c = cards.find(x => x.id === id);
+  if (!c) return;
+  sendId = id;
+  $('sendTitle').textContent = `Send ${displayName(c)}`;
+  $('sendPreview').innerHTML = cardVisual(c);
+  $('sTo').value = '';
+  $('sFrom').value = me().name === 'Me' ? '' : me().name;
+  $('sMsg').value = '';
+  $('sMove').checked = false;
+  $('sendError').textContent = '';
+  open('sendOverlay');
+  setTimeout(() => $('sTo').focus(), 50);
+}
+$('sendForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const c = cards.find(x => x.id === sendId), to = $('sTo').value.trim(), from = $('sFrom').value.trim();
+  $('sendError').textContent = to ? '' : 'Who is the gift card for?';
+  if (!c || !to) return;
+  if (!await ensureChecked(c)) return;
+  const g = { v: 1, to, from, msg: $('sMsg').value.trim() };
+  GIFT_FIELDS.forEach(k => { if (c[k] !== undefined && c[k] !== null && c[k] !== '') g[k] = c[k]; });
+  const sent = await shareOut({ title: 'A gift card for you', url: `${SITE}app.html#gift=${b64url(JSON.stringify(g))}`,
+    text: `${from || 'Someone'} sent you a ${money(c.balance)} ${displayName(c)} gift card 🎁 Open it here:` });
+  if (!sent) return;
+  given.push({ id: crypto.randomUUID(), to, store: displayName(c), amount: Number(c.balance) || 0, occasion: 'Other', date: today(), by: family.current });
+  saveGiven();
+  if ($('sMove').checked) { cards = cards.filter(x => x !== c); save(); }
+  close('sendOverlay');
+  close('detailOverlay');
+  render();
+  confetti();
+  toast(`Sent to ${to}!`);
+});
+
+// ----- Opening a gift card link -----
+// Whatever is in the link is checked before it touches the wallet — it could have been typed by anyone.
+function readGift() {
+  const m = location.hash.match(/^#gift=([\w-]+)/);
+  if (!m) return null;
+  history.replaceState(null, '', location.pathname + location.search);
+  try {
+    const g = JSON.parse(unb64url(m[1])), str = (v, n) => typeof v === 'string' ? v.trim().slice(0, n) : '';
+    const amt = v => Math.max(0, Math.min(100000, Math.round((Number(v) || 0) * 100) / 100));
+    const card = {
+      type: g.type === 'prepaid' ? 'prepaid' : 'store', store: str(g.store, 60), number: str(g.number, 40), pin: str(g.pin, 20),
+      amount: amt(g.amount ?? g.balance), balance: amt(g.balance), expires: /^\d{4}-\d{2}-\d{2}$/.test(g.expires) ? g.expires : '',
+      network: NETWORKS[g.network] ? g.network : null, exp: /^\d\d\/\d\d$/.test(g.exp) ? g.exp : '', cvv: /^\d{3,4}$/.test(g.cvv) ? g.cvv : '',
+      color: /^#[0-9a-f]{3,8}$/i.test(g.color) ? g.color : '', theme: THEMES[g.theme] ? g.theme : '',
+      checked: /^\d{4}-\d{2}-\d{2}$/.test(g.checked) ? g.checked : '',
+    };
+    if (!card.store && !card.number) return null;
+    return { card, from: str(g.from, 40), to: str(g.to, 40), msg: str(g.msg, 200) };
+  } catch { return null; }
+}
+let incoming = readGift();
+function showIncoming() {
+  if (!incoming) return;
+  if ($('lockOverlay').classList.contains('open')) return setTimeout(showIncoming, 500);   // App lock first
+  const { card, from, to } = incoming;
+  $('giftIn').innerHTML = `
+    <small>${to ? `For ${esc(to)}` : 'For you'}</small>
+    <h1>${from ? `${esc(from)} sent you<br>a gift card!` : 'You got a gift card!'}</h1>
+    <button class="gi-box" data-act="open" aria-label="Open the gift">🎁</button>
+    <small>Tap the gift to open it</small>`;
+  $('giftIn').hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('giftIn').onclick = e => {
+    const act = e.target.closest('[data-act]')?.dataset.act;
+    if (act === 'open') {
+      $('giftIn').innerHTML = `
+        <h1>${money(card.balance)} at ${esc(card.store || 'any store')}</h1>
+        <div class="gi-card">${cardVisual({ ...card, owner: family.current, from })}</div>
+        ${isExpired(card) ? `<span class="gi-checked warn">${ic('alert')} This card expired ${fmtDate(card.expires)} — ask the store if they’ll still take it</span>`
+          : card.checked ? `<span class="gi-checked">${ic('check')} Balance checked with the store ${fmtDate(card.checked)}${from ? ` by ${esc(from)}` : ''}</span>`
+          : `<span class="gi-checked warn">${ic('alert')} Check the balance with the store before you count on it</span>`}
+        ${incoming.msg ? `<p class="gi-msg">“${esc(incoming.msg)}”</p>` : ''}
+        <button class="btn primary" data-act="keep">${ic('wallet')} Save it in my wallet</button>
+        <button class="gi-later" data-act="later">Not now</button>`;
+      confetti();
+    }
+    if (act === 'keep') keepGift();
+    if (act === 'later') endIncoming();
+  };
+}
+function keepGift() {
+  const { card, from, msg } = incoming;
+  // A gift always fits — even when the free plan is full
+  if (cards.some(c => c.number && c.number === card.number && c.store === card.store)) toast('That card is already in your wallet');
+  else {
+    cards.push({ id: crypto.randomUUID(), added: today(), ...card, from, notes: msg ? `“${msg}”` : '', owner: family.current,
+                 history: [{ date: today(), balance: card.balance, note: from ? `Gift from ${from}` : 'Received as a gift', by: family.current }] });
+    save();
+    toast('Saved in your wallet');
+  }
+  endIncoming();
+}
+function endIncoming() {
+  incoming = null;
+  $('giftIn').hidden = true;
+  if ($('enter').hidden) document.body.style.overflow = '';
+  render();
+}
+
+// ----- A picture of the wallet to post or send -----
+function walletPicture(list) {
+  const W = 1080, H = 1350, cv = document.createElement('canvas');
+  cv.width = W; cv.height = H;
+  const x = cv.getContext('2d'), font = (w, n) => `${w} ${n}px ui-rounded, "SF Pro Rounded", -apple-system, system-ui, sans-serif`;
+  const glow = (cx, cy, r, col) => { const g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, col); g.addColorStop(1, 'transparent'); x.fillStyle = g; x.fillRect(0, 0, W, H); };
+  x.fillStyle = '#08070f'; x.fillRect(0, 0, W, H);
+  glow(220, 160, 700, 'rgba(124,92,255,.55)'); glow(980, 420, 600, 'rgba(209,77,255,.35)'); glow(540, 1350, 700, 'rgba(255,122,89,.3)');
+  x.textAlign = 'center'; x.fillStyle = '#fff';
+  x.font = font(800, 54); x.fillText('🎁 Gift Keeper', W / 2, 120);
+
+  const hide = isPremium() && settings.privacy, total = balanceOf(list);
+  x.font = font(800, hide ? 120 : 150); x.fillText(hide ? `${list.length} gift cards` : money(total), W / 2, 290);
+  x.font = font(600, 46); x.fillStyle = 'rgba(255,255,255,.8)';
+  x.fillText(hide ? 'all in one place' : `on ${list.length} gift card${list.length === 1 ? '' : 's'} — all in one place`, W / 2, 365);
+
+  // The biggest cards, stacked like a wallet: the top strip of each shows its name and balance
+  const top = list.slice().sort((a, b) => b.balance - a.balance).slice(0, 3).reverse();
+  top.forEach((c, i) => {
+    const cw = 760, ch = 440, back = top.length - 1 - i, cx = W / 2 - cw / 2, cy = 640 - back * 100;
+    x.save();
+    x.shadowColor = 'rgba(0,0,0,.55)'; x.shadowBlur = 40; x.shadowOffsetY = -6;
+    const g = x.createLinearGradient(cx, cy, cx + cw, cy + ch);
+    g.addColorStop(0, colorFor(c)); g.addColorStop(1, '#1a1530');
+    x.fillStyle = g; x.beginPath(); x.roundRect(cx, cy, cw, ch, 36); x.fill();
+    x.shadowColor = 'transparent';
+    x.strokeStyle = 'rgba(255,255,255,.2)'; x.lineWidth = 3; x.stroke();
+    x.fillStyle = '#fff'; x.font = font(800, 44);
+    x.textAlign = 'left'; x.fillText(displayName(c).slice(0, 20), cx + 44, cy + 66);
+    if (back) { x.textAlign = 'right'; x.fillText(hide ? '$•••' : money(c.balance), cx + cw - 44, cy + 66); }
+    else {
+      x.font = font(600, 28); x.fillStyle = 'rgba(255,255,255,.7)'; x.fillText('BALANCE', cx + 44, cy + ch - 110);
+      x.font = font(800, 72); x.fillStyle = '#fff'; x.fillText(hide ? '$•••' : money(c.balance), cx + 44, cy + ch - 40);
+    }
+    x.restore();
+  });
+
+  x.textAlign = 'center'; x.fillStyle = '#fff';
+  x.font = font(800, 52); x.fillText('Never lose a gift card again', W / 2, 1170);
+  x.font = font(700, 38);
+  const url = SITE.replace('https://', '').replace(/\/$/, ''), uw = x.measureText(url).width + 80;
+  x.fillStyle = 'rgba(255,255,255,.12)'; x.beginPath(); x.roundRect(W / 2 - uw / 2, 1215, uw, 76, 38); x.fill();
+  x.fillStyle = '#fff'; x.fillText(url, W / 2, 1266);
+  return new Promise(resolve => cv.toBlob(resolve, 'image/png'));
+}
+async function shareWallet() {
+  const list = myCards().filter(c => c.balance > 0);
+  if (!list.length) return toast('Add a gift card first');
+  const file = new File([await walletPicture(list)], 'my-gift-keeper.png', { type: 'image/png' });
+  const text = 'All my gift cards in one place with Gift Keeper 🎁', url = `${SITE}app.html?ref=${inviteCode()}`;
+  if (navigator.canShare?.({ files: [file] })) {
+    if (await shareOut({ title: 'Gift Keeper', text, url, files: [file] })) afterShare();
+    return;
+  }
+  // Computers: download the picture and copy the link to go with it
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(file); a.download = file.name; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  try { await navigator.clipboard.writeText(`${text} ${url}`); } catch {}
+  toast('Picture saved — link copied too');
+  afterShare();
+}
+$('shareWalletBtn').onclick = shareWallet;
 
 // ---------- In-app questions ----------
 // confirm() and prompt() are blocked when the app runs inside some frames (like a Claude artifact),
@@ -4638,7 +5221,7 @@ $('importFile').onchange = async () => {
 };
 $('wipeBtn').onclick = async () => {
   if (!await ask('Delete ALL gift cards and family members from this device? This can’t be undone.', { ok: 'Delete everything', danger: true })) return;
-  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, KIDBANK_KEY, COINS_KEY].forEach(k => localStorage.removeItem(k));
+  [STORAGE_KEY, FAMILY_KEY, NOTIFY_KEY, GIVEN_KEY, SETTINGS_KEY, PREMIUM_KEY, KIDBANK_KEY, COINS_KEY, SWAPS_KEY].forEach(k => localStorage.removeItem(k));
   indexedDB.deleteDatabase('giftKeeper');
   location.reload();
 };
@@ -4675,6 +5258,7 @@ document.querySelectorAll('.overlay').forEach(o => {
     if (e.target !== o && !e.target.closest('[data-close]')) return;
     if (o.id === 'scanOverlay') stopScanner();
     else if (o.id === 'askOverlay') askDone?.(false);
+    else if (o.id === 'verifyOverlay') endVerify(false);
     else if (o.id === 'cardOverlay') closeCard();
     else if (o.id === 'payOverlay') closePay();
     else close(o.id);
@@ -4725,6 +5309,8 @@ if (needsLock()) showLock('unlock');
   sendReminders();
   if (hasFamily()) openWho();   // shared device: ask who's here
   else showWelcome();
+  showIncoming();
+  joinBonus();
   setTimeout(() => $('splash').classList.add('gone'), Math.max(0, 700 - performance.now()));
   cloudInit();
 })();
