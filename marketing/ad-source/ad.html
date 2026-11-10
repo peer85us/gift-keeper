@@ -1,0 +1,204 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box}
+body{margin:0;width:1080px;height:1920px;overflow:hidden;color:#fff;font-family:-apple-system,"SF Pro Display",system-ui,sans-serif;
+ background:radial-gradient(60% 35% at 15% 8%,rgba(124,92,255,.55),transparent 70%),radial-gradient(55% 35% at 95% 45%,rgba(209,77,255,.38),transparent 70%),radial-gradient(70% 35% at 50% 105%,rgba(255,122,89,.32),transparent 70%),#08070f}
+.scene{position:absolute;inset:0;opacity:0}
+@keyframes in{from{opacity:0}to{opacity:1}} @keyframes out{from{opacity:1}to{opacity:0}}
+@keyframes pop{0%{opacity:0;transform:translateY(40px) scale(.85)}60%{opacity:1;transform:translateY(-6px) scale(1.03)}100%{opacity:1;transform:none}}
+@keyframes rise{from{opacity:0;transform:translateY(520px) rotate(4deg)}to{opacity:1;transform:none}}
+@keyframes glow{0%,100%{box-shadow:0 0 80px rgba(209,77,255,.5)}50%{box-shadow:0 0 160px rgba(209,77,255,.9)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes ring{0%{opacity:.95;transform:translate(-50%,-50%) scale(.6)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.9)}}
+@keyframes hl{0%{opacity:0;transform:scale(1.15)}100%{opacity:1;transform:none}}
+h1{margin:0;font-weight:800;letter-spacing:-.035em;text-align:center}
+.grad{background:linear-gradient(120deg,#a48bff,#e070ff 45%,#ff9a6b);-webkit-background-clip:text;color:transparent}
+.gold{background:linear-gradient(120deg,#ffe08a,#ffb84d 50%,#ff8a5c);-webkit-background-clip:text;color:transparent}
+.cap{position:absolute;left:50px;right:50px;top:120px;font-size:84px;line-height:1.04}
+
+/* ---- realistic iPhone ---- */
+.phone{position:absolute;left:50%;top:430px;width:660px;margin-left:-330px;padding:14px;border-radius:104px;
+ background:linear-gradient(145deg,#6d6a75,#2a2830 18%,#18171c 50%,#3a3842 82%,#7a7783);
+ box-shadow:0 60px 140px rgba(0,0,0,.75),inset 0 0 0 2px rgba(255,255,255,.18),inset 0 0 0 7px #0b0b0e}
+.phone::before,.phone::after{content:"";position:absolute;width:7px;border-radius:4px;background:linear-gradient(90deg,#55525c,#2a2830)}
+.phone::before{left:-6px;top:300px;height:110px;box-shadow:0 150px 0 #3a3842} .phone::after{right:-6px;top:360px;height:170px}
+.screen{position:relative;border-radius:90px;overflow:hidden;background:#000;aspect-ratio:1170/2532}
+.screen>.view{position:absolute;inset:0;transform-origin:50% 30%}
+.screen img{width:100%;display:block}
+.sbar{position:absolute;left:0;right:0;top:0;height:78px;z-index:5;display:flex;align-items:center;justify-content:space-between;padding:10px 58px 0 74px;
+ font:600 30px -apple-system,system-ui;letter-spacing:-.01em}
+.sbar .icons{display:flex;gap:9px;align-items:center}
+.island{position:absolute;left:50%;top:20px;width:196px;height:58px;margin-left:-98px;border-radius:30px;background:#000;z-index:6}
+.glare{position:absolute;inset:0;z-index:7;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.10),transparent 35%)}
+
+/* 1: hook */
+#s1{animation:in .01s 0s both,out .35s 3.15s forwards}
+#s1 .t{position:absolute;left:0;right:0;font-size:104px;line-height:1.05;opacity:0}
+#s1 .a{top:330px;animation:pop .5s .15s both} #s1 .b{top:450px;animation:pop .5s .6s both}
+#s1 .c{top:1420px;font-size:96px;animation:pop .5s 1.75s both}
+.gc{position:absolute;left:50%;top:960px;width:560px;height:350px;margin:-175px 0 0 -280px;border-radius:36px;padding:38px 44px;
+ box-shadow:0 30px 70px rgba(0,0,0,.55);font-weight:800;font-size:50px;display:flex;flex-direction:column;justify-content:space-between}
+.gc small{display:block;font-size:24px;letter-spacing:.12em;opacity:.75;font-weight:600} .gc b{font-size:62px}
+.c1{background:linear-gradient(135deg,#00704a,#0d2b22);animation:c1in .5s .2s both,fly1 1.3s cubic-bezier(.5,0,.8,.4) 1.55s forwards}
+.c2{background:linear-gradient(135deg,#2a3340,#12161d);animation:c2in .5s .35s both,fly2 1.3s cubic-bezier(.5,0,.8,.4) 1.65s forwards}
+.c3{background:linear-gradient(135deg,#cc0000,#4a0a12);animation:c3in .5s .5s both,fly3 1.3s cubic-bezier(.5,0,.8,.4) 1.45s forwards}
+@keyframes c1in{from{opacity:0;transform:translate(-120px,60px) rotate(-14deg) scale(.7)}to{opacity:1;transform:translate(-60px,-40px) rotate(-10deg)}}
+@keyframes c2in{from{opacity:0;transform:translate(120px,60px) rotate(14deg) scale(.7)}to{opacity:1;transform:translate(60px,-10px) rotate(8deg)}}
+@keyframes c3in{from{opacity:0;transform:translateY(100px) scale(.7)}to{opacity:1;transform:translateY(40px) rotate(-2deg)}}
+@keyframes fly1{from{opacity:1;transform:translate(-60px,-40px) rotate(-10deg)}to{opacity:0;transform:translate(-900px,700px) rotate(-120deg)}}
+@keyframes fly2{from{opacity:1;transform:translate(60px,-10px) rotate(8deg)}to{opacity:0;transform:translate(900px,800px) rotate(140deg)}}
+@keyframes fly3{from{opacity:1;transform:translateY(40px) rotate(-2deg)}to{opacity:0;transform:translate(80px,1200px) rotate(60deg)}}
+
+/* 2 + 8: logo */
+.logo{position:absolute;left:50%;width:300px;height:300px;margin-left:-150px;border-radius:70px}
+.logo img{width:100%;height:100%;display:block}
+#s2{animation:in .3s 3.3s both,out .35s 5.5s forwards}
+#s2 .logo{top:560px;animation:pop .6s 3.35s both,glow 1.6s 3.4s infinite}
+#s2 .name{position:absolute;left:0;right:0;top:930px;font-size:120px;animation:pop .5s 3.7s both}
+#s2 .tag{position:absolute;left:0;right:0;top:1090px;font-size:68px;color:rgba(255,255,255,.85);font-weight:700;animation:pop .5s 4.1s both}
+
+.bubble{position:absolute;padding:22px 34px;border-radius:999px;font-size:44px;font-weight:800;white-space:nowrap;z-index:9;
+ background:linear-gradient(120deg,#7c5cff,#d14dff 50%,#ff7a59);box-shadow:0 20px 50px rgba(209,77,255,.5)}
+
+/* 3: wallet */
+#s3{animation:in .3s 5.6s both,out .35s 9.6s forwards}
+#s3 .cap{animation:pop .5s 5.7s both} #s3 .phone{animation:rise .8s cubic-bezier(.2,.9,.3,1) 5.75s both}
+#s3 .b1{right:30px;top:1180px;animation:pop .5s 7.0s both} #s3 .b2{left:30px;top:1400px;animation:pop .5s 7.9s both;background:linear-gradient(120deg,#ffb84d,#ff7a59)}
+
+/* 4: money saved */
+#s4{animation:in .3s 9.7s both,out .35s 14.0s forwards}
+#s4 .cap{animation:pop .5s 9.8s both}
+#s4 .phone{animation:rise .8s cubic-bezier(.2,.9,.3,1) 9.8s both}
+.cam{position:absolute;inset:0;transform-origin:540px 820px}
+#s4 .cam{animation:zin .9s cubic-bezier(.3,.8,.3,1) 10.5s both,zout .7s cubic-bezier(.3,.8,.3,1) 11.8s forwards}
+@keyframes zin{from{transform:scale(1)}to{transform:scale(1.75)}} @keyframes zout{from{transform:scale(1.75)}to{transform:scale(1)}}
+#s4 .zoomv{animation:out .4s 11.9s forwards}
+#s4 .ins{animation:in .4s 11.9s both}
+.hlbox{position:absolute;border:7px solid #3ddc97;border-radius:44px;box-shadow:0 0 40px rgba(61,220,151,.6);opacity:0;z-index:4}
+#s4 .h1{left:3%;top:54.8%;width:46%;height:17%;animation:hl .4s 12.4s both}
+#s4 .h2{left:3%;top:38.4%;width:46%;height:16.5%;border-color:#ffb84d;box-shadow:0 0 40px rgba(255,184,77,.6);animation:hl .4s 13.0s both}
+#s4 .big{position:absolute;left:0;right:0;top:1500px;text-align:center;z-index:9;opacity:0;animation:pop .5s 12.5s both}
+#s4 .big b{display:inline-block;padding:26px 48px;border-radius:999px;font-size:62px;background:linear-gradient(120deg,#22c98a,#16a3b8);box-shadow:0 24px 60px rgba(34,201,138,.5)}
+
+/* 5: send */
+#s5{animation:in .3s 14.1s both,out .35s 18.2s forwards}
+#s5 .cap{animation:pop .5s 14.2s both} #s5 .phone{animation:rise .8s cubic-bezier(.2,.9,.3,1) 14.25s both}
+#s5 .open{position:absolute;inset:0;animation:in .35s 16.2s both}
+.conf{position:absolute;width:22px;height:40px;border-radius:5px;opacity:0;z-index:9}
+@keyframes burst{0%{opacity:1;transform:translate(0,0) rotate(0)}100%{opacity:0;transform:translate(var(--x),var(--y)) rotate(var(--r))}}
+
+/* 6: swap */
+#s6{animation:in .3s 18.3s both,out .35s 21.3s forwards}
+#s6 .cap{animation:pop .5s 18.4s both} #s6 .phone{animation:rise .8s cubic-bezier(.2,.9,.3,1) 18.45s both}
+.tap{position:absolute;left:63.4%;top:16%;width:170px;height:170px;border-radius:50%;border:8px solid #3ddc97;opacity:0;z-index:4;animation:ring 1s ease-out 19.5s 2 both}
+#s6 .b3{left:50%;margin-left:-330px;width:660px;text-align:center;top:1560px;animation:pop .5s 20.0s both;background:linear-gradient(120deg,#2bd99a,#1ea7c9)}
+
+/* 7: plans */
+#s7{animation:in .3s 21.4s both,out .35s 25.4s forwards}
+#s7 .cap{top:150px;animation:pop .5s 21.5s both}
+.plan{position:absolute;left:70px;right:70px;border-radius:44px;padding:36px 44px;background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.14);
+ display:grid;grid-template-columns:1fr auto;align-items:center;row-gap:10px;box-shadow:0 30px 70px rgba(0,0,0,.45)}
+.plan h2{margin:0;font-size:56px;font-weight:800;letter-spacing:-.02em}
+.plan .price{font-size:64px;font-weight:800;text-align:right;letter-spacing:-.02em} .plan .price small{font-size:30px;opacity:.7;font-weight:600}
+.plan ul{grid-column:1/-1;margin:6px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:10px 14px}
+.plan li{font-size:30px;padding:10px 20px;border-radius:999px;background:rgba(255,255,255,.08);color:rgba(255,255,255,.9)}
+.p1{top:470px;animation:pop .5s 21.9s both}
+.p2{top:840px;border:3px solid #ffc44d;background:linear-gradient(135deg,rgba(255,196,77,.18),rgba(255,122,89,.08));animation:pop .5s 22.5s both}
+.p2 .tag{position:absolute;top:-28px;left:44px;padding:8px 22px;border-radius:999px;font-size:28px;font-weight:800;color:#2a1600;background:linear-gradient(120deg,#ffe08a,#ffb84d)}
+.p3{top:1250px;border:3px solid #a48bff;background:linear-gradient(135deg,rgba(124,92,255,.22),rgba(209,77,255,.1));animation:pop .5s 23.1s both}
+#s7 .fine{position:absolute;left:0;right:0;top:1690px;text-align:center;font-size:36px;color:rgba(255,255,255,.7);font-weight:600;animation:pop .5s 23.7s both}
+
+/* 8: CTA */
+#s8{animation:in .35s 25.5s both}
+#s8 .logo{top:330px;width:240px;height:240px;margin-left:-120px;border-radius:56px;animation:pop .6s 25.6s both,glow 1.6s 25.7s infinite}
+#s8 .t1{position:absolute;left:40px;right:40px;top:660px;font-size:112px;line-height:1.02;animation:pop .5s 25.9s both}
+#s8 .cta{position:absolute;left:50%;top:1110px;width:640px;margin-left:-320px;padding:42px 0;border-radius:999px;text-align:center;font-size:62px;font-weight:800;
+ background:linear-gradient(120deg,#7c5cff,#d14dff 50%,#ff7a59);box-shadow:0 30px 80px rgba(209,77,255,.55);animation:pop .5s 26.4s both,pulse 1s 27s infinite}
+#s8 .url{position:absolute;left:0;right:0;top:1330px;text-align:center;font-size:46px;font-weight:700;color:rgba(255,255,255,.8);animation:pop .5s 26.7s both}
+#s8 .feat{position:absolute;left:0;right:0;top:1530px;text-align:center;font-size:40px;color:rgba(255,255,255,.65);font-weight:600;animation:pop .5s 27s both}
+</style></head><body>
+
+<template id="chrome">
+  <div class="island"></div>
+  <div class="sbar"><span>9:41</span><span class="icons">
+    <svg width="36" height="22" viewBox="0 0 36 22" fill="#fff"><rect x="0" y="14" width="6" height="8" rx="1.5"/><rect x="10" y="10" width="6" height="12" rx="1.5"/><rect x="20" y="5" width="6" height="17" rx="1.5"/><rect x="30" y="0" width="6" height="22" rx="1.5"/></svg>
+    <svg width="32" height="23" viewBox="0 0 32 23" fill="#fff"><path d="M16 4.5c4.6 0 8.8 1.8 11.9 4.7l2.6-2.7C26.7 2.9 21.6.7 16 .7S5.3 2.9 1.5 6.5l2.6 2.7C7.2 6.3 11.4 4.5 16 4.5zm0 7.3c2.6 0 5 1 6.8 2.7l2.6-2.7C23 9.6 19.7 8.2 16 8.2s-7 1.4-9.4 3.6l2.6 2.7c1.8-1.7 4.2-2.7 6.8-2.7zm0 7.2c.8 0 1.5.3 2 .8L16 22.3l-2-2.5c.5-.5 1.2-.8 2-.8z"/></svg>
+    <svg width="52" height="24" viewBox="0 0 52 24"><rect x="1" y="1" width="44" height="22" rx="7" fill="none" stroke="rgba(255,255,255,.45)" stroke-width="2"/><rect x="4" y="4" width="34" height="16" rx="4.5" fill="#fff"/><path d="M48 8v8c1.6-.6 2.6-2.2 2.6-4s-1-3.4-2.6-4z" fill="rgba(255,255,255,.45)"/></svg>
+  </span></div>
+  <div class="glare"></div>
+</template>
+
+<div class="scene" id="s1">
+  <h1 class="t a">That $50 gift card</h1>
+  <h1 class="t b grad">from Grandma…</h1>
+  <div class="gc c1">Starbucks<div><small>BALANCE</small><b>$25.00</b></div></div>
+  <div class="gc c2">Amazon<div><small>BALANCE</small><b>$100.00</b></div></div>
+  <div class="gc c3">Target<div><small>BALANCE</small><b>$50.00</b></div></div>
+  <h1 class="t c">…where did it go? 😬</h1>
+</div>
+
+<div class="scene" id="s2">
+  <div class="logo"><img src="shots/logo.svg"></div>
+  <h1 class="name">Gift Keeper</h1>
+  <h1 class="tag">Every gift card. <span class="grad">One place.</span></h1>
+</div>
+
+<div class="scene" id="s3">
+  <h1 class="cap">The whole family’s<br><span class="grad">gift cards</span> in one wallet</h1>
+  <div class="phone"><div class="screen"><div class="view"><img src="shots/wallet.png"></div></div></div>
+  <div class="bubble b1">💰 $300.50 in one place</div>
+  <div class="bubble b2">⏰ Reminds you before it expires</div>
+</div>
+
+<div class="scene" id="s4">
+  <h1 class="cap">Stop losing money on<br><span class="gold">forgotten cards</span></h1>
+  <div class="cam"><div class="phone"><div class="screen">
+    <div class="view zoomv"><img src="shots/wallet.png"></div>
+    <div class="view ins" style="opacity:0"><img src="shots/insights.png"><div class="hlbox h1"></div><div class="hlbox h2"></div></div>
+  </div></div></div>
+  <div class="big"><b>💸 $65 saved before it expired</b></div>
+</div>
+
+<div class="scene" id="s5">
+  <h1 class="cap">Send a gift card<br><span class="grad">by text</span> 🎁</h1>
+  <div class="phone"><div class="screen"><div class="view"><img src="shots/gift-box.png"><img class="open" src="shots/gift-open.png"></div></div></div>
+  <div id="confetti"></div>
+</div>
+
+<div class="scene" id="s6">
+  <h1 class="cap">Kids swap cards.<br><span class="grad">Parents OK it.</span></h1>
+  <div class="phone"><div class="screen"><div class="view"><img src="shots/swap-alert.png"><div class="tap"></div></div></div></div>
+  <div class="bubble b3">✅ Balance checked before every swap</div>
+</div>
+
+<div class="scene" id="s7">
+  <h1 class="cap">Start free.<br><span class="grad">Upgrade anytime.</span></h1>
+  <div class="plan p1"><h2>Free</h2><div class="price">$0</div>
+    <ul><li>Up to 5 gift cards</li><li>Balances & barcodes</li><li>“Use it!” reminders</li></ul></div>
+  <div class="plan p2"><span class="tag">MOST POPULAR</span><h2 class="gold">Premium</h2><div class="price">$9.99<small>/mo</small></div>
+    <ul><li>Unlimited cards</li><li>Whole family</li><li>Camera scan</li><li>Money insights</li><li>Checkout mode</li></ul></div>
+  <div class="plan p3"><h2 class="grad">Ultra</h2><div class="price">$19.99<small>/mo</small></div>
+    <ul><li>Everything in Premium</li><li>App lock</li><li>Kids’ spending alerts</li><li>Year in review</li></ul></div>
+  <div class="fine">Cancel anytime</div>
+</div>
+
+<div class="scene" id="s8">
+  <div class="logo"><img src="shots/logo.svg"></div>
+  <h1 class="t1">Never lose a<br><span class="grad">gift card</span> again</h1>
+  <div class="cta">Start free today</div>
+  <div class="url">peer85us.github.io/gift-keeper</div>
+  <div class="feat">Reminders · Family wallet · Send by text · Swaps</div>
+</div>
+
+<script>
+// Put the status bar, Dynamic Island and glass glare on every phone
+document.querySelectorAll('.screen').forEach(s => s.appendChild(document.getElementById('chrome').content.cloneNode(true)));
+const colors = ['#7c5cff','#d14dff','#ff7a59','#ffd166','#4cc9f0','#80ffdb','#fff'];
+let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+for (let i = 0; i < 70; i++) {
+  const c = document.createElement('i'); c.className = 'conf';
+  c.style.cssText = `left:540px;top:1000px;background:${colors[i % colors.length]};--x:${(rnd()-.5)*1300}px;--y:${-200 - rnd()*900 + rnd()*700}px;--r:${(rnd()-.5)*1080}deg;animation:burst ${1.4 + rnd()*.8}s cubic-bezier(.15,.7,.3,1) ${16.25 + rnd()*.15}s forwards`;
+  document.getElementById('confetti').appendChild(c);
+}
+window.seek = t => document.getAnimations().forEach(a => { a.pause(); a.currentTime = t * 1000; });
+</script>
+</body></html>
