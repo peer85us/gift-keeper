@@ -2130,7 +2130,10 @@ const PAYMENT_LINK_ULTRA = '';   // Stripe Payment Link for Ultra (redirect: app
 const FREE_CARD_LIMIT = 5;
 // Without payment links, plans unlock for free only on your own computer (opened as a file) so you can try them.
 // On the real website they say “coming soon” instead, so nobody gets Premium or Ultra for free.
-const TEST_MODE = location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname);
+// Running inside the iPhone / Android app (Capacitor) rather than a browser
+const IS_APP = !!window.Capacitor?.isNativePlatform?.();
+// The store apps run from "localhost" too, but must never get free test plans or coins
+const TEST_MODE = !IS_APP && (location.protocol === 'file:' || ['localhost', '127.0.0.1'].includes(location.hostname));
 // Paste a Stripe Payment Link here to take real money. Set its "after payment" redirect to
 // https://peer85us.github.io/gift-keeper/app.html?premium=success so the upgrade switches on when the customer comes back.
 const PAYMENT_LINK = '';
@@ -2527,6 +2530,7 @@ function renderHeader() {
   $('proBtn').innerHTML = isUltra() ? `${ic('gem')}<span class="pl">Ultra</span>` : isPremium() ? `${ic('crown')}<span class="pl">Premium</span>` : `${ic('crown')}<span class="pl">Upgrade</span>`;
   $('proBtn').classList.toggle('on', isPremium() && !isUltra());
   $('proBtn').classList.toggle('ultra', isUltra());
+  $('proBtn').hidden = IS_APP && !isPremium();   // no upgrading inside the store apps yet
   $('scanTop').innerHTML = ic('camera') + ' Scan card' + (isPremium() ? '' : ' <span class="lock">PREMIUM</span>');
   $('addMemberBtn').innerHTML = '+ Add family member' + (isPremium() ? '' : '<span class="lock">PREMIUM</span>');
 }
@@ -2568,12 +2572,51 @@ function showPage(p) {
 }
 
 // ---------- expiration reminders ----------
+// Browser pop-ups on the web; real phone notifications (scheduled ahead, even when the app is closed) in the store apps
+const LN = () => window.Capacitor?.Plugins?.LocalNotifications;
+let appPerm = 'default';
+const notifyPerm = () => IS_APP ? (LN() ? appPerm : 'unsupported') : 'Notification' in window ? Notification.permission : 'unsupported';
+async function askNotify() {
+  if (!IS_APP) return Notification.requestPermission();
+  const r = await LN().requestPermissions();
+  appPerm = r.display === 'granted' ? 'granted' : r.display === 'denied' ? 'denied' : 'default';
+  return appPerm;
+}
+if (IS_APP && LN()) LN().checkPermissions().then(r => {
+  appPerm = r.display === 'granted' ? 'granted' : r.display === 'denied' ? 'denied' : 'default';
+  render(); sendReminders();
+}).catch(() => {});
+// Phone app: replace all scheduled reminders with fresh ones at 10am on each milestone day before a card expires
+let lnTimer = null;
+function scheduleAppReminders() {
+  clearTimeout(lnTimer);
+  lnTimer = setTimeout(async () => {
+    const ln = LN();
+    if (!ln || appPerm !== 'granted') return;
+    try {
+      const { notifications } = await ln.getPending();
+      if (notifications.length) await ln.cancel({ notifications: notifications.map(n => ({ id: n.id })) });
+      const now = Date.now(), list = [];
+      myCards().filter(c => Number(c.balance) > 0 && c.expires).forEach(c => {
+        [60, 30, 14, 7, 3, 1, 0].filter(d => d <= remindDays() || d === 30 && hasEarly()).forEach(d => {
+          const at = new Date(addDays(c.expires, -d) + 'T10:00');
+          if (at.getTime() <= now) return;
+          const owner = c.owner !== family.current && member(c.owner) ? `${possessive(member(c.owner).name)} ` : 'your ';
+          list.push({ id: list.length + 1, title: `Use ${owner}${displayName(c)} card!`, schedule: { at },
+            body: `${money(c.balance)} left — it ${d === 0 ? 'expires today' : `expires in ${d} day${d === 1 ? '' : 's'}`}.` });
+        });
+      });
+      list.sort((a, b) => a.schedule.at - b.schedule.at);
+      if (list.length) await ln.schedule({ notifications: list.slice(0, 60) });   // iPhone keeps at most 64 waiting
+    } catch (e) { console.error(e); }
+  }, 800);
+}
 const urgentCards = (list = scopedCards()) => list.filter(isUrgent).sort((a, b) => a.expires.localeCompare(b.expires));
 
 function renderAlerts() {
   const list = urgentCards();
   if (!list.length) { $('alerts').innerHTML = ''; return; }
-  const canAsk = 'Notification' in window && Notification.permission === 'default';
+  const canAsk = notifyPerm() === 'default';
   const live = list.filter(c => daysLeft(c.expires) >= 0);
   $('alerts').innerHTML = `
     <section class="alert">
@@ -2591,7 +2634,8 @@ function renderAlerts() {
 
 // Pop-up notification once per card per day while it's in its last week
 function sendReminders() {
-  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  if (IS_APP) return scheduleAppReminders();
+  if (notifyPerm() !== 'granted') return;
   let sent = {};
   try { sent = JSON.parse(localStorage.getItem(NOTIFY_KEY)) || {}; } catch {}
   // Every day in the last week; before that only on milestone days, so a 30-day window doesn't nag daily
@@ -2616,8 +2660,8 @@ $('eyeBtn').onclick = () => {
 
 $('alerts').onclick = e => {
   if (e.target.id === 'notifyBtn') {
-    Notification.requestPermission().then(p => {
-      toast(p === 'granted' ? 'Reminders on' : 'Reminders are blocked in this browser');
+    askNotify().then(p => {
+      toast(p === 'granted' ? 'Reminders on' : `Reminders are blocked${IS_APP ? ' — turn them on in Settings' : ' in this browser'}`);
       renderAlerts();
       sendReminders();
     });
@@ -4196,7 +4240,7 @@ function renderSettings() {
       <span class="mini">Switch person</span></button>
     ${isParent() ? `<button class="setting" id="setEdit"><span>${ic('pencil')}Edit my profile<span class="sub">Name, picture, color and PIN</span></span><span class="go">›</span></button>` : ''}`;
 
-  const perm = 'Notification' in window ? Notification.permission : 'unsupported';
+  const perm = notifyPerm();
   $('settingsReminders').innerHTML = `
     <div class="setting static"><span>${ic('clock')}“Use it!” alerts<span class="sub">Cards are flagged ${remindDays()} days before they expire</span></span><span class="pill" style="background:var(--accent-soft);color:var(--accent)">On</span></div>
     <div class="setting static"><span>${ic('calendar')}Remind me<span class="sub">How early to start the “Use it!” alert${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
@@ -4205,17 +4249,17 @@ function renderSettings() {
     <div class="setting static"><span>${ic('eye-off')}Hide amounts<span class="sub">Blur balances when someone’s looking${isPremium() ? '' : ' <span class="lock">PREMIUM</span>'}</span></span>
       <button class="mini" id="setPrivacy">${isPremium() && settings.privacy ? 'On' : 'Off'}</button></div>
     <button class="setting" id="setNotify"><span>${ic('bell')}Pop-up reminders<span class="sub">${
-      perm === 'granted' ? 'On — you’ll get one a day for cards about to expire' :
-      perm === 'denied' ? 'Blocked — allow notifications for this page in your browser' :
+      perm === 'granted' ? (IS_APP ? 'On — you’ll get a heads-up before a card expires' : 'On — you’ll get one a day for cards about to expire') :
+      perm === 'denied' ? (IS_APP ? 'Blocked — turn on notifications for Gift Keeper in your phone’s Settings' : 'Blocked — allow notifications for this page in your browser') :
       perm === 'unsupported' ? 'Not supported in this browser' : 'Get a pop-up when a card is about to expire'}</span></span>
       <span class="go">${perm === 'default' ? '<span class="mini">Turn on</span>' : ''}</span></button>`;
   $('parentSettings').hidden = !isParent();
 
   $('settingsPlan').innerHTML = isPremium()
     ? `<div class="setting static"><span>${isUltra() ? `${ic('gem')}Gift Keeper Ultra` : `${ic('crown')}Gift Keeper Premium`}<span class="sub">${isUltra() ? ULTRA_PRICE : PREMIUM_PRICE}/month · since ${fmtDate(premium.since)}${premium.test ? ' · test mode' : ''}</span></span><span class="pill" style="background:rgba(255,200,90,.15);color:#ffd27a">Active</span></div>
-       ${isParent() && !isUltra() ? `<button class="setting" id="setUltra"><span>${ic('gem')}Upgrade to Ultra<span class="sub">App lock, Year in review, kids’ spending alerts and more</span></span><span class="go">›</span></button>` : ''}
-       ${isParent() ? `<button class="setting" id="setCancel"><span>Cancel ${isUltra() ? 'Ultra' : 'Premium'}<span class="sub">Your cards stay — you just can’t add more than ${FREE_CARD_LIMIT}</span></span><span class="go">›</span></button>` : ''}`
-    : `<button class="setting" id="setUpgrade"><span>${ic('user')}Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT + extraSlots()} cards used · just you</span></span><span class="mini">Upgrade</span></button>`;
+       ${isParent() && !isUltra() && !IS_APP ? `<button class="setting" id="setUltra"><span>${ic('gem')}Upgrade to Ultra<span class="sub">App lock, Year in review, kids’ spending alerts and more</span></span><span class="go">›</span></button>` : ''}
+       ${isParent() && !IS_APP ? `<button class="setting" id="setCancel"><span>Cancel ${isUltra() ? 'Ultra' : 'Premium'}<span class="sub">Your cards stay — you just can’t add more than ${FREE_CARD_LIMIT}</span></span><span class="go">›</span></button>` : ''}`
+    : `<button class="setting" id="setUpgrade"><span>${ic('user')}Free plan<span class="sub">${cards.length} of ${FREE_CARD_LIMIT + extraSlots()} cards used · just you</span></span>${IS_APP ? '' : '<span class="mini">Upgrade</span>'}</button>`;
 
   const tag = isUltra() ? '' : ' <span class="ultra-tag">ULTRA</span>';
   renderAccount();
@@ -4507,7 +4551,7 @@ function endWelcome(addCard = false) {
   if (name) toast(`Welcome, ${name}!`);
   if (addCard) {
     openForm();
-    if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission().then(() => render());
+    if (notifyPerm() === 'default') askNotify().then(() => { render(); sendReminders(); });
   }
 }
 $('welcomeNext').onclick = () => welcomeStep === enSlides().length - 1 ? endWelcome(true) : enStep(1);
@@ -4603,7 +4647,9 @@ const SHOP = [
   { id: 'boost:early', tab: 'boosts', name: 'Early alerts', price: 150, about: `“Use it!” alerts start ${EARLY_DAYS} days before a card expires, with pop-ups at 30, 14 and 7 days.` },
   { id: 'slots5', tab: 'boosts', name: '+5 card slots', price: 400, repeat: true, about: 'Room for 5 more gift cards on the free plan. Buy as many as you like.' },
 ];
-const SHOP_TABS = { coins: 'Get coins', earn: 'Earn free', styles: 'Card styles', stickers: 'Stickers', kids: 'Kids’ cards',
+// The store apps can't sell coins or plans through Stripe (Apple and Google require their own billing),
+// so for now the apps have no coin packs and no plan checkout — coins are earned for free there.
+const SHOP_TABS = { ...(IS_APP ? {} : { coins: 'Get coins' }), earn: 'Earn free', styles: 'Card styles', stickers: 'Stickers', kids: 'Kids’ cards',
   pets: 'Pets', frames: 'Frames', looks: 'App colors', boosts: 'Boosts' };
 
 // ----- Free coins: streaks, adding cards, achievements (amounts kept in step with supabase/schema.sql) -----
@@ -4720,7 +4766,7 @@ function addCoins(member, delta, reason) {
 }
 
 function openShop(tab = 'coins') {
-  shopTab = tab;
+  shopTab = IS_APP && tab === 'coins' ? 'earn' : tab;
   shopFor = isParent() ? (shopFor && member(shopFor) ? shopFor : family.current) : family.current;
   renderShop();
   open('shopOverlay');
@@ -4801,7 +4847,7 @@ function equip(who, item) {
 async function buyItem(who, item) {
   const it = SHOP.find(x => x.id === item);
   if (it.limited && !inSeason(it.limited)) return toast(`${it.name} is out of season`);
-  if (coinsOf(who.id) < it.price) { toast(`Not enough coins — ${it.name} costs ${it.price}`); shopTab = 'coins'; return renderShop(); }
+  if (coinsOf(who.id) < it.price) { toast(`Not enough coins — ${it.name} costs ${it.price}`); shopTab = IS_APP ? 'earn' : 'coins'; return renderShop(); }
   if (coinsOnServer()) {
     const { error } = await sb.rpc('buy_item', { fid: cloudFamily.id, member: who.id, item });
     if (error) return toast('Couldn’t buy that — try again');
@@ -4828,6 +4874,7 @@ async function claimDaily(who) {
   }
 }
 function buyPack(p, forId) {
+  if (IS_APP) return;
   if (inAppPay()) return payInApp({ kind: 'coins', pack: p.id, member: forId }, `${(p.coins + p.bonus).toLocaleString()} Keeper Coins · ${p.price}`, waitForCoins);
   if (!p.link) {
     if (!TEST_MODE) return toast('Coin packs are coming very soon');
@@ -5438,7 +5485,9 @@ function openPremium(reason = '') {
   $('pmBuyUltra').disabled = !parent || isUltra();
   $('pmBuy').textContent = isUltra() ? 'Included' : isPremium() ? 'Current plan' : `Premium · ${PREMIUM_PRICE}`;
   $('pmBuyUltra').textContent = isUltra() ? 'Current plan' : `Ultra · ${ULTRA_PRICE}`;
-  $('pmFine').textContent = !parent ? 'Only parents can change the plan — ask a parent!'
+  $('pmBuy').hidden = $('pmBuyUltra').hidden = IS_APP;
+  $('pmFine').textContent = IS_APP ? (isPremium() ? 'Your plan is active.' : 'Upgrades aren’t available in the app yet — everything else is free to use.')
+    : !parent ? 'Only parents can change the plan — ask a parent!'
     : inAppPay() || PAYMENT_LINK ? 'Billed monthly. Cancel any time.'
     : TEST_MODE ? 'Test mode — payments aren’t connected yet, so this unlocks the plan for free.'
     : 'Paid plans are coming very soon.';
@@ -5453,11 +5502,13 @@ function activatePremium(test, tier = 'premium') {
   toast(tier === 'ultra' ? 'Welcome to Ultra' : 'Welcome to Premium');
 }
 $('pmBuy').onclick = () => {
+  if (IS_APP) return;
   if (inAppPay()) return payInApp({ kind: 'plan', tier: 'premium' }, `Gift Keeper Premium · ${PREMIUM_PRICE}/month`, waitForPlan);
   if (!PAYMENT_LINK) return TEST_MODE ? activatePremium(true, 'premium') : toast('Premium is coming very soon');
   checkout(PAYMENT_LINK);
 };
 $('pmBuyUltra').onclick = () => {
+  if (IS_APP) return;
   if (inAppPay()) return payInApp({ kind: 'plan', tier: 'ultra' }, `Gift Keeper Ultra · ${ULTRA_PRICE}/month`, waitForPlan);
   if (!PAYMENT_LINK_ULTRA) return TEST_MODE ? activatePremium(true, 'ultra') : toast('Ultra is coming very soon');
   checkout(PAYMENT_LINK_ULTRA);
@@ -5516,9 +5567,9 @@ $('settingsReminders').onclick = e => {
     saveSettings();
     return render();
   }
-  if (!e.target.closest('#setNotify') || !('Notification' in window) || Notification.permission !== 'default') return;
-  Notification.requestPermission().then(p => {
-    toast(p === 'granted' ? 'Reminders on' : 'Reminders are blocked in this browser');
+  if (!e.target.closest('#setNotify') || notifyPerm() !== 'default') return;
+  askNotify().then(p => {
+    toast(p === 'granted' ? 'Reminders on' : `Reminders are blocked${IS_APP ? ' — turn them on in Settings' : ' in this browser'}`);
     render();
     sendReminders();
   });
@@ -5656,7 +5707,7 @@ if (needsLock()) showLock('unlock');
 // Re-check every hour in case the app stays open past midnight
 setInterval(() => { render(); sendReminders(); }, 60 * 60 * 1000);
 // Install as a phone app + work offline (needs a real web address, not a file on disk)
-if ('serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js');
+if (!IS_APP && 'serviceWorker' in navigator && location.protocol.startsWith('http')) navigator.serviceWorker.register('sw.js');
 </script>
 </body>
 </html>

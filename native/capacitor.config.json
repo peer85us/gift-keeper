@@ -1,0 +1,12 @@
+{
+  "appId": "io.github.peer85us.giftkeeper",
+  "appName": "Gift Keeper",
+  "webDir": "www",
+  "backgroundColor": "#08070f",
+  "ios": { "contentInset": "never", "backgroundColor": "#08070f" },
+  "android": { "backgroundColor": "#08070f" },
+  "plugins": {
+    "SplashScreen": { "launchShowDuration": 600, "backgroundColor": "#08070f", "showSpinner": false },
+    "LocalNotifications": { "iconColor": "#9b7bff" }
+  }
+}
