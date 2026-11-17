@@ -1026,6 +1026,58 @@
   .avatar.fr-fire { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #ff7a18, 0 0 18px #ff3d2e; animation: firepulse 1.6s ease-in-out infinite; }
   .avatar.fr-rainbow { box-shadow: 0 0 0 2px #ff5fd2, 0 0 0 4px #7c5cff, 0 0 0 6px #22d3ee, 0 0 14px rgba(124,92,255,.6); }
   @keyframes firepulse { 50% { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px #ffb347, 0 0 26px #ff5a1f; } }
+  /* Limited (seasonal) card styles */
+  .gc.theme-xmas { background-image: radial-gradient(circle, rgba(255,255,255,.55) 1.5px, transparent 2px), radial-gradient(circle, rgba(255,255,255,.35) 1px, transparent 1.5px),
+    linear-gradient(180deg, transparent 72%, rgba(255,255,255,.22) 72% 76%, transparent 76%), linear-gradient(135deg, #d4202f, #7a0c16);
+    background-size: 26px 26px, 17px 17px, auto, auto; background-position: 0 0, 9px 12px, 0 0, 0 0; }
+  .gc.theme-snow { color: #10304a; background-image: radial-gradient(circle, #fff 2px, transparent 2.5px), radial-gradient(circle, rgba(255,255,255,.8) 1.2px, transparent 1.7px),
+    linear-gradient(160deg, #dff3ff, #9fd2f2 55%, #6aa8d8); background-size: 24px 24px, 15px 15px, auto; background-position: 0 0, 7px 9px, 0 0; }
+  .gc.theme-newyear { background-image: radial-gradient(circle at 25% 30%, rgba(255,215,90,.55) 0 3%, transparent 14%), radial-gradient(circle at 72% 40%, rgba(255,95,200,.5) 0 3%, transparent 15%),
+    radial-gradient(circle at 55% 75%, rgba(90,200,255,.45) 0 2%, transparent 12%), linear-gradient(135deg, #14112e, #2a1a4a 60%, #3d2a10); }
+  .gc.theme-valentine { background-image: radial-gradient(circle at 80% 20%, rgba(255,255,255,.3), transparent 40%),
+    repeating-linear-gradient(-45deg, rgba(255,255,255,.08) 0 8px, transparent 8px 16px), linear-gradient(135deg, #ff6aa2, #c2185b); }
+  .gc.theme-halloween { background-image: radial-gradient(circle at 78% 22%, #ffd36b 0 9%, rgba(255,211,107,.25) 10%, transparent 24%), linear-gradient(160deg, #2a1240, #120818 60%, #ff7a18 140%); }
+  .shop-fine + .shop-grid { margin-top: 16px; }
+  .theme-btn.limited-theme { border-color: rgba(255,210,122,.45); }
+  /* Stickers on a card */
+  .gc .gc-stamp { position: absolute; right: 12px; bottom: 36%; z-index: 1; pointer-events: none; font-size: 22px; line-height: 1;
+    width: 36px; height: 36px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,255,255,.88);
+    box-shadow: 0 4px 10px rgba(0,0,0,.3); transform: rotate(10deg); }
+  .gc .gc-stamp.beside { right: 56px; }
+  .gc.big .gc-stamp { width: 52px; height: 52px; font-size: 32px; }
+  .gc.big .gc-stamp.beside { right: 78px; }
+  .hero-stack .gc-stamp { display: none; }
+  .stamp-pv { width: 60px; height: 60px; display: grid; place-items: center; font-size: 34px; border-radius: 50%; background: rgba(255,255,255,.9);
+    box-shadow: 0 6px 16px rgba(0,0,0,.4); transform: rotate(10deg); }
+  /* Pets on profile pictures */
+  .avatar { position: relative; }
+  .avatar .pet { position: absolute; right: -6px; bottom: -5px; font-style: normal; font-size: 55%; line-height: 1;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); animation: petbob 3s ease-in-out infinite; }
+  .avatar.xl .pet { font-size: 40%; right: -4px; bottom: -2px; }
+  @keyframes petbob { 50% { transform: translateY(-2px) rotate(-6deg); } }
+  /* App colors */
+  body.has-look::before { background:
+      radial-gradient(32% 28% at 18% 18%, color-mix(in srgb, var(--l1) 55%, transparent), transparent 70%),
+      radial-gradient(28% 28% at 88% 12%, color-mix(in srgb, var(--l2) 40%, transparent), transparent 70%),
+      radial-gradient(38% 32% at 72% 88%, color-mix(in srgb, var(--l3) 30%, transparent), transparent 70%),
+      radial-gradient(34% 34% at 8% 92%, color-mix(in srgb, var(--l2) 25%, transparent), transparent 70%); }
+  .look-pv { width: 64px; height: 64px; border-radius: 50%; box-shadow: 0 6px 18px rgba(0,0,0,.4), inset 0 0 0 2px rgba(255,255,255,.25);
+    background: radial-gradient(circle at 30% 30%, var(--l3), transparent 55%), linear-gradient(135deg, var(--l1), var(--l2)); }
+  /* Earn free coins */
+  .shop-bal .streak { color: #ffb36b; font-weight: 700; }
+  .earn-list { display: flex; flex-direction: column; gap: 8px; }
+  .earn-row { display: flex; align-items: center; gap: 12px; padding: 11px 13px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); }
+  .earn-row.done { border-color: rgba(52,227,166,.35); background: rgba(52,227,166,.06); }
+  .earn-row .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .earn-row .info b { display: inline-flex; align-items: center; gap: 4px; font-size: 14.5px; flex-wrap: wrap; }
+  .earn-row .info b .i { width: 14px; height: 14px; color: #ffd27a; }
+  .earn-row small { color: var(--muted); font-size: 12.5px; line-height: 1.35; }
+  .earn-ic { font-size: 24px; width: 32px; text-align: center; flex: none; }
+  .earn-r { flex: none; font-weight: 800; color: #4ef0b0; }
+  .earn-h { font: 800 15px var(--round); margin: 18px 2px 8px; }
+  .streak-dots { display: inline-flex; gap: 3px; }
+  .streak-dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+  .streak-dots i.on { background: #ff8a3d; box-shadow: 0 0 6px #ff8a3d; }
   @media (max-width: 420px) { .coin-btn { padding: 7px 9px; font-size: 12px; } }
 
   /* Easier card typing */
@@ -1179,6 +1231,23 @@
   #giftIn .gi-later { background: none; border: 0; color: rgba(255,255,255,.65); font: 600 15px inherit; font-family: inherit; cursor: pointer; padding: 8px; }
   @keyframes giWobble { 0%, 100% { transform: rotate(0) scale(1); } 20% { transform: rotate(-9deg) scale(1.05); } 40% { transform: rotate(8deg) scale(1.05); } 60% { transform: rotate(-4deg); } }
   @keyframes giPop { from { transform: scale(.5) rotate(-8deg); opacity: 0; } }
+
+  /* Sign-in: Google button, and the full-screen "gate" that has to be passed before using the app */
+  .btn.google { width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; background: #fff; color: #1f1f1f;
+    border: 1px solid #dadce0; font-weight: 650; margin: 4px 0 2px; }
+  #acctGoogle.btn.google { background: #fff !important; color: #1f1f1f !important; border-color: #dadce0 !important; box-shadow: 0 6px 18px rgba(0,0,0,.25); }
+  .or { display: flex; align-items: center; gap: 12px; margin: 16px 0 6px; color: var(--muted); font-size: 13px; }
+  .or::before, .or::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+  .gate-head { display: none; text-align: center; margin: 6px 0 18px; }
+  .gate-head img { width: 72px; height: 72px; border-radius: 20px; box-shadow: 0 14px 40px rgba(124,92,255,.45); }
+  .gate-head h2 { margin: 14px 0 6px; font: 800 26px var(--round); letter-spacing: -.02em; }
+  .gate-head p { margin: 0; color: var(--muted); font-size: 15px; }
+  #accountOverlay.gate { z-index: 81; align-items: center; padding: 18px;
+    background: radial-gradient(70% 45% at 20% 10%, rgba(124,92,255,.45), transparent 70%), radial-gradient(60% 40% at 90% 30%, rgba(209,77,255,.3), transparent 70%),
+      radial-gradient(60% 40% at 50% 100%, rgba(255,122,89,.22), transparent 70%), #08070f; }
+  #accountOverlay.gate .sheet { border-radius: 26px; }
+  #accountOverlay.gate .sheet::before, #accountOverlay.gate .sheet-head, #accountOverlay.gate [data-close] { display: none; }
+  #accountOverlay.gate .gate-head { display: block; }
 
   /* Intro video: plays the first time someone opens Gift Keeper */
   #intro { position: fixed; inset: 0; z-index: 82; background: #08070f; display: flex; align-items: center; justify-content: center; }
@@ -1383,7 +1452,7 @@
       <button class="setting" id="setTour"><span><svg class="i i-sparkles" aria-hidden="true"><use href="#i-sparkles"/></svg>Show the welcome tour</span><span class="go">›</span></button>
     </div>
     <p class="page-sub" id="footNote" style="text-align:center;margin-top:26px;font-size:13px">
-      Gift Keeper v0.23 · Everything is saved only on this device.
+      Gift Keeper v0.24 · Everything is saved only on this device.
     </p>
   </section>
 </div>
@@ -1496,6 +1565,9 @@
 
     <label>Card theme <span class="lock" id="themeLock">PREMIUM</span></label>
     <div class="themes" id="themePicker"></div>
+
+    <label>Sticker</label>
+    <div class="themes" id="stampPicker"></div>
 
     <label for="fNotes">Notes</label>
     <textarea id="fNotes" placeholder="e.g. Birthday gift from Grandma"></textarea>
@@ -1669,11 +1741,16 @@
 <!-- Sign in with an emailed code -->
 <div class="overlay" id="accountOverlay">
   <form class="sheet" id="accountForm" novalidate>
+    <div class="gate-head"><img src="brand/logo-icon.svg" alt=""><h2>Welcome to Gift Keeper</h2><p>Sign in to keep your gift cards safe on every phone.</p></div>
     <div class="sheet-head">
       <h2>Sign in to Gift Keeper</h2>
       <button type="button" class="x" data-close aria-label="Close"><svg class="i i-x" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div id="acctStep1">
+      <button type="button" class="btn google" id="acctGoogle">
+        <svg viewBox="0 0 48 48" width="22" height="22" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+        Continue with Google</button>
+      <div class="or"><span>or use your email</span></div>
       <p class="page-sub">We’ll email you a code — no password to remember. New here? This creates your account.</p>
       <label for="acctEmail">Email</label>
       <input id="acctEmail" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com">
@@ -2030,7 +2107,20 @@ const THEMES = {
   neon:     { name: 'Neon',     sticker: '🌈', ultra: true },
   lava:     { name: 'Lava',     sticker: '🔥', ultra: true },
   aurora:   { name: 'Aurora',   sticker: '🌌', ultra: true },
+  // Limited styles: sold only during their season (MM-DD, may wrap past New Year), coins only, kept forever once bought
+  xmas:      { name: 'Christmas',   sticker: '🎅', season: ['11-15', '12-31'], price: 200 },
+  snow:      { name: 'Snow Day',    sticker: '☃️', season: ['12-01', '02-28'], price: 200 },
+  newyear:   { name: 'New Year',    sticker: '🎆', season: ['12-26', '01-10'], price: 200 },
+  valentine: { name: 'Valentine’s', sticker: '💘', season: ['02-01', '02-14'], price: 200 },
+  halloween: { name: 'Halloween',   sticker: '🎃', season: ['10-01', '10-31'], price: 200 },
 };
+// Is today inside a limited style's season?
+function inSeason(t) {
+  if (!t?.season) return true;
+  const md = today().slice(5), [from, to] = t.season;
+  return from <= to ? md >= from && md <= to : md >= from || md <= to;
+}
+const seasonEnd = t => new Date(`2000-${t.season[1]}T00:00`).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 const NOTIFY_KEY = 'giftKeeper.notified.v1';
 const FAMILY_KEY = 'giftKeeper.family.v1';
 const PREMIUM_KEY = 'giftKeeper.premium.v1';
@@ -2061,6 +2151,7 @@ let premium = loadPremium();
 let settings = loadSettings();
 let given = loadGiven();
 let formTheme = '';
+let formStamp = '';
 let payId = null;
 let wakeLock = null;
 let sb = null, user = null, cloudFamily = null, syncTimer = null, applying = false, syncState = '', pendingUpgrade = false, pendingCoins = false;
@@ -2239,7 +2330,8 @@ function goalBar(m) {
 
 function avatar(m, size = '') {
   const frame = m?.frame && owns(m.id, 'frame:' + m.frame) ? 'fr-' + m.frame : '';
-  return `<span class="avatar ${size} ${frame}" style="--av:${m?.color || '#888'}">${esc(m?.avatar || '🙂')}</span>`;
+  const pet = size !== 'sm' && PETS[m?.pet] && owns(m.id, 'pet:' + m.pet) ? `<i class="pet">${PETS[m.pet].emoji}</i>` : '';
+  return `<span class="avatar ${size} ${frame}" style="--av:${m?.color || '#888'}">${esc(m?.avatar || '🙂')}${pet}</span>`;
 }
 
 const findBrand = name => BRANDS.find(b => b.name.toLowerCase() === String(name || '').trim().toLowerCase());
@@ -2280,7 +2372,9 @@ function expiryText(date) {
 }
 const expiringSoon = c => Number(c.balance) > 0 && daysLeft(c.expires) !== null && daysLeft(c.expires) <= 30;
 // Money still on it and a week or less to go (or already expired)
-const remindDays = () => isPremium() ? settings.remindDays : URGENT_DAYS;
+const remindDays = () => isPremium() ? Math.max(settings.remindDays, hasEarly() ? EARLY_DAYS : 0) : hasEarly() ? EARLY_DAYS : URGENT_DAYS;
+const hasEarly = () => owns(family.current, 'boost:early');   // "Early alerts" boost from the coins shop
+const EARLY_DAYS = 30;
 const isUrgent = c => Number(c.balance) > 0 && daysLeft(c.expires) !== null && daysLeft(c.expires) <= remindDays();
 function urgentText(c) {
   const days = daysLeft(c.expires);
@@ -2331,14 +2425,17 @@ function expToDate(exp) {
 }
 
 // ---------- card visual ----------
-const themeOk = (k, ownerId) => !k || (THEMES[k].ultra ? isUltra() : isPremium()) || owns(ownerId, 'theme:' + k);
+const themeOk = (k, ownerId) => !k || (!THEMES[k].season && (THEMES[k].ultra ? isUltra() : isPremium())) || owns(ownerId, 'theme:' + k);
 const themeOf = c => THEMES[c.theme] && themeOk(c.theme, c.owner) ? c.theme : '';
+const themePrice = t => t.price ?? (t.ultra ? 250 : 100);
+const stampOf = c => STICKERS[c.stamp] && owns(c.owner, 'sticker:' + c.stamp) ? c.stamp : '';
 function cardVisual(c, big = false) {
   const prepaid = isPrepaid(c);
   const exp = expShort(c);
   return `
     <div class="gc ${big ? 'big' : ''} ${isUrgent(c) ? 'urgent' : ''} ${themeOf(c) ? 'theme-' + themeOf(c) : ''}" style="--c:${colorFor(c)}">
       ${themeOf(c) ? `<div class="gc-sticker">${THEMES[themeOf(c)].sticker}</div>` : ''}
+      ${stampOf(c) ? `<div class="gc-stamp ${themeOf(c) ? 'beside' : ''}" title="${esc(STICKERS[stampOf(c)].name)}">${STICKERS[stampOf(c)].emoji}</div>` : ''}
       <div class="gc-top">
         <div class="gc-title">
           <div class="gc-name">${esc(displayName(c))}</div>
@@ -2420,6 +2517,8 @@ function render() {
   renderFamily();
   renderActivity();
   renderSettings();
+  applyLook();
+  checkRewards();
 }
 
 function renderHeader() {
@@ -2495,7 +2594,9 @@ function sendReminders() {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
   let sent = {};
   try { sent = JSON.parse(localStorage.getItem(NOTIFY_KEY)) || {}; } catch {}
-  urgentCards(myCards()).filter(c => daysLeft(c.expires) >= 0 && sent[c.id] !== today()).forEach(c => {
+  // Every day in the last week; before that only on milestone days, so a 30-day window doesn't nag daily
+  const due = d => d <= URGENT_DAYS || [60, 30, 14].includes(d);
+  urgentCards(myCards()).filter(c => daysLeft(c.expires) >= 0 && due(daysLeft(c.expires)) && sent[c.id] !== today()).forEach(c => {
     const owner = c.owner !== family.current && member(c.owner) ? `${possessive(member(c.owner).name)} ` : 'your ';
     new Notification(`Use ${owner}${displayName(c)} card!`, {
       body: `${money(c.balance)} left — it ${urgentText(c)}.`,
@@ -2645,7 +2746,7 @@ function readForm() {
   const amount = $('fAmount').value === '' ? null : Number($('fAmount').value);
   const balance = $('fBalance').value === '' ? amount : Number($('fBalance').value);
   const base = { type: formType, amount: amount ?? balance ?? 0, balance: balance ?? 0, notes: $('fNotes').value.trim(),
-                 from: $('fFrom').value.trim(), color: formColor, theme: formTheme, owner: formOwner };
+                 from: $('fFrom').value.trim(), color: formColor, theme: formTheme, stamp: formStamp, owner: formOwner };
   if (formType === 'prepaid') {
     const number = digits($('fCardNum').value);
     const network = detectNetwork(number);
@@ -2687,13 +2788,14 @@ function openForm(id = null) {
   $('fBalance').value = c.balance ?? '';
   $('fNotes').value = c.notes || '';
   $('fFrom').value = c.from || '';
-  $('moreOpts').open = !!(c.from || c.notes || c.color || c.theme);
+  $('moreOpts').open = !!(c.from || c.notes || c.color || c.theme || c.stamp);
   $('pasteBox').hidden = true; $('pasteBox').value = '';
   formOwner = c.owner || (isParent() && walletScope !== 'all' ? walletScope : family.current);
   renderOwnerPicker();
   formColor = c.color || '';
   renderSwatches();
   formTheme = c.theme || '';
+  formStamp = c.stamp || '';
   renderThemes();
   $('formError').textContent = '';
   setFormType(isPrepaid(c) ? 'prepaid' : 'store');
@@ -2711,6 +2813,8 @@ $('ownerPicker').onclick = e => {
   if (!b) return;
   formOwner = b.dataset.owner;
   renderOwnerPicker();
+  renderThemes();   // styles and stickers belong to the card's owner
+  updatePreview();
 };
 
 function renderSwatches() {
@@ -2728,9 +2832,24 @@ $('colorPicker').onclick = e => {
 
 function renderThemes() {
   $('themeLock').hidden = isPremium();
-  $('themePicker').innerHTML = Object.entries(THEMES).map(([k, t]) =>
-    `<button type="button" class="theme-btn ${t.ultra ? 'ultra-theme' : ''} ${k === formTheme ? 'on' : ''}" data-theme="${k}"><i class="tdot gc theme-${k}" style="--c:#555"></i>${t.name}${themeOk(k, formOwner) ? '' : ` · ${coin(t.ultra ? 250 : 100)}`}</button>`).join('');
+  $('themePicker').innerHTML = Object.entries(THEMES).filter(([k, t]) => inSeason(t) || themeOk(k, formOwner) || k === formTheme).map(([k, t]) =>
+    `<button type="button" class="theme-btn ${t.ultra ? 'ultra-theme' : ''} ${t.season ? 'limited-theme' : ''} ${k === formTheme ? 'on' : ''}" data-theme="${k}"><i class="tdot gc theme-${k}" style="--c:#555"></i>${t.name}${themeOk(k, formOwner) ? '' : ` · ${coin(themePrice(t))}`}</button>`).join('');
+  renderStamps();
 }
+function renderStamps() {
+  const mine = Object.keys(STICKERS).filter(k => owns(formOwner, 'sticker:' + k));
+  $('stampPicker').innerHTML = `<button type="button" class="theme-btn ${!formStamp ? 'on' : ''}" data-stamp="">None</button>` +
+    mine.map(k => `<button type="button" class="theme-btn ${k === formStamp ? 'on' : ''}" data-stamp="${k}">${STICKERS[k].emoji} ${STICKERS[k].name}</button>`).join('') +
+    `<button type="button" class="theme-btn" data-stamp="shop">${ic('coins')} ${mine.length ? 'More stickers' : 'Get stickers'}</button>`;
+}
+$('stampPicker').onclick = e => {
+  const b = e.target.closest('[data-stamp]');
+  if (!b) return;
+  if (b.dataset.stamp === 'shop') { shopFor = formOwner; return openShop('stickers'); }
+  formStamp = b.dataset.stamp;
+  renderStamps();
+  updatePreview();
+};
 $('themePicker').onclick = e => {
   const b = e.target.closest('[data-theme]');
   if (!b) return;
@@ -2832,7 +2951,9 @@ $('cardForm').addEventListener('submit', e => {
     if (Number(c.balance) !== fields.balance) c.history.push({ date: today(), balance: fields.balance, note: 'Edited', by: family.current });
     Object.assign(c, fields);
   } else {
-    cards.push({ id: crypto.randomUUID(), added: today(), history: [{ date: today(), balance: fields.balance, note: 'Added', by: family.current }], ...fields });
+    const id = crypto.randomUUID();
+    cards.push({ id, added: today(), history: [{ date: today(), balance: fields.balance, note: 'Added', by: family.current }], ...fields });
+    setTimeout(() => cardReward(fields.owner, id), 1200);
   }
   save();
   close('formOverlay');
@@ -4124,13 +4245,22 @@ async function cloudInit() {
   try {
     const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2');
     sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    sb.auth.onAuthStateChange((event, session) => {
-      const was = user?.id;
-      user = session?.user || null;
-      if (user && user.id !== was) setTimeout(cloudStart);   // Supabase asks not to await its calls inside this callback
-      if (!user && was) { cloudFamily = null; render(); }
-    });
-  } catch { sb = null; }
+    sb.auth.onAuthStateChange((event, session) => onAuth(session));
+    const { data } = await sb.auth.getSession();
+    if (!data.session) requireSignIn();
+  } catch { sb = null; }   // offline: keep working on this phone, ask again next time
+}
+function onAuth(session) {
+  const was = user?.id;
+  user = session?.user || null;
+  if (user && $('accountOverlay').classList.contains('gate')) { $('accountOverlay').classList.remove('gate'); close('accountOverlay'); }
+  if (user && user.id !== was) setTimeout(cloudStart);   // Supabase asks not to await its calls inside this callback
+  if (!user && was) { cloudFamily = null; render(); requireSignIn(); }
+}
+// Everyone signs in before using Gift Keeper (once accounts are switched on). Kids use the family's sign-in on a shared phone.
+function requireSignIn() {
+  if (!cloudOn() || !sb || user) return;
+  openAccount(true);
 }
 
 // What gets shared with the family. Who is holding this phone (family.current) and device settings stay local.
@@ -4245,7 +4375,7 @@ function checkout(link) {
 
 // ----- Settings → Account -----
 function renderAccount() {
-  $('footNote').textContent = `Gift Keeper v0.23 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
+  $('footNote').textContent = `Gift Keeper v0.24 · ${user ? 'Backed up and synced to your account.' : 'Everything is saved only on this device.'}`;
   $('acctTitle').hidden = $('settingsAccount').hidden = !cloudOn();
   if (!cloudOn()) return;
   $('settingsAccount').innerHTML = !user
@@ -4253,7 +4383,7 @@ function renderAccount() {
     : `<div class="setting static"><span>${ic('shield')}${esc(user.email)}<span class="sub">${esc(syncState || 'Connecting…')}${settings.lastSync ? ' · ' + new Date(settings.lastSync).toLocaleString() : ''}</span></span></div>
        ${cloudFamily && isParent() ? `<div class="setting static"><span>${ic('users')}Family invite code<span class="sub">On another phone: sign in, then tap “Join a family” and type this code</span></span><b class="mono invite-code">${esc(cloudFamily.invite_code)}</b></div>` : ''}
        <button class="setting" id="acctJoin"><span>${ic('mail')}Join a family<span class="sub">Use the invite code from someone’s Gift Keeper</span></span><span class="go">›</span></button>
-       <button class="setting" id="acctOut"><span>Sign out<span class="sub">Your cards stay on this phone</span></span><span class="go">›</span></button>
+       <button class="setting" id="acctOut"><span>Sign out<span class="sub">You’ll need to sign in again to use Gift Keeper</span></span><span class="go">›</span></button>
        ${isParent() ? `<button class="setting danger" id="acctDelete"><span>${ic('trash')}Delete my account<span class="sub">Removes your sign-in and cloud copy</span></span></button>` : ''}`;
 }
 $('settingsAccount').onclick = async e => {
@@ -4281,8 +4411,9 @@ $('settingsAccount').onclick = async e => {
 };
 
 // ----- Sign-in sheet: email code (works inside the installed phone app, where links open the browser) -----
-function openAccount() {
+function openAccount(gate = false) {
   if (!sb) return toast('Can’t reach the sign-in service — check your internet');
+  $('accountOverlay').classList.toggle('gate', gate);
   $('acctStep1').hidden = false; $('acctStep2').hidden = true;
   $('acctEmail').value = otpEmail; $('acctError').textContent = '';
   open('accountOverlay');
@@ -4308,10 +4439,17 @@ $('accountForm').addEventListener('submit', async e => {
     const { error } = await sb.auth.verifyOtp({ email: otpEmail, token, type: 'email' });
     $('acctGo').disabled = false;
     if (error) return void ($('acctError').textContent = 'That code didn’t work. Check it, or tap Back to send a new one.');
+    $('accountOverlay').classList.remove('gate');
     close('accountOverlay');
     toast('Signed in');
   }
 });
+// Google: leaves for Google's sign-in page and comes back here signed in
+$('acctGoogle').onclick = async () => {
+  $('acctError').textContent = '';
+  const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.origin + location.pathname } });
+  if (error) $('acctError').textContent = 'Google sign-in isn’t working right now — use your email instead.';
+};
 $('acctBack').onclick = () => { $('acctStep1').hidden = false; $('acctStep2').hidden = true; $('acctError').textContent = ''; };
 
 // ---------- Enter screen: a full-screen welcome the first time someone opens Gift Keeper ----------
@@ -4424,14 +4562,140 @@ const FRAMES = {
   fire:    { name: 'Fire ring',    price: 200 },
   rainbow: { name: 'Rainbow ring', price: 200 },
 };
+// Little stamps that sit on a gift card (picked in the card form, like a style)
+const STICKERS = {
+  star:   { name: 'Favorite', emoji: '⭐', price: 50 },
+  cake:   { name: 'Birthday', emoji: '🎂', price: 50 },
+  gift:   { name: 'Gift',     emoji: '🎁', price: 50 },
+  heart:  { name: 'Love',     emoji: '❤️', price: 50 },
+  party:  { name: 'Party',    emoji: '🎉', price: 75 },
+  fire:   { name: 'Hot',      emoji: '🔥', price: 75 },
+  crown:  { name: 'Royal',    emoji: '👑', price: 100 },
+  rocket: { name: 'Rocket',   emoji: '🚀', price: 100 },
+};
+// A pet that rides along on your profile picture
+const PETS = {
+  puppy:  { name: 'Puppy',  emoji: '🐶', price: 150 },
+  kitty:  { name: 'Kitty',  emoji: '🐱', price: 150 },
+  bunny:  { name: 'Bunny',  emoji: '🐰', price: 150 },
+  panda:  { name: 'Panda',  emoji: '🐼', price: 200 },
+  fox:    { name: 'Fox',    emoji: '🦊', price: 200 },
+  owl:    { name: 'Owl',    emoji: '🦉', price: 200 },
+  dragon: { name: 'Dragon', emoji: '🐉', price: 400 },
+};
+// App colors: change the glow, buttons and highlights for whoever is using the app
+const LOOKS = {
+  sunset: { name: 'Sunset', c: ['#ff8a5c', '#ff4d8d', '#ffc36b'], price: 200 },
+  ocean:  { name: 'Ocean',  c: ['#2fb8ff', '#3b5bff', '#22e3c4'], price: 200 },
+  forest: { name: 'Forest', c: ['#39d98a', '#0f9d58', '#b8f36b'], price: 200 },
+  candy:  { name: 'Candy',  c: ['#ff9ad5', '#b98cff', '#8fd3ff'], price: 200 },
+  gold:   { name: 'Gold',   c: ['#ffcf5c', '#e09a2a', '#fff1b8'], price: 300 },
+};
 // Keep prices in step with shop_items in supabase/schema.sql
 const SHOP = [
-  ...Object.entries(THEMES).filter(([k]) => k).map(([k, t]) => ({ id: 'theme:' + k, tab: 'styles', name: t.name, price: t.ultra ? 250 : 100 })),
+  ...Object.entries(THEMES).filter(([k, t]) => k && t.season).map(([k, t]) => ({ id: 'theme:' + k, tab: 'styles', name: t.name, price: themePrice(t), limited: t })),
+  ...Object.entries(THEMES).filter(([k, t]) => k && !t.season).map(([k, t]) => ({ id: 'theme:' + k, tab: 'styles', name: t.name, price: themePrice(t) })),
+  ...Object.entries(STICKERS).map(([k, d]) => ({ id: 'sticker:' + k, tab: 'stickers', name: d.name, price: d.price })),
   ...Object.entries(KID_DESIGNS).map(([k, d]) => ({ id: 'kid:' + k, tab: 'kids', name: d.name, price: d.price })),
+  ...Object.entries(PETS).map(([k, d]) => ({ id: 'pet:' + k, tab: 'pets', name: d.name, price: d.price })),
   ...Object.entries(FRAMES).map(([k, f]) => ({ id: 'frame:' + k, tab: 'frames', name: f.name, price: f.price })),
+  ...Object.entries(LOOKS).map(([k, d]) => ({ id: 'look:' + k, tab: 'looks', name: d.name, price: d.price })),
+  { id: 'boost:early', tab: 'boosts', name: 'Early alerts', price: 150, about: `“Use it!” alerts start ${EARLY_DAYS} days before a card expires, with pop-ups at 30, 14 and 7 days.` },
   { id: 'slots5', tab: 'boosts', name: '+5 card slots', price: 400, repeat: true, about: 'Room for 5 more gift cards on the free plan. Buy as many as you like.' },
 ];
-const SHOP_TABS = { coins: 'Get coins', styles: 'Card styles', kids: 'Kids’ cards', frames: 'Frames', boosts: 'Boosts' };
+const SHOP_TABS = { coins: 'Get coins', earn: 'Earn free', styles: 'Card styles', stickers: 'Stickers', kids: 'Kids’ cards',
+  pets: 'Pets', frames: 'Frames', looks: 'App colors', boosts: 'Boosts' };
+
+// ----- Free coins: streaks, adding cards, achievements (amounts kept in step with supabase/schema.sql) -----
+const STREAK_DAYS = 7, STREAK_COINS = 25, CARD_COINS = 2, CARD_CAP = 5;
+const ACHIEVEMENTS = [
+  { id: 'first',  emoji: '🎁', name: 'First card',      about: 'Add your first gift card',          coins: 10, test: (m, mine) => mine.length >= 1 },
+  { id: 'five',   emoji: '🗂️', name: 'Card collector',  about: 'Keep 5 gift cards in Gift Keeper',  coins: 25, test: (m, mine) => mine.length >= 5,
+    progress: (m, mine) => `${Math.min(5, mine.length)}/5` },
+  { id: 'spent',  emoji: '🧾', name: 'Every last cent', about: 'Use up a whole gift card',          coins: 15, test: (m, mine) => mine.some(usedUp) },
+  { id: 'beat',   emoji: '⏰', name: 'Beat the clock',  about: 'Use up a card before it expires',   coins: 25, test: (m, mine) => mine.some(c => usedUp(c) && c.expires && c.history.at(-1).date <= c.expires) },
+  { id: 'big',    emoji: '💰', name: 'Big wallet',      about: 'Have $100 on your gift cards',      coins: 20, test: (m, mine) => balanceOf(mine) >= 100,
+    progress: (m, mine) => `${money(Math.min(100, balanceOf(mine)))} of $100` },
+  { id: 'goal',   emoji: '🎯', name: 'Goal reached',    about: 'Reach your savings goal',           coins: 50, test: (m, mine) => m.goalName && m.goalAmount > 0 && balanceOf(mine) >= m.goalAmount },
+];
+const usedUp = c => Number(c.amount) > 0 && Number(c.balance) === 0 && c.history?.length > 1;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// Days in a row someone claimed the free daily coins (today counts if claimed, otherwise the run up to yesterday)
+function streakOf(id) {
+  const days = new Set(shop.ledger.filter(e => e.member === id && e.reason.startsWith('daily:')).map(e => e.reason.slice(6)));
+  let d = days.has(today()) ? today() : addDays(today(), -1), n = 0;
+  while (days.has(d)) { n++; d = addDays(d, -1); }
+  return n;
+}
+const cardCoinsThisMonth = id => shop.ledger.filter(e => e.member === id && e.reason.startsWith('card:') && e.date.slice(0, 7) === today().slice(0, 7)).length;
+
+async function cardReward(owner, cardId) {
+  if (!member(owner) || cardCoinsThisMonth(owner) >= CARD_CAP) return;
+  if (coinsOnServer()) {
+    const { error } = await sb.rpc('claim_card', { fid: cloudFamily.id, member: owner, card: cardId });
+    if (error) return;
+    await loadLedger();
+  } else addCoins(owner, CARD_COINS, 'card:' + cardId);
+  toast(`+${CARD_COINS} coins for adding a card`);
+  renderHeader();
+}
+
+let rewarding = false;
+const rewardTried = new Set();   // don't keep asking the server for one it turned down
+async function checkRewards() {
+  const m = me();
+  if (rewarding || !m) return;
+  const mine = cards.filter(c => c.owner === m.id);
+  const todo = ACHIEVEMENTS.filter(a => !hasBonus('ach:' + a.id) && !rewardTried.has(m.id + a.id) && a.test(m, mine));
+  if (!todo.length) return;
+  rewarding = true;
+  try {
+    for (const a of todo) {
+      rewardTried.add(m.id + a.id);
+      if (!await claimBonus('ach:' + a.id, a.coins)) continue;
+      confetti();
+      toast(`${a.emoji} ${a.name}! +${a.coins} coins`);
+      renderHeader();
+      if ($('shopOverlay').classList.contains('open')) renderShop();
+      await sleep(2200);
+    }
+  } finally { rewarding = false; }
+}
+
+// App colors for whoever is using the app right now
+function applyLook() {
+  const m = me(), l = m && LOOKS[m.look] && owns(m.id, 'look:' + m.look) ? LOOKS[m.look] : null;
+  const st = document.body.style;
+  document.body.classList.toggle('has-look', !!l);
+  if (!l) { ['--accent', '--accent-soft', '--grad', '--l1', '--l2', '--l3'].forEach(v => st.removeProperty(v)); return; }
+  const [a, b, c] = l.c;
+  st.setProperty('--accent', a);
+  st.setProperty('--accent-soft', `color-mix(in srgb, ${a} 18%, transparent)`);
+  st.setProperty('--grad', `linear-gradient(120deg, ${a} 0%, ${b} 50%, ${c} 100%)`);
+  st.setProperty('--l1', a); st.setProperty('--l2', b); st.setProperty('--l3', c);
+}
+
+function renderEarn(who) {
+  const mine = cards.filter(c => c.owner === who.id), streak = streakOf(who.id), cardsN = cardCoinsThisMonth(who.id);
+  const claimed = shop.ledger.some(e => e.member === who.id && e.reason === 'daily:' + today());
+  const row = (emoji, title, sub, right, done = false) => `<div class="earn-row ${done ? 'done' : ''}"><span class="earn-ic">${emoji}</span>
+    <span class="info"><b>${title}</b><small>${sub}</small></span><span class="earn-r">${right}</span></div>`;
+  const left = STREAK_DAYS - (streak % STREAK_DAYS || (claimed ? STREAK_DAYS : 0));
+  return `<div class="earn-list">
+    ${row('📅', `Daily bonus · ${coin(DAILY_COINS)}`, claimed ? 'Claimed today — come back tomorrow' : 'Tap “Free daily” above', claimed ? '✓' : '', claimed)}
+    ${row('🔥', `${STREAK_DAYS}-day streak · ${coin(STREAK_COINS)}`, `Claim the daily bonus ${STREAK_DAYS} days in a row. ${streak ? `You’re on day ${streak}` : 'Start today'}${left && left < STREAK_DAYS ? ` — ${left} to go` : ''}.`,
+      `<span class="streak-dots">${Array.from({ length: STREAK_DAYS }, (_, i) => `<i class="${i < (streak % STREAK_DAYS || (streak ? STREAK_DAYS : 0)) ? 'on' : ''}"></i>`).join('')}</span>`)}
+    ${row('➕', `Add a gift card · ${coin(CARD_COINS)} each`, `Up to ${CARD_CAP} cards a month. ${cardsN}/${CARD_CAP} this month.`, cardsN >= CARD_CAP ? '✓' : '', cardsN >= CARD_CAP)}
+    ${row('💌', `Invite a friend · ${coin(SHARE_COINS)}`, `They get ${INVITE_COINS} coins when they join.`, hasBonus('share') ? '✓' : '<button class="mini ok" data-act="invite">Invite</button>', hasBonus('share'))}
+  </div>
+  <h3 class="earn-h">Achievements</h3>
+  <div class="earn-list">${ACHIEVEMENTS.map(a => {
+    const got = shop.ledger.some(e => e.member === who.id && e.reason === 'bonus:ach:' + a.id);
+    return row(a.emoji, `${a.name} · ${coin(a.coins)}`, a.about + (a.progress && !got ? ` · ${a.progress(who, mine)}` : ''), got ? '✓' : '', got);
+  }).join('')}</div>
+  <p class="shop-fine">Achievements pay out once per person, the moment you earn them.</p>`;
+}
 
 let shop = { ledger: [], asks: [], pending: null };
 try { shop = { ...shop, ...JSON.parse(localStorage.getItem(COINS_KEY)) }; } catch {}
@@ -4464,7 +4728,8 @@ function openShop(tab = 'coins') {
 function renderShop() {
   const who = member(shopFor) || me(), parent = isParent(), mine = who.id === family.current;
   const claimed = shop.ledger.some(e => e.member === who.id && e.reason === 'daily:' + today());
-  $('shopBal').innerHTML = `<div><small>${mine ? 'Your coins' : `${esc(possessive(who.name))} coins`}</small><b>${coin(coinsOf(who.id))}</b></div>
+  const streak = streakOf(who.id);
+  $('shopBal').innerHTML = `<div><small>${mine ? 'Your coins' : `${esc(possessive(who.name))} coins`}${streak > 1 ? ` · <span class="streak">🔥 ${streak}-day streak</span>` : ''}</small><b>${coin(coinsOf(who.id))}</b></div>
     <button class="mini ${claimed ? '' : 'ok'}" data-act="daily" ${claimed ? 'disabled' : ''}>${claimed ? 'Come back tomorrow' : `Free daily +${DAILY_COINS}`}</button>`;
   $('shopWho').hidden = !parent || !hasFamily();
   $('shopWho').innerHTML = family.members.map(m =>
@@ -4493,21 +4758,33 @@ function renderShop() {
       </button>`).join('')}</div>
       <p class="shop-fine">${parent ? `Coins are for ${mine ? 'you' : esc(who.name)}. ` : ''}Coins can only be spent in Gift Keeper and can’t be turned back into money. Only parents can buy coins.
       ${!COIN_PACKS[0].link && TEST_MODE ? '<br><b>Test mode</b> — payments aren’t connected, so packs are free on this computer.' : ''}</p>`;
+  } else if (shopTab === 'earn') {
+    html += renderEarn(who);
   } else {
-    const items = SHOP.filter(i => i.tab === shopTab);
+    const items = SHOP.filter(i => i.tab === shopTab && (!i.limited || inSeason(i.limited) || owns(who.id, i.id)));
     if (shopTab === 'kids' && who.role !== 'kid') html += `<p class="shop-fine" style="margin-top:0">Designs for the Gift Keeper Kids card. ${parent && hasFamily() ? 'Pick a kid above to shop for them.' : ''}</p>`;
-    if (shopTab === 'styles') html += `<p class="shop-fine" style="margin-top:0">Use a style on any of ${mine ? 'your' : esc(possessive(who.name))} gift cards. ${isUltra() ? 'You already have all of them with Ultra.' : isPremium() ? 'Premium includes the first six.' : 'Premium includes the first six, Ultra all of them.'}</p>`;
+    if (shopTab === 'styles') html += `<p class="shop-fine" style="margin-top:0">Use a style on any of ${mine ? 'your' : esc(possessive(who.name))} gift cards. ${isUltra() ? 'Ultra includes all the regular styles.' : isPremium() ? 'Premium includes the first six regular styles.' : 'Premium includes the first six regular styles, Ultra all of them.'} ${items.some(i => i.limited) ? '<b>Limited styles</b> are coins-only and leave the shop when their season ends — keep them forever once you buy.' : ''}</p>`;
+    if (shopTab === 'stickers') html += `<p class="shop-fine" style="margin-top:0">Stick one on any of ${mine ? 'your' : esc(possessive(who.name))} gift cards — pick it under <b>More options</b> when you add or edit a card.</p>`;
+    if (shopTab === 'pets') html += `<p class="shop-fine" style="margin-top:0">A buddy that sits on ${mine ? 'your' : esc(possessive(who.name))} profile picture everywhere in the app.</p>`;
+    if (shopTab === 'looks') html += `<p class="shop-fine" style="margin-top:0">Recolor the whole app for ${mine ? 'you' : esc(who.name)} — the glow, buttons and highlights.</p>`;
     html += `<div class="shop-grid">${items.map(i => {
       const k = i.id.split(':')[1], have = !i.repeat && owns(who.id, i.id);
-      const on = (i.tab === 'kids' && kidbank[who.id]?.design === k) || (i.tab === 'frames' && who.frame === k);
+      const on = (i.tab === 'kids' && kidbank[who.id]?.design === k) || (i.tab === 'frames' && who.frame === k)
+        || (i.tab === 'pets' && who.pet === k) || (i.tab === 'looks' && who.look === k) || (i.id === 'boost:early' && have);
+      const passive = i.tab === 'styles' || i.tab === 'stickers';   // owned items you apply in the card form
       const preview = i.tab === 'styles' ? `<i class="gc shop-gc theme-${k}" style="--c:${who.color || '#7c5cff'}"></i>`
+        : i.tab === 'stickers' ? `<span class="stamp-pv">${STICKERS[k].emoji}</span>`
         : i.tab === 'kids' ? `<span class="shop-kc kcard d-${k}" style="--c:${who.color || '#7c5cff'}"><span class="kc-sticker">${KID_DESIGNS[k].sticker}</span></span>`
+        : i.tab === 'pets' ? `<span class="avatar xl" style="--av:${who.color || '#888'}">${esc(who.avatar || '🙂')}<i class="pet">${PETS[k].emoji}</i></span>`
         : i.tab === 'frames' ? `<span class="avatar xl fr-${k}" style="--av:${who.color || '#888'}">${esc(who.avatar || '🙂')}</span>`
+        : i.tab === 'looks' ? `<span class="look-pv" style="--l1:${LOOKS[k].c[0]};--l2:${LOOKS[k].c[1]};--l3:${LOOKS[k].c[2]}"></span>`
+        : i.id === 'boost:early' ? `<span class="boost-ic">${ic('bell')}${EARLY_DAYS}</span>`
         : `<span class="boost-ic">${ic('plus')}5</span>`;
       const disabled = i.tab === 'kids' && who.role !== 'kid';
       return `<button class="shop-item ${on ? 'equipped' : ''}" data-act="item" data-id="${i.id}" ${disabled ? 'disabled' : ''}>
+        ${i.limited ? `<span class="tag">Limited · until ${seasonEnd(i.limited)}</span>` : ''}
         <span class="pv">${preview}</span><b>${i.name}</b>${i.about ? `<span class="s">${i.about}</span>` : ''}
-        <span class="price ${have ? 'owned' : ''}">${on ? 'Using' : have ? (i.tab === 'styles' ? 'Owned' : 'Use') : coin(i.price)}</span></button>`;
+        <span class="price ${have ? 'owned' : ''}">${on ? (i.id === 'boost:early' ? 'On' : 'Using') : have ? (passive ? 'Owned' : 'Use') : coin(i.price)}</span></button>`;
     }).join('')}</div>`;
     if (shopTab === 'boosts') html += `<p class="shop-fine">You have ${FREE_CARD_LIMIT + extraSlots()} card slots on the free plan${isPremium() ? ' — Premium already gives you unlimited cards' : ''}.</p>`;
   }
@@ -4518,9 +4795,12 @@ function equip(who, item) {
   const [kind, k] = item.split(':');
   if (kind === 'kid') { const a = kb(who.id); a.design = a.design === k ? '' : k; saveKidbank(); }
   if (kind === 'frame') { who.frame = who.frame === k ? '' : k; saveFamily(); }
+  if (kind === 'pet') { who.pet = who.pet === k ? '' : k; saveFamily(); }
+  if (kind === 'look') { who.look = who.look === k ? '' : k; saveFamily(); }
 }
 async function buyItem(who, item) {
   const it = SHOP.find(x => x.id === item);
+  if (it.limited && !inSeason(it.limited)) return toast(`${it.name} is out of season`);
   if (coinsOf(who.id) < it.price) { toast(`Not enough coins — ${it.name} costs ${it.price}`); shopTab = 'coins'; return renderShop(); }
   if (coinsOnServer()) {
     const { error } = await sb.rpc('buy_item', { fid: cloudFamily.id, member: who.id, item });
@@ -4537,7 +4817,15 @@ async function claimDaily(who) {
     if (error) return toast('Already claimed today');
     await loadLedger();
   } else addCoins(who.id, DAILY_COINS, 'daily:' + today());
-  toast(`+${DAILY_COINS} coins`);
+  const streak = streakOf(who.id);
+  toast(`+${DAILY_COINS} coins${streak > 1 ? ` · 🔥 ${streak}-day streak` : ''}`);
+  if (streak && streak % STREAK_DAYS === 0 && !shop.ledger.some(e => e.member === who.id && e.reason === 'streak:' + today())) {
+    if (coinsOnServer()) { if ((await sb.rpc('claim_streak', { fid: cloudFamily.id, member: who.id })).error) return; await loadLedger(); }
+    else addCoins(who.id, STREAK_COINS, 'streak:' + today());
+    await sleep(1400);
+    confetti();
+    toast(`🔥 ${streak} days in a row! +${STREAK_COINS} coins`);
+  }
 }
 function buyPack(p, forId) {
   if (inAppPay()) return payInApp({ kind: 'coins', pack: p.id, member: forId }, `${(p.coins + p.bonus).toLocaleString()} Keeper Coins · ${p.price}`, waitForCoins);
@@ -4576,7 +4864,7 @@ $('shopOverlay').onclick = async e => {
   }
   if (act === 'item') {
     const it = SHOP.find(x => x.id === b.dataset.id);
-    if (!it.repeat && owns(who.id, it.id)) { if (it.tab !== 'styles') equip(who, it.id); }
+    if (!it.repeat && owns(who.id, it.id)) { if (!['styles', 'stickers', 'boosts'].includes(it.tab)) equip(who, it.id); }
     else await buyItem(who, it.id);
   }
   renderShop();
@@ -5306,6 +5594,7 @@ function close(id) {
 document.querySelectorAll('.overlay').forEach(o => {
   o.addEventListener('click', e => {
     if (e.target !== o && !e.target.closest('[data-close]')) return;
+    if (o.classList.contains('gate')) return;   // signing in is required
     if (o.id === 'scanOverlay') stopScanner();
     else if (o.id === 'askOverlay') askDone?.(false);
     else if (o.id === 'verifyOverlay') endVerify(false);

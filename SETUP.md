@@ -19,6 +19,19 @@ Site: https://peer85us.github.io/gift-keeper/  ·  App: …/gift-keeper/app.html
 6. Before real launch: Authentication → SMTP — connect a real email sender (Resend, Postmark…);
    Supabase's built-in sender only allows a few emails an hour.
 
+### Sign in with Google (optional, recommended)
+Once step 2 is done, everyone has to sign in when they open Gift Keeper — by email code or with Google.
+1. Go to console.cloud.google.com → create a project called "Gift Keeper".
+2. APIs & Services → OAuth consent screen → External → app name "Gift Keeper", your support email,
+   app logo (brand/logo-icon-1024.png), links to privacy.html and terms.html → Save. Then "Publish app".
+3. APIs & Services → Credentials → Create credentials → OAuth client ID → Web application.
+   Authorized JavaScript origins: https://peer85us.github.io
+   Authorized redirect URI: https://<your-project>.supabase.co/auth/v1/callback  (Supabase shows this exact link
+   in Authentication → Providers → Google)
+4. Copy the Client ID and Client secret into Supabase → Authentication → Providers → Google → turn it on → Save.
+5. Supabase → Authentication → URL Configuration → Redirect URLs: add https://peer85us.github.io/gift-keeper/app.html
+Note: on iPhone, Google sign-in from the home-screen app can bounce out to Safari; the email code always works.
+
 ## 3. Real payments by card, inside the app (Stripe)
 Needs step 2 (accounts) first. You need a Stripe account (stripe.com, an adult with a bank account).
 1. Stripe → Developers → API keys: copy the **publishable key** (pk_...) into `app.html` (`STRIPE_KEY`).

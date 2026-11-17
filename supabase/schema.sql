@@ -149,3 +149,91 @@ revoke all on function buy_item(uuid, text, text), claim_daily(uuid, text), clai
 
 -- Live updates: phones in the same family see changes right away
 alter publication supabase_realtime add table families, subscriptions, coin_ledger;
+
+-- ============================================================================
+-- Shop update (Nov 2026): stickers, pets, app colors, Early alerts, seasonal styles,
+-- streaks, coins for adding cards, achievements.
+-- Safe to run again on its own if you already ran everything above.
+-- ============================================================================
+alter table shop_items add column if not exists season_from text;   -- 'MM-DD'; may wrap past New Year
+alter table shop_items add column if not exists season_to   text;
+
+insert into shop_items (id, price, repeat, season_from, season_to) values
+  ('theme:xmas', 200, false, '11-15', '12-31'), ('theme:snow', 200, false, '12-01', '02-28'),
+  ('theme:newyear', 200, false, '12-26', '01-10'), ('theme:valentine', 200, false, '02-01', '02-14'),
+  ('theme:halloween', 200, false, '10-01', '10-31')
+on conflict (id) do update set price = excluded.price, season_from = excluded.season_from, season_to = excluded.season_to;
+
+insert into shop_items (id, price, repeat) values
+  ('sticker:star', 50, false), ('sticker:cake', 50, false), ('sticker:gift', 50, false), ('sticker:heart', 50, false),
+  ('sticker:party', 75, false), ('sticker:fire', 75, false), ('sticker:crown', 100, false), ('sticker:rocket', 100, false),
+  ('pet:puppy', 150, false), ('pet:kitty', 150, false), ('pet:bunny', 150, false), ('pet:panda', 200, false),
+  ('pet:fox', 200, false), ('pet:owl', 200, false), ('pet:dragon', 400, false),
+  ('look:sunset', 200, false), ('look:ocean', 200, false), ('look:forest', 200, false), ('look:candy', 200, false), ('look:gold', 300, false),
+  ('boost:early', 150, false)
+on conflict (id) do update set price = excluded.price, repeat = excluded.repeat;
+
+create or replace function buy_item(fid uuid, member text, item text) returns void
+language plpgsql security definer set search_path = public as $$
+declare it shop_items; bal integer; md text := to_char(current_date, 'MM-DD');
+begin
+  if not is_member(fid) then raise exception 'not in this family'; end if;
+  perform pg_advisory_xact_lock(hashtext(fid::text || member));   -- one purchase at a time per person
+  select * into it from shop_items where id = item;
+  if it.id is null then raise exception 'no such item'; end if;
+  if it.season_from is not null and not (case when it.season_from <= it.season_to
+      then md between it.season_from and it.season_to else md >= it.season_from or md <= it.season_to end)
+    then raise exception 'out of season'; end if;
+  if not it.repeat and exists (select 1 from coin_ledger l where l.family_id = fid and l.member = buy_item.member and l.reason = 'item:' || item)
+    then raise exception 'already owned'; end if;
+  select coalesce(sum(delta), 0) into bal from coin_ledger l where l.family_id = fid and l.member = buy_item.member;
+  if bal < it.price then raise exception 'not enough coins'; end if;
+  insert into coin_ledger (family_id, member, delta, reason) values (fid, member, -it.price, 'item:' || item);
+end $$;
+
+-- One-time bonuses: sharing (25), joining from a friend's link (50), and achievements (keep in step with ACHIEVEMENTS in app.html)
+create or replace function claim_bonus(fid uuid, member text, kind text) returns void
+language plpgsql security definer set search_path = public as $$
+declare amount int := case kind when 'share' then 25 when 'invite' then 50
+  when 'ach:first' then 10 when 'ach:five' then 25 when 'ach:spent' then 15
+  when 'ach:beat' then 25 when 'ach:big' then 20 when 'ach:goal' then 50 end;
+begin
+  if not is_member(fid) then raise exception 'not in this family'; end if;
+  if amount is null then raise exception 'unknown bonus'; end if;
+  perform pg_advisory_xact_lock(hashtext(fid::text || member));
+  if exists (select 1 from coin_ledger l where l.family_id = fid and l.member = claim_bonus.member and l.reason = 'bonus:' || kind)
+    then raise exception 'already claimed'; end if;
+  insert into coin_ledger (family_id, member, delta, reason) values (fid, member, amount, 'bonus:' || kind);
+end $$;
+
+-- 25 coins every 7th day in a row the daily bonus is claimed
+create or replace function claim_streak(fid uuid, member text) returns void
+language plpgsql security definer set search_path = public as $$
+declare n int := 0; d date := current_date;
+begin
+  if not is_member(fid) then raise exception 'not in this family'; end if;
+  perform pg_advisory_xact_lock(hashtext(fid::text || member));
+  while exists (select 1 from coin_ledger l where l.family_id = fid and l.member = claim_streak.member and l.reason = 'daily:' || d) loop
+    n := n + 1; d := d - 1;
+  end loop;
+  if n = 0 or n % 7 <> 0 then raise exception 'no streak bonus today'; end if;
+  if exists (select 1 from coin_ledger l where l.family_id = fid and l.member = claim_streak.member and l.reason = 'streak:' || current_date)
+    then raise exception 'already claimed'; end if;
+  insert into coin_ledger (family_id, member, delta, reason) values (fid, member, 25, 'streak:' || current_date);
+end $$;
+
+-- 2 coins for each new gift card, up to 5 cards a month per person
+create or replace function claim_card(fid uuid, member text, card text) returns void
+language plpgsql security definer set search_path = public as $$
+begin
+  if not is_member(fid) then raise exception 'not in this family'; end if;
+  perform pg_advisory_xact_lock(hashtext(fid::text || member));
+  if exists (select 1 from coin_ledger l where l.family_id = fid and l.reason = 'card:' || card)
+    then raise exception 'already counted'; end if;
+  if (select count(*) from coin_ledger l where l.family_id = fid and l.member = claim_card.member and l.reason like 'card:%'
+      and l.created_at >= date_trunc('month', now())) >= 5 then raise exception 'monthly limit'; end if;
+  insert into coin_ledger (family_id, member, delta, reason) values (fid, member, 2, 'card:' || card);
+end $$;
+
+revoke all on function buy_item(uuid, text, text), claim_bonus(uuid, text, text),
+  claim_streak(uuid, text), claim_card(uuid, text, text) from anon;
